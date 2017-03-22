@@ -1,0 +1,80 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+library("deSolve")
+
+## Vector Field for SIR Metapatch Model
+SIR.vector.field <- function(t,vars,parms=c(R_0=2,gamma=0.25,mu=4e-5,alpha=0.1,m=0.2)) {
+  with(as.list(c(parms,vars)), {
+    
+    #Nearest Neighbors
+    #M <- (1-m)*diag(n)
+    #M[row(M)==(col(M)+1)%%n ] <- m/2.
+    #M[row(M)==(col(M)-1)%%n] <- m/2.
+    #beta <- 0.5*R_0*(gamma+mu)*(1+alpha*cos(2.*pi*t))*(diag(n)+M)  ##beta matrix
+    
+    n <- length(vars)/2
+    S <- vars[1:n]
+    I <- vars[(n+1):(2*n)]
+    
+    #Equal Coupling
+    M <- matrix(m,n,n)+(1-m)*diag(n)   ##connectivity matrix
+    betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*t))*(1/(1+(n-1)*m))*M  ##beta matrix
+    
+    dS <- NULL
+    dI <- NULL
+    for (i in 1:n){
+      dS[i] <- mu*(1-S[i]) - S[i]*sum(betam[i,]*I) ##dS_i/dt
+      dI[i] <- S[i]*sum(betam[i,]*I) - (mu+gamma)*I[i]  ## dI_i/dt
+    }
+    vec.fld <- c(dS=dS,dI=dI)
+    return(list(vec.fld))
+  })
+}
+
+## Draw Solutions
+draw.soln <- function(n,ic=c(x=rep(1,10),y=rep(0,10)),tmax=1,
+                      times=seq(0,tmax,
+                                by=tmax/800),
+                      func,parms,...) {
+  soln <- ode(ic,times,func,parms)
+  #Plot I for all patches with different colours
+  legend <- NULL
+  for (i in 1:n){
+    lines(times,soln[,paste0('I',i)],col=i,...)
+  }
+  #subscripts not working
+  legend("topright",legend=lapply(1:n, function(i) bquote(I[.(i)])),col=1:n,lty=1)
+}
+
+#Parameters
+R_0 <- 2   ##basic reproduction rate
+gamma <- 0.25  ##inverse of mean infectious period
+mu <- 0.1  ##death and birth rate
+alpha <- 0.2  ##strength of seasonal forcing
+n <- 10  ## Number of patches
+m <- 0.4  ##Connectivity matrix parameter
+
+##Initial conditions
+S0 <- seq(0.5,1,(1-0.5)/(n-1))
+I0 <- 1-S0
+
+tmax<-35
+
+## draw box for plot
+plot(0,0,xlim=c(0,tmax),ylim=c(0,0.5),type="n",xlab="Time (t)",
+     ylab="Prevalence (I)",las=1)
+
+## draw solutions
+draw.soln(n,ic=c(S=S0,I=I0),tmax=tmax,
+            func=SIR.vector.field,
+            parms=c(R_0,gamma,mu,alpha,m))
+
+
+@
+
+
+
+\end{document}
