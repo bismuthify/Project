@@ -60,7 +60,7 @@ draw.soln <- function(n,ic=c(x=rep(1,10),y=rep(0,10)),tmax=1,
   
   #subscripts not working
   legend("topright",legend=lapply(1:n, function(i) bquote(I[.(i)])),col=1:n,lty=1)
-  text(x=8000,y=0.00009, labels="$\\| I - \\langle I \\rangle  e \\|$")
+  text(x=8000,y=0.0003, labels="$\\| I - \\langle I \\rangle  e \\|$")
 }
 
 #Parameters
@@ -76,7 +76,7 @@ EC <- FALSE ##if true use equal coupling, if false use nearest neighbors
 #S0 <- seq(0.3,0.7,(0.7-0.3)/(n-1))
 S0 <- seq(0.04,0.1, (0.1-0.04)/(n-1))
 I0 <- rep(1e-4,n)
-R0 <- 1-S0-R0
+R0 <- 1-S0-I0
 
 tmax<-10000
 
@@ -162,7 +162,6 @@ SIRmeta.Gillespie <- function(tmax,ic=c(S0,I0,R0),parms=c(R_0=2,gamma=0.25,mu=4e
     rates[,4] <- mu*S[index,]
     rates[,5] <- mu*I[index,]
     rates[,6] <- mu*R[index,]
-    
     #second column are rates from S to I
     #Equal Coupling
     if(EC==TRUE){
@@ -176,20 +175,11 @@ SIRmeta.Gillespie <- function(tmax,ic=c(S0,I0,R0),parms=c(R_0=2,gamma=0.25,mu=4e
       betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*times[index]/365))*(1/(1+2*m))*M  ##beta matrix 
     }
     rates[,2] <- S[index,]*colSums(t(betam[1:n,])*I[index,])
-    
-    totalrate <- sum(rates)
+     totalrate <- sum(rates)
     
     #Getting a timestep
     timestep <- rexp(n=1, rate= totalrate)
     times <- rbind(times, times[index]+timestep)
-    
-    if(timestep < 1e-16){
-      print("S")
-      print(S)
-      print("rates")
-      print(rates)
-      break
-    }
     
     S <- rbind(S, S[index,])
     I <- rbind(I, I[index,])
@@ -198,7 +188,6 @@ SIRmeta.Gillespie <- function(tmax,ic=c(S0,I0,R0),parms=c(R_0=2,gamma=0.25,mu=4e
     #Getting which transistion occurred
     #TO DO!!: Do a bisection search instead
     randomvar <- runif(n=1,min=0,max=totalrate)
-    #print(totalrate)
     indCheck <- 1
     rateslisted <- c(0,as.vector(t(rates)))
     while(indCheck < (6*n)){
@@ -226,37 +215,9 @@ SIRmeta.Gillespie <- function(tmax,ic=c(S0,I0,R0),parms=c(R_0=2,gamma=0.25,mu=4e
     }else if(colInd ==0){  ##A death in R occurred
       R[index+1,rowInd] <-  R[index,rowInd]-1
     }
-    if(any(S<0) | any(I<0) | any(R<0)){
-      print("S")
-      print(S)
-      print("I")
-      print(I)
-      print("R")
-      print(R)
-      
-      print("rates")
-      print(rates)
-      print("randomvar")
-      print(randomvar)
-      print("coli, rowi")
-      print(colInd)
-      print(rowInd)
-      print("interval")
-      print(interval)
-      print(sum(rateslisted[1:(interval+1)]))
-      print(sum(rateslisted[1:(interval)]))
-      print("interval diff")
-      print(rateslisted[interval+1])
-      print("interval rate")
-      if(colInd==0) colInd<-6
-      print(rates[rowInd,colInd])
-      break
-    }
-    #print(times[index])
     index <- index+1
   }
-    print(times)
-  return(c(t= t(times), S =S,I= I, R=R))
+  return(cbind(times, S,I, R))
 }
 tmax <- 1
 n <- 10
@@ -276,6 +237,7 @@ set.seed(789)
 results <- SIRmeta.Gillespie(tmax,ic=c(S0,I0,R0),parms=c(R_0,gamma,mu,alpha,m,EC))
 times<-results[,1]
 I <- results[,(n+1):(2*n+1)]
+plot(times,I)
 @
 
 \end{document}
