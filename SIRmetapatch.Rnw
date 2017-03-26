@@ -58,9 +58,13 @@ draw.soln <- function(n,ic=c(x=rep(1,10),y=rep(0,10)),tmax=1,
   
   lines(times,coherence,lwd=2,...)
   
-  #subscripts not working
-  legend("topright",legend=lapply(1:n, function(i) bquote(I[.(i)])),col=1:n,lty=1)
-  text(x=8000,y=0.00009, labels="$\\| I - \\langle I \\rangle  e \\|$")
+  labels <- c(1:n)
+  for (i in 1:n){
+    labels[i] <- paste('$I_{',i,'}$',collapse=NULL)
+  }
+  
+  legend("topright",legend=labels,col=1:n,lty=1)
+  text(x=8000,y=0.0005, labels="$\\| I - \\langle I \\rangle  e \\|$")
 }
 
 #Parameters
@@ -76,7 +80,7 @@ EC <- FALSE ##if true use equal coupling, if false use nearest neighbors
 #S0 <- seq(0.3,0.7,(0.7-0.3)/(n-1))
 S0 <- seq(0.04,0.1, (0.1-0.04)/(n-1))
 I0 <- rep(1e-4,n)
-R0 <- 1-S0-R0
+R0 <- 1-S0-I0
 
 tmax<-10000
 
