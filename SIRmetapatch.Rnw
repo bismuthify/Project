@@ -44,7 +44,7 @@ SIRmeta.vector.field <- function(t,vars,parms=NULL) {
 ## Draw Solutions and coherence measure
 draw.soln <- function(n,ic=c(x=rep(1,10),y=rep(0,10)),tmax=1,
                       times=seq(0,tmax,
-                                by=tmax/800),
+                                by=tmax/1000),
                       func,parms,...) {
   soln <- ode(ic,times,func,parms)
   
@@ -60,7 +60,7 @@ draw.soln <- function(n,ic=c(x=rep(1,10),y=rep(0,10)),tmax=1,
   
   #subscripts not working
   legend("topright",legend=lapply(1:n, function(i) bquote(I[.(i)])),col=1:n,lty=1)
-  text(x=2000,y=0.05, labels="$\\| I - \\langle I \\rangle  e \\|$")
+  text(x=8000,y=0.00009, labels="$\\| I - \\langle I \\rangle  e \\|$")
 }
 
 #Parameters
@@ -69,18 +69,19 @@ gamma <- 1/13  ##inverse of mean infectious period
 mu <- 1/(50*365)  ##death and birth rate
 alpha <- 0.1  ##strength of seasonal forcing
 n <- 10  ## Number of patches
-m <- 0  ##Connectivity matrix parameter
+m <- 0.2  ##Connectivity matrix parameter
 EC <- FALSE ##if true use equal coupling, if false use nearest neighbors
 
 ##Initial conditions
-S0 <- seq(0,1,(1-0)/(n-1))
-I0 <- 1-S0
-R0 <- rep(0,n)
+#S0 <- seq(0.3,0.7,(0.7-0.3)/(n-1))
+S0 <- seq(0.04,0.1, (0.1-0.04)/(n-1))
+I0 <- rep(1e-4,n)
+R0 <- 1-S0-R0
 
-tmax<-300
+tmax<-10000
 
 ## draw box for plot
-plot(0,0,xlim=c(0,tmax),ylim=c(0,1),type="n",xlab="Time (t)",
+plot(0,0,xlim=c(0,tmax),ylim=c(0,0.006),type="n",xlab="Time (t)",
      ylab="Prevalence (I)",las=1)
 
 ## draw solutions
