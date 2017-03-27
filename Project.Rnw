@@ -187,7 +187,9 @@ A stochastic version of this model was simulated using the Gillespie algorithim 
 
 \section{Conclusion}
 
-\section{Refernces}
+\section{References}
+\bibliographystyle{unsrt}
+\bibliography{references} 
 
 
 
