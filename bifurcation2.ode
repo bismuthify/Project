@@ -1,0 +1,24 @@
+## DIFFERENTIAL EQUATIONS: 
+beta=R0*(gamma+mu)*(1 + a*cos(2*pi*t)) 
+x'=mu-beta*x*y-mu*x
+y'=beta*x*y-(gamma+mu)*y 
+
+aux R0
+aux log10s=log10(x) 
+aux log10i=log10(y)
+
+init x=0.9,y=0.001
+par R0=2,a=0.1,mu=0.1,gamma=0.25 
+## par R0=17, a=0.08, mu=0.02, gamma=28.08
+
+@ xp=R0, yp=y
+@ xlo=0,xhi=40,yhi=0,ylo=-25
+
+@ poimap=selection,poivar=t,poipln=1
+@ range=1,rangeover=R0,rangestep=3000
+@ rangelow=0,rangehigh=30,rangereset=no
+
+@ total=650,trans=0
+@ dt=0.001
+@ maxstor=2000000
+done
