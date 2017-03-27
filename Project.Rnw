@@ -138,7 +138,7 @@ Talk about how the prop of M affect the results \\
 How the results show this: extinction and synchronization \\
 Discuss the changes in period of the relationship \\
 
-Solutions to \eqref{model} were calculated using the \Rlogo deSolve package. The following figures are the solutions for $n=10$, a 50 year life expectancy, a 13 day mean infectious period, nearest neighbor coupling, and seasonal forcing amplitude $\alpha = 0.1$. \ref{fig:detplotsm} shows the affect of the strength of connectivity, $m$.
+Solutions to \eqref{model} were calculated using the \Rlogo deSolve package. The following figures are the solutions for $n=10$, a 50 year life expectancy, a 13 day mean infectious period, nearest neighbor coupling, and seasonal forcing amplitude $\alpha = 0.1$. Figure \ref{fig:detplotsm} shows the affect of the strength of connectivity, $m$.
 
 \begin{figure}
     \caption{$\R_0=17$}
@@ -153,7 +153,7 @@ Solutions to \eqref{model} were calculated using the \Rlogo deSolve package. The
         \includegraphics[width=3.0in]{{images/detNNR017m0.01}.pdf}
     }
 \end{figure}
-At low enough $m$ the solutions do not become coherent. \ref{fig:detplotsR0} shows the affect $R_0$ has on the period of oscillations and nature of the cycles.
+At low enough $m$ the solutions do not become coherent. Figure \ref{fig:detplotsR0} shows the affect $R_0$ has on the period of oscillations and nature of the cycles.
 \begin{figure}
     \caption{$m=0.2$}
     \label{fig:detplotsR0}
@@ -176,8 +176,9 @@ At low enough $m$ the solutions do not become coherent. \ref{fig:detplotsR0} sho
     }
 \end{figure}
 
-A stochastic version of this model was simulated using the Gillespie algorithim with $n=10$, a population size of 1000, a 50 year life expectancy, a 13 day mean infectious period, equal coupling,$R_0=17$, $m=0.2$, and seasonal forcing amplitude $\alpha = 0.1$. See \ref{fig:stoplot}.
+A stochastic version of this model was simulated using the Gillespie algorithim with $n=10$, a population size of 1000, a 50 year life expectancy, a 13 day mean infectious period, equal coupling,$R_0=17$, $m=0.2$, and seasonal forcing amplitude $\alpha = 0.1$. See Figure \ref{fig:stoplot}.
 \begin{figure}
+    \caption{A stochastic simulation.}
     \label{fig:stoplot}
     \centering
     \includegraphics[width=6.0in]{{images/stoECR017m0.2}.pdf}
