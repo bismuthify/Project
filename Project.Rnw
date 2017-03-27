@@ -57,15 +57,6 @@ In order to account for spatial heterogeneity, this study considers a metapopula
 
 \section{Methods}
 \indent
-Assumptions: \\
-Population the same for all patches\\
-Pop is constant (death $==$ birth) (all patches)\\
-No migration between patches \\
-Visitations are allowed (inter patch dynamics can be described as such)\\
-Recovery rate is the same for all (same health care)\\
-\indent
-
-
 The spatial SIR model consists of $n$ identical patches (which represent cities) with identical population sizes. The population is constant in each patch and there is no migration between patches. Intra-patch dynamics are given by the standard SIR model with vital dynamics and sinusoidal seasonal forcing. Connectivity between patches is represented by disease transmission. Infecteds can infect people from other patches. This models individuals visiting other patches, creating additional sources of infection in the visited patch. 
 A visualization of the dynamics in a single patch $i$ is shown by
 \begin{center}
@@ -111,13 +102,6 @@ M =
   m &  & & \dots & m & 1 \ 
 \end{bmatrix}
 \]
-
-
-Let rate be.. \\
-Explain the beta matrix in terms of the sin forcing which is then multiplied by the connectivity matrix (talk about the properties that it showcases)\\
-Deterministic vs stochastically\\
-How to detem???\\
-Gillespie alg (very brief)
 
 
 \section{Results}
@@ -224,9 +208,6 @@ bfd.last <- last.point.with.period(bfd)
 plot.period.of.R0(bfd.last)
 @
 \section{Discussion} 
-Talk about how the prop of M affect the results \\
-How the results show this: extinction and synchronization \\
-Discuss the changes in period of the relationship \\
 
 \section{Conclusion}
 
