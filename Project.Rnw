@@ -1,0 +1,81 @@
+\documentclass[12pt]{article}
+
+\input  4mbapreamble
+\usepackage{cases}
+\usepackage[makeroom]{cancel}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% FANCY HEADER AND FOOTER STUFF%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+\fancyhf{}% clear all header and footer parameters
+%%%\lhead{Student Name: \theblank{4cm}}
+%%%\chead{}
+%%%\rhead{Student Number: \theblank{3cm}}
+%%%\lfoot{\small\bfseries\ifnum\thepage<\pageref{LastPage}{CONTINUED\\on next page}\else{LAST PAGE}\fi}
+\lfoot{}
+\cfoot{{\small\bfseries Page \thepage\ of \pageref{LastPage}}}
+\rfoot{}
+\renewcommand\headrulewidth{0pt}% Removes funny header line
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{center}
+{\bf Mathematics 4MB3/6MB3 Mathematical Biology\\
+\smallskip
+2017 Project}\
+{\bf Spatial epidemics dynamics: Synchronization}\\
+\medskip
+\underline{\emph{Group Name}}: \texttt{{\color{blue}Model Students}}\\
+\medskip
+\underline{\emph{Group Members}}: {\color{blue}Nicole Dumont, Melody Fong, Carolina Weishaar}
+\end{center}
+
+\bigskip
+\noindent
+
+\section{Abstract} 
+
+\section{Background/Introduction} 
+
+Many diseases, specifically childhood diseases, exhibit recurrent epidemics illustrated by a prevalence curve with peaks that dampen out, yet persist into the modern era (Lloyd, 1996). Using trad the susceptible, exposed, infective, and removed (SEIR) model, there exists two equilibrium points characterized whose stability is determined by the basic reproduction number $\R_0$. As a result if $\R_0$ $>$ 1, the system approaches the endemic equilibrium via damped oscillations. 
+Part A goes here
+Explain synchro and extinction here 
+
+\section{Methods}
+SIR model \\
+Sinusoidal forcing \\
+Spatial dynamics (n patches each has its own SIR system)\\
+\indent
+Assumptions: \\
+Population the same for all patches\\
+Pop is constant (death $==$ birth) (all patches)\\
+No migration between patches \\
+Visitations are allowed (inter patch dynamics can be described as such)\\
+Recovery rate is the same for all (same health care)\\
+\indent
+***INSERT FLOW CHART HERE*** (and corresponding equations)\\
+Let rate be.. \\
+Explain the beta matrix in terms of the sin forcing which is then multiplied by the connectivity matrix (talk about the properties that it showcases)\\
+Deterministic vs stochastically\\
+How to detem???\\
+Gillespie alg (very brief)
+
+
+\section{Results}
+Graphs, code \\
+Bifurcation diagram \\ 
+Show the corresponding plots for different R0 values (deterministic pop) \\
+Initial conditions here \\
+(reproduce the diagrams from paper here) 
+
+\section{Discussion:} 
+Talk about how the prop of M affect the results \\
+How the results show this: extinction and synchronization \\
+Discuss the changes in period of the relationship \\
+
+\section{Conclusion}
+
+\end{document}
