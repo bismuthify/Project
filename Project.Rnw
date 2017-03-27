@@ -54,8 +54,9 @@
 
 \section{Background/Introduction} 
 
-Many diseases, specifically childhood diseases, exhibit recurrent epidemics illustrated by a prevalence curve with peaks that dampen out, yet persist into the modern era (Lloyd, 1996). Using trad the susceptible, exposed, infective, and removed (SEIR) model, there exists two equilibrium points characterized whose stability is determined by the basic reproduction number $\R_0$. As a result if $\R_0$ $>$ 1, the system approaches the endemic equilibrium via damped oscillations. 
-Part A goes here
+In recent years there has been an increased awareness of the threat posed by various high profile diseases, such as SARS, Ebola and Influenza (Liu et al., 2009). Long-term incidence records of such diseases exhibit recurrent epidemics illustrated by homogenous and heterogenous cycles. In the presence of control health care measures, such as vaccination, the peaks of these cycles do dampen out yet persist (Lloyd, 1996). Due to the complex set of social and biological structures involved in this interaction, mathematical models provide an excellent framework in which the eradication of long-term recurrence can be studied (Sattenspiel, 2009). \\
+To accomplish this goal, many mathematical models have been derived on the basis of the migration of an individual through the various stages of an epidemic, however these models have failed to illustrate the recurrent nature of these diseases (Lloyd et. al, 2004). One observable biological factor neglected by many of these models is the notion of spatial dynamics. Classically it has been assumed that susceptible and infectious individuals are distributed uniformly within a population. However, incidence records clearly show that this long-term recurrent behaviour is sustained through through the spatial dynamics that facilitate the spread of disease between subpopulations experiencing an outbreak and disease free subpopulations. As a result, to model recurrent oscillations it is essential that the disease dynamics of a  population is represented by the set of interactions between local homogenous populations (Earn et al, 2000).\\
+In order to account for spatial heterogeneity, this study considers a metapopulation model, where a population is divided into several discrete subclasses, called patches, each exhibiting a well dispersed population. The population representing a patch is modelled by the susceptible, infectious and removed ($SIR$) model where each individual belongs to either the susceptible, infectious, or removed class. The state of the system changes according to the rates that allow an individual to migrate between classes. In addition to this, this study makes use of sinusoidal seasonal forcing on the transmission rate, in order to accurately depict the observed variation in the number of individuals that enter the infectious class on an annual basis based on various social parameters. The SIR model exhibits two equilibrium points whose stability is determined by the basic reproduction number \\$R_0$. If  \\$R_0 > 1$, the system approaches an endemic equilibrium via damped oscillations (Lloyd, 1996). Otherwise, the system approaches a disease free equilibrium. The aim of this study is to analyze the dynamics of this model overtime, in order to determine which parameter values lead the synchronization of all patches, thereby generating a disease free state exhibited by the entire population. \\
 Explain synchro and extinction here 
 
 \section{Methods}
@@ -185,5 +186,9 @@ A stochastic version of this model was simulated using the Gillespie algorithim 
 \end{figure}
 
 \section{Conclusion}
+
+\section{Refernces}
+
+
 
 \end{document}
