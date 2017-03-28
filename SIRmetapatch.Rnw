@@ -19,14 +19,16 @@ SIRmeta.vector.field <- function(t,vars,parms=NULL) {
     
     #Equal Coupling
     if(EC==TRUE){
-      M <- matrix(m,n,n)+(1-m)*diag(n)   ##connectivity matrix
+      M <- matrix(m/(n-1),n,n)+(1-m*(1+1/(n-1)))*diag(n)   ##connectivity matrix
       betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*t/365))*M  ##beta matrix
+      #factor of (1/(1+(n-1)*m)) for normalizing row sums of M
     }else{
       #Nearest Neighbors
-      M <- diag(n)
-      M[row(M)%%n==(col(M)+1)%%n ] <- m
-      M[row(M)%%n==(col(M)-1)%%n] <- m
+      M <- (1-m)*diag(n)
+      M[row(M)%%n==(col(M)+1)%%n ] <- m/2
+      M[row(M)%%n==(col(M)-1)%%n] <- m/2
       betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*t/365))*M  ##beta matrix
+      #factor of (1/(1+2*m)) for normalizing row sums of M
     }
     
     dS <- NULL
@@ -64,7 +66,7 @@ draw.soln <- function(n,ic=c(x=rep(1,10),y=rep(0,10)),tmax=1,
     labels[i]<-paste('$I_{',i,'}$',collapse=NULL)
   }
   legend("topright",legend=labels,col=1:n,lty=1,bty='n')
-  legend(x=22,y=0.0005, legend="$\\| I - \\langle I \\rangle  e \\|$",bg="white")
+  legend(x=22,y=0.0005, legend="$\\| I - \\langle I \\rangle  e \\|$",bg="white",col=1,lwd=2)
 }
 
 #Parameters
@@ -77,16 +79,21 @@ m <- 0.2  ##Connectivity matrix parameter
 EC <- FALSE ##if true use equal coupling, if false use nearest neighbors
 
 ##Initial conditions
-#S0 <- seq(0.3,0.7,(0.7-0.3)/(n-1))
-S0 <- seq(0.04,0.1, (0.1-0.04)/(n-1))
-I0 <- rep(1e-4,n)
+#Want ICs near EE for stability. Find EE values:
+SEE <-1/R_0
+IEE <-(1 - 1/R_0)*mu/gamma
+REE <-1-SEE-IEE
+#Use initials conditions within +/-30% of EE values
+percent <- 0.3
+S0 <- seq(SEE*(1-percent), SEE*(1+percent), SEE*2*percent/(n-1))
+I0 <- seq(IEE*(1+percent), IEE*(1-percent), -IEE*2*percent/(n-1))
 R0 <- 1-S0-I0
 
 tmax<-10000
 
 tikz("detNNR017m0.2.tex",standAlone=TRUE,width=6,height=6)
 ## draw box for plot
-plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.006),type="n",xlab="Time (years)",
+plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.004),type="n",xlab="Time (years)",
      ylab="Prevalence (I)",las=1)
 
 ## draw solutions
@@ -96,10 +103,24 @@ draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
 dev.off()
 tools::texi2dvi('detNNR017m0.2.tex',pdf=T)
 
+tikz("detECR017m0.2.tex",standAlone=TRUE,width=6,height=6)
+EC <- TRUE
+## draw box for plot
+plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.004),type="n",xlab="Time (years)",
+     ylab="Prevalence (I)",las=1)
+
+## draw solutions
+draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
+            func=SIRmeta.vector.field,
+            parms=c(R_0,gamma,mu,alpha,m,EC))
+dev.off()
+tools::texi2dvi('detECR017m0.2.tex',pdf=T)
+
 tikz("detNNR017m0.01.tex",standAlone=TRUE,width=6,height=6)
+EC <- FALSE
 m<-0.01
 ## draw box for plot
-plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.006),type="n",xlab="Time (years)",
+plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.004),type="n",xlab="Time (years)",
      ylab="Prevalence (I)",las=1)
 
 ## draw solutions
@@ -109,9 +130,9 @@ draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
 dev.off()
 tools::texi2dvi('detNNR017m0.01.tex',pdf=T)
 
-tikz("detNNR012m0.2.tex",standAlone=TRUE,width=6,height=6)
-R_0<-12
+tikz("detNNR06m0.2.tex",standAlone=TRUE,width=6,height=6)
 m<-0.2
+R_0<-6
 ## draw box for plot
 plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.006),type="n",xlab="Time (years)",
      ylab="Prevalence (I)",las=1)
@@ -121,20 +142,7 @@ draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
             func=SIRmeta.vector.field,
             parms=c(R_0,gamma,mu,alpha,m,EC))
 dev.off()
-tools::texi2dvi('detNNR012m0.2.tex',pdf=T)
-
-tikz("detNNR04m0.2.tex",standAlone=TRUE,width=6,height=6)
-R_0<-4
-## draw box for plot
-plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.006),type="n",xlab="Time (years)",
-     ylab="Prevalence (I)",las=1)
-
-## draw solutions
-draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
-            func=SIRmeta.vector.field,
-            parms=c(R_0,gamma,mu,alpha,m,EC))
-dev.off()
-tools::texi2dvi('detNNR04m0.2.tex',pdf=T)
+tools::texi2dvi('detNNR06m0.2.tex',pdf=T)
 
 tikz("detNNR025m0.2.tex",standAlone=TRUE,width=6,height=6)
 R_0<-25
@@ -149,13 +157,13 @@ draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
 dev.off()
 tools::texi2dvi('detNNR025m0.2.tex',pdf=T)
 
-
-
 @
 
 
 Stochastic model simulations code:
 <<SIRmeta.Gillespie,dev="tikz">>=
+
+#For reprodubility set the seed
 set.seed(899)
 SIRmeta.Gillespie <- function(tmax,ic=c(S0,I0,R0),parms=c(R_0=2,gamma=0.25,mu=4e-5,alpha=0.1,m=0.2,EC=TRUE)){
   times <- 0
@@ -186,14 +194,14 @@ SIRmeta.Gillespie <- function(tmax,ic=c(S0,I0,R0),parms=c(R_0=2,gamma=0.25,mu=4e
     #Second column are transmission rates
     #Equal Coupling
     if(EC==TRUE){
-      M <- matrix(m,n,n)+(1-m)*diag(n)   ##connectivity matrix
-      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*times[index]/365))*(1/(1+(n-1)*m))*M  ##beta matrix 
+      M <- matrix(m/(n-1),n,n)+(1-m*(1+1/(n-1)))*diag(n)   ##connectivity matrix
+      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*times[index]/365))*M  ##beta matrix 
     }else{
       #Nearest Neighbors
-      M <- diag(n)
-      M[row(M)%%n==(col(M)+1)%%n ] <- m
-      M[row(M)%%n==(col(M)-1)%%n] <- m
-      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*times[index]/365))*(1/(1+2*m))*M  ##beta matrix 
+      M <- (1-m)*diag(n)
+      M[row(M)%%n==(col(M)+1)%%n ] <- m/2
+      M[row(M)%%n==(col(M)-1)%%n] <- m/2
+      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*times[index]/365))*M  ##beta matrix 
     }
     rates[,2] <- S[index,]*colSums(t(betam[1:n,])*I[index,])
     totalrate <- sum(rates)
@@ -251,14 +259,6 @@ SIRmeta.Gillespie <- function(tmax,ic=c(S0,I0,R0),parms=c(R_0=2,gamma=0.25,mu=4e
 
 tmax <- 1000
 n <- 10
-##Initial conditions
-#S0 <- seq(45,90,(90-45)/(n-1))
-#I0 <- rep(1,n)
-#R0 <- 1000-S0-I0
-
-S0 <- seq(225,450,(450-225)/(n-1))
-I0 <- rep(3,n)
-R0 <- 5000-S0-I0
 
 #Parameters
 R_0 <- 17   ##basic reproduction rate (if the system had no forcing)
@@ -269,21 +269,144 @@ n <- 10  ## Number of patches
 m <- 0.5  ##Connectivity matrix parameter
 EC <- TRUE ##if true use equal coupling, if false use nearest neighbors
 
+##Initial conditions
+#Want ICs near EE for stability. Find EE values:
+SEE <-1/R_0
+IEE <-(1 - 1/R_0)*mu/gamma
+REE <-1-SEE-IEE
+#Use initials conditions within +/-40% of EE values
+#convert from proportions to numbers and convert to integers
+percent <- 0.4
+population <- 3000
+S0 <- as.integer(population*seq(SEE*(1-percent), SEE*(1+percent), SEE*2*percent/(n-1)))
+I0 <- as.integer(population*seq(IEE*(1+percent), IEE*(1-percent), -IEE*2*percent/(n-1)))
+R0 <- population-S0-I0
+
 results <- SIRmeta.Gillespie(tmax,ic=c(S0,I0,R0),parms=c(R_0,gamma,mu,alpha,m,EC))
 times<-results[,1]
-I <- results[,(n+1):(2*n+1)]
+I <- results[,(n+2):(2*n+2)]
 
-tikz("stochasticm0.5.tex",standAlone=TRUE,width=6,height=6)
+
 ## draw box for plot
-  plot(0,0,xlim=c(0,tmax/365),ylim=c(0,20),xlab="Time (years)", 
+  plot(0,0,xlim=c(0,tmax/365),ylim=c(0,10),xlab="Time (years)", 
        ylab="Prevalence (I)")
 for (i in 1:n) {
-    lines(times/365, I[,i],col=i) # use a different line colour for each patch
-  }
-dev.off()
-tools::texi2dvi('stochasticm0.5.tex',pdf=T)
+    lines(times/365, I[,i],col=i,lwd=0.2) # use a different line colour for each patch
+}
+  #Make legend
+
+  legend("topright",legend=1:n,title="Patch",col=1:n,lty=1,cex=0.5)
+ 
+
+
 @
 
+Approximate stochastic simulations using the adaptivetau package.
+<<SIRmeta.adaptivetau,dev="tikz">>=
+  library("adaptivetau")
+  #For reprodubility set the seed
+  set.seed(45)
+  n <- 10 #number of patches
+  
+  #TO DO: This should be changed so that it works with different n values and is less ugly
+  #a list of all possible transitions
+  transitions <- list(c(S1 = +1), c(S1 = -1, I1= +1), c(I1 = -1, R1= +1), c(S1 = -1), c(I1 = -1), c(R1 = -1),
+                    c(S2 = +1), c(S2 = -1, I2= +1), c(I2 = -1, R2= +1), c(S2 = -1), c(I2 = -1), c(R2 = -1),
+                    c(S3 = +1), c(S3 = -1, I3= +1), c(I3 = -1, R3= +1), c(S3 = -1), c(I3 = -1), c(R3 = -1),
+                    c(S4 = +1), c(S4 = -1, I4= +1), c(I4 = -1, R4= +1), c(S4 = -1), c(I4 = -1), c(R4 = -1),
+                    c(S5 = +1), c(S5 = -1, I5= +1), c(I5 = -1, R5= +1), c(S5 = -1), c(I5 = -1), c(R5 = -1),
+                    c(S6 = +1), c(S6 = -1, I6= +1), c(I6 = -1, R6= +1), c(S6 = -1), c(I6 = -1), c(R6 = -1),
+                    c(S7 = +1), c(S7 = -1, I7= +1), c(I7 = -1, R7= +1), c(S7 = -1), c(I7 = -1), c(R7 = -1),
+                    c(S8 = +1), c(S8 = -1, I8= +1), c(I8 = -1, R8= +1), c(S8 = -1), c(I8 = -1), c(R8 = -1),
+                    c(S9 = +1), c(S9 = -1, I9= +1), c(I9 = -1, R9= +1), c(S9 = -1), c(I9 = -1), c(R9 = -1),
+                    c(S10 = +1), c(S10 = -1, I10= +1), c(I10 = -1, R10= +1), c(S10 = -1), c(I10 = -1), c(R10 = -1))
+
+  #a function that outputs the transition rates given parameters, S,I,R, and t
+  rateFct <- function(x,params,time){
+    #x should be of form: x=c(S,I,R)
+    #parms should be of form: parms=c(R_0,gamma,mu,alpha,m,EC)
+    n <- length(x)/3
+    S <- as.vector(x[1:n])
+    I <- as.vector(x[(n+1):(2*n)])
+    R <- as.vector(x[(2*n+1):(3*n)])
+    
+    R_0 <- params[1]
+    gamma <- params[2]
+    mu <- params[3]
+    alpha <- params[4]
+    m <- params[5]
+    EC <- params[6]
+    
+    #A matrix of all rates
+    rates <- matrix(0,n,6)
+    #the first column is all birth rates
+    rates[,1] <- mu*(S+I+R)
+    #thrid column are recovery rates
+    rates[,3] <- gamma*I
+    #last three columns are death rates from S and I
+    rates[,4] <- mu*S
+    rates[,5] <- mu*I
+    rates[,6] <- mu*R
+    #Second column are transmission rates
+    #Equal Coupling
+    if(EC==TRUE){
+      M <- matrix(m/(n-1),n,n)+(1-m*(1+1/(n-1)))*diag(n)  ##connectivity matrix
+      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*time/365))*M  ##beta matrix 
+    }else{
+      #Nearest Neighbors
+      M <- (1-m)*diag(n)
+      M[row(M)%%n==(col(M)+1)%%n ] <- m/2
+      M[row(M)%%n==(col(M)-1)%%n] <- m/2
+      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*time/365))*M  ##beta matrix 
+    }
+    rates[,2] <- S*colSums(t(betam[1:n,])*I)
+    
+    return(as.vector(t(rates)))
+  }
+  
+#Parameters
+  R_0 <- 17   ##basic reproduction rate (if the system had no forcing)
+  gamma <- 1/13  ##inverse of mean infectious period
+  mu <- 1/(50*365)  ##death and birth rate
+  alpha <- 0.1  ##strength of seasonal forcing
+  n <- 10  ## Number of patches
+  m <- 0.5  ##Connectivity matrix parameter
+  EC <- TRUE ##if true use equal coupling, if false use nearest neighbors
+  params<-c(R_0,gamma,mu,alpha,m,EC)
+  
+  ##Initial conditions
+#Want ICs near EE for stability. Find EE values:
+SEE <-1/R_0
+IEE <-(1 - 1/R_0)*mu/gamma
+REE <-1-SEE-IEE
+#Use initials conditions within +/-30% of EE values
+#convert from proportions to numbers and convert to integers
+percent <- 0.2
+population <- 100000
+S0 <- as.integer(population*seq(SEE*(1-percent), SEE*(1+percent), SEE*2*percent/(n-1)))
+I0 <- as.integer(population*seq(IEE*(1+percent), IEE*(1-percent), -IEE*2*percent/(n-1)))
+R0 <- population-S0-I0
+init.values <- c(S=S0,I=I0,R=R0)
+  
+  tmax <- 1000
+  
+  simResults <- ssa.adaptivetau(init.values,transitions, rateFct, params, tf=tmax)
+  ## draw box for plot
+  plot(0,0,xlim=c(0,tmax/365),ylim=c(0,150),xlab="Time (years)", 
+       ylab="Prevalence (I)")
+for (i in 1:n) {
+    lines(simResults[,1]/365, simResults[,11+i],col=i,lwd=0.2) # use a different line colour for each patch
+}
+  #Measure of coherence
+  coherence <- lapply(1:length(simResults[,1]), function(tims) sqrt(sum((simResults[tims,(12:21)]-mean(simResults[tims,(12:21)])*rep(1,n))^2)) )
+  #Plot coherence 
+  lines(simResults[,1]/365,coherence)
+  
+  #Make legends
+  legend("topright",legend=1:n,title="Patch",col=1:n,lty=1,lwd=0.2,cex=0.5)
+ legend(x=2,y=20, legend=expression("||"~italic(I)~"-<"~italic(I)~">"~italic(e)~"||"),bg="white",bty='n',col=1, text.font=3)
+ #TO DO: fix this ugly expression
+@
 
 
 \end{document}

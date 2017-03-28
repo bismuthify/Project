@@ -51,13 +51,13 @@
 
 \section{Background/Introduction} 
 
-In recent years there has been an increased awareness of the threat posed by various high profile diseases, such as SARS, Ebola and Influenza (Liu et al., 2009). Long-term incidence records of such diseases exhibit recurrent epidemics illustrated by homogenous and heterogenous cycles. In the presence of control health care measures, such as vaccination, the peaks of these cycles do dampen out yet persist (Lloyd, 1996). Due to the complex set of social and biological structures involved in this interaction, mathematical models provide an excellent framework in which the eradication of long-term recurrence can be studied (Sattenspiel, 2009). \\
-To accomplish this goal, many mathematical models have been derived on the basis of the migration of an individual through the various stages of an epidemic, however these models have failed to illustrate the recurrent nature of these diseases (Lloyd et. al, 2004). One observable biological factor neglected by many of these models is the notion of spatial dynamics. Classically it has been assumed that susceptible and infectious individuals are distributed uniformly within a population. However, incidence records clearly show that this long-term recurrent behaviour is sustained through through the spatial dynamics that facilitate the spread of disease between subpopulations experiencing an outbreak and disease free subpopulations. As a result, to model recurrent oscillations it is essential that the disease dynamics of a  population is represented by the set of interactions between local homogenous populations (Earn et al, 2000).\\
-In order to account for spatial heterogeneity, this study considers a metapopulation model, where a population is divided into several discrete subclasses, called patches, each exhibiting a well dispersed population. The population representing a patch is modelled by the susceptible, infectious and removed ($SIR$) model where each individual belongs to either the susceptible, infectious, or removed class. The state of the system changes according to the rates that allow an individual to migrate between classes. In addition to this, this study makes use of sinusoidal seasonal forcing on the transmission rate, in order to accurately depict the observed variation in the number of individuals that enter the infectious class on an annual basis based on various social parameters. The SIR model exhibits two equilibrium points whose stability is determined by the basic reproduction number \\$R_0$. If  \\$R_0 > 1$, the system approaches an endemic equilibrium via damped oscillations (Lloyd, 1996). Otherwise, the system approaches a disease free equilibrium. The aim of this study is to analyze the dynamics of this model overtime, in order to determine which parameter values lead the synchronization of all patches, thereby generating a disease free state exhibited by the entire population. \\
+In recent years there has been an increased awareness of the threat posed by various high profile diseases, such as SARS, Ebola and Influenza (Liu et al., 2009). Long-term incidence records of such diseases exhibit recurrent epidemics illustrated by homogeneous and heterogeneous cycles. In the presence of control health care measures, such as vaccination, the peaks of these cycles do dampen out yet persist (Lloyd, 1996). Due to the complex set of social and biological structures involved in this interaction, mathematical models provide an excellent framework in which the eradication of long-term recurrence can be studied (Sattenspiel, 2009). \\
+To accomplish this goal, many mathematical models have been derived on the basis of the migration of an individual through the various stages of an epidemic, however these models have failed to illustrate the recurrent nature of these diseases (Lloyd et. al, 2004). One observable biological factor neglected by many of these models is the notion of spatial dynamics. Classically it has been assumed that susceptible and infectious individuals are distributed uniformly within a population. However, incidence records clearly show that this long-term recurrent behavior is sustained through through the spatial dynamics that facilitate the spread of disease between sub populations experiencing an outbreak and disease free sub populations. As a result, to model recurrent oscillations it is essential that the disease dynamics of a  population is represented by the set of interactions between local homogeneous populations (Earn et al, 2000).\\
+In order to account for spatial heterogeneity, this study considers a metapopulation model, where a population is divided into several discrete sub classes, called patches, each exhibiting a well dispersed population. The population representing a patch is modeled by the susceptible, infectious and removed (SIR) model where each individual belongs to either the susceptible, infectious, or removed class. The state of the system changes according to the rates that allow an individual to migrate between classes. In addition to this, this study makes use of sinusoidal seasonal forcing on the transmission rate, in order to accurately depict the observed variation in the number of individuals that enter the infectious class on an annual basis based on various social parameters. The SIR model exhibits two equilibrium points whose stability is determined by the basic reproduction number $\R_0$. If  $\R_0 > 1$, the system approaches an endemic equilibrium via damped oscillations (Lloyd, 1996). Otherwise, the system approaches a disease free equilibrium. The aim of this study is to analyze the dynamics of this model overtime, in order to determine which parameter values lead the synchronization of all patches, thereby generating a disease free state exhibited by the entire population. \\
 
 \section{Methods}
 \indent
-The spatial SIR model consists of $n$ identical patches (which represent cities) with identical population sizes. The population is constant in each patch and there is no migration between patches. Intra-patch dynamics are given by the standard SIR model with vital dynamics and sinusoidal seasonal forcing. Connectivity between patches is represented by disease transmission. Infecteds can infect people from other patches. This models individuals visiting other patches, creating additional sources of infection in the visited patch. 
+The spatial SIR model consists of $n$ identical patches (which represent cities or some other spatial grouping of people) with identical population sizes. The population is constant in each patch and there is no migration between patches. Intra-patch dynamics are given by the standard SIR model with vital dynamics and sinusoidal seasonal forcing. Connectivity between patches is represented by disease transmission. Infected individuals can infect people from other patches. This models individuals visiting other patches, creating additional sources of infection in the visited patch. 
 A visualization of the dynamics in a single patch $i$ is shown by
 \begin{center}
 \begin{tikzpicture}[node distance=3cm,auto,>=latex',every node/.append style={align=center}]
@@ -79,33 +79,33 @@ where $S$ is the proportion of the population that is susceptible to infection, 
 \begin{equation}
   \beta(t) = \left < \beta \right > (1+\alpha \cos(2\pi t))M
 \end{equation}
-$\left < \beta \right > (1+\alpha \cos(2\pi t))$ is the standard sinusoidal forced transmission rate. $M$ is a matrix describing the connectivity between patches. Its diagonals are all ones (transmission rates within patches are the same as in a single patch SIR model) and its off-diagonal elements are generally less than one since transmission between patches is usually assumed to be much lower than transmission within patches. $M$ is assumed to be symmetric - i.e. patches affect each other in the same way. The row sums of $M$ (and thus the column sums too) are all equal. This ensures that coherent solutions remain coherent.
-Two different $M$ matrices are used in this paper. The first is equal coupling where all patches are equally connected, i.e. all off-diagonal elements of $M$ are equal. This parameter is called $m$. 
+$\left < \beta \right > (1+\alpha \cos(2\pi t))$ is the standard sinusoidal forced transmission rate. $M$ is a matrix describing the connectivity between patches. Its $(i,j)$ element is the fraction of time infected individuals from patch $i$ spend visiting $j$. The off-diagonal elements are generally less than the diagonal elements since it is usually assumed individuals spend most of their time in their own patch. $M$ is assumed here to be symmetric - i.e. patch $i$ has as much contact with patch $j$ as $j$ does with $i$. The column sums of $M$ (and thus the rows sums too) are all equal to one - i.e. $M$ is doubley stochastic. This means that all of an individual's time is accounted for.
+Two different types of $M$ matrices are used in this paper. The first is equal coupling where all patches are equally connected, i.e. all off-diagonal elements of $M$ are equal. The fraction of time individuals spend outside their own patch is given by the parameter $m$.
 \[
 M =
 \begin{bmatrix}
-  1 & m & m & m \\
-  m & 1 & m & m  \\
-  m & m & 1 &  \\
-  m &  &  & \dots 
+  1-m & \frac{m}{n-1} & \frac{m}{n-1} & \frac{m}{n-1} \\
+  \frac{m}{n-1} & 1 & \frac{m}{n-1} & \frac{m}{n-1}  \\
+  \frac{m}{n-1} & \frac{m}{n-1} & 1 &  \\
+  \frac{m}{n-1} &  &  & \ddots 
 \end{bmatrix}
 \]
-The second motif is nearest neighbor coupling. In this case it is assumed that the patches reside on a ring and can only affect their two nearest neighbors.
+The second motif is nearest neighbor coupling. In this case it is assumed that the patches reside on a ring and people can only visit their two nearest neighbors.
 \[
 M =
 \begin{bmatrix}
-  1 & m & 0 & 0 & \dots & m \\
-  m & 1 & m & 0 & & \vdots \\
-  0 & m & 1 &  \\
+  1-m & \frac{m}{2} & 0 & 0 & \dots & \frac{m}{2} \\
+  \frac{m}{2} & 1-m & \frac{m}{2} & 0 & & \vdots \\
+  0 & \frac{m}{2} & 1-m &  \\
   0 & 0 & & \ddots \\
-  \vdots & & & & \ddots & m \\
-  m &  & & \dots & m & 1 \ 
+  \vdots & & & & \ddots & \frac{m}{2} \\
+  \frac{m}{2} &  & & \dots & \frac{m}{2} & 1-m \ 
 \end{bmatrix}
 \]
 
 
 \section{Results}
-Solutions to \eqref{model} were calculated using the \Rlogo deSolve package. The following figures are the solutions for $n=10$, a 50 year life expectancy, a 13 day mean infectious period, nearest neighbor coupling, and seasonal forcing amplitude $\alpha = 0.1$. Figure \ref{fig:detplotsm} shows the affect of the strength of connectivity, $m$.
+Solutions to \eqref{model} were calculated using the \Rlogo deSolve package. The following figures are the solutions for $n=10$, a 50 year life expectancy, a 13 day mean infectious period, nearest neighbor coupling, and seasonal forcing amplitude $\alpha = 0.1$. The initial conditions used were values within $\pm30\%$ of the $(S,I,R)$ values at the endemic equlibrium of the unforced single patch SIR model. Figure \ref{fig:detplotsm} shows the affect of the strength of connectivity, $m$. At low enough $m$ the solutions do not become coherent.
 
 \begin{figure}
     \caption{$\R_0=17$}
@@ -120,54 +120,87 @@ Solutions to \eqref{model} were calculated using the \Rlogo deSolve package. The
         \includegraphics[width=3.0in]{{images/detNNR017m0.01}.pdf}
     }
 \end{figure}
-At low enough $m$ the solutions do not become coherent. Figure \ref{fig:detplotsR0} shows the affect $R_0$ has on the period of oscillations and nature of the cycles.
+Figure \ref{fig:detplotsC} shows the differene between equal coupling and nearest neighbor coupling. It takes longer for solutions to become coherent when using nearest neighbor coupling.
+\begin{figure}
+    \caption{$\R_0=17$ and $m=0.2$}
+    \label{fig:detplotsC}
+    \centering
+    \subfigure[Equal Coupling]
+    {
+        \includegraphics[width=3.0in]{{images/detECR017m0.2}.pdf}
+    }
+    \subfigure[Nearest Neighbor Coupling]
+    {
+        \includegraphics[width=3.0in]{{images/detNNR017m0.2}.pdf}
+    }
+\end{figure}
+ Figure \ref{fig:detplotsR0} shows the affect $R_0$ has on the period of oscillations and nature of the cycles.
 \begin{figure}
     \caption{$m=0.2$}
     \label{fig:detplotsR0}
     \centering
-    \subfigure[$\R_0=4$]
+    \subfigure[$\R_0=6$]
     {
-        \includegraphics[width=3.0in]{{images/detNNR04m0.2}.pdf}
+        \includegraphics[width=2.0in]{{images/detNNR06m0.2}.pdf}
     }
     \subfigure[$\R_0=12$]
     {
-        \includegraphics[width=3.0in]{{images/detNNR012m0.2}.pdf}
-    } \\
-    \subfigure[$\R_0=17$]
-    {
-        \includegraphics[width=3.0in]{{images/detNNR017m0.2}.pdf}
+        \includegraphics[width=2.0in]{{images/detNNR017m0.2}.pdf}
     } 
     \subfigure[$\R_0=25$]
     {
-        \includegraphics[width=3.0in]{{images/detNNR025m0.2}.pdf}
+        \includegraphics[width=2.0in]{{images/detNNR025m0.2}.pdf}
     }
 \end{figure}
 
-A stochastic version of this model was simulated using the Gillespie algorithim with $n=10$, a population size of 1000, a 50 year life expectancy, a 13 day mean infectious period, equal coupling,$R_0=17$, $m=0.2$, and seasonal forcing amplitude $\alpha = 0.1$. See Figure \ref{fig:stoplot}.
+A stochastic version of this model was simulated exactly using the Gillespie algorithm with the same parameters and similar initial conditions used for the deterministic solution. The population size per patch was 3000. Equal coupling and $R_0=17$ and $m=0.5$ were used. See Figure \ref{fig:Gillplot}.
 \begin{figure}
-    \caption{A stochastic simulation.}
-    \label{fig:stoplot}
+    \caption{An exact stochastic simulation using the Gillespie algorithm.}
+    \label{fig:Gillplot}
     \centering
-    \includegraphics[width=6.0in]{{images/stoECR017m0.2}.pdf}
+    \includegraphics[width=5.0in]{{images/GillECR017m0.2}.pdf}
+\end{figure}
+For larger population sizes, approximate stochastic simulations (using the \Rlogo adaptivetau package) were used. See Figure \ref{fig:adapplot} for a simulation with population of 100000.
+\begin{figure}
+    \caption{An approximate stochastic simulation using the adaptive tau-leaping method}
+    \label{fig:adapplot}
+    \centering
+    \includegraphics[width=5.0in]{{images/adapECR017m0.2}.pdf}
 \end{figure}
 
 A bifurcation diagram was created using \verb|XPPAUT|.
 %\lstinputlisting{bifurcation.ode}
-This produces a bifurcation diagram which shows the periodic recurrence patterns for the simulated deterministic model of the epidemic pattern. As shown, there is a single period 1 orbit for $\{5<\R_0\}\cap\{\R_0>27\}$ as well as a single period 2 orbit for $15<\R_0<25$ and mixed dynamics elsewhere.
-<<bifurcation,fig.height=4,echo=FALSE>>=
+This produces a bifurcation diagram which shows the periodic recurrence patterns for the simulated deterministic model of the epidemic pattern. As shown in Figure \ref{fig:bifurcation}, there is a single period 1 orbit for $\{5<\R_0\}\cap\{\R_0>27\}$ as well as a single period 2 orbit for $15<\R_0<25$ and mixed dynamics elsewhere.
+\begin{figure}
+    \caption{A bifurcation diagram for the single patch sinusoidal forced SIR model.}
+    \label{fig:bifurcation}
+    \centering
+    \includegraphics[width=5.0in]{{images/bifurcation}.pdf}
+\end{figure}
+<<bifurcation,fig.height=4,echo=FALSE,eval=FALSE>>=
 ## system("xpp bifurcation.ode -silent")
 ## can be generated within R, but takes awhile
 ## outputted data file included
+#library("tikzDevice")
 
 bfd <- read.table("bifurcation.dat", 
                   col.names=c("time","S","I","R0","log10S","log10I"))
 
 ## plot bifurcation
-plot(I~R0,bfd)
+#tikz("bifurcation.tex",standAlone=TRUE,width=6,height=6)
+plot(bfd$R0,bfd$I, xlab="$\\R_0$",ylab="Prevalence (I)",pch=20, col="black")
+#dev.off()
+#tools::texi2dvi('bifurcation.tex',pdf=T)
 @
-Further analysis of the bifurcation diagram reveal the period compositional structure.
+Further analysis of the bifurcation diagram reveal the period compositional structure. See Figure \ref{fig:period}.
+\begin{figure}
+    \caption{The periods of the single patch sinusoidal forced SIR model vs parameter $\R_0$.}
+    \label{fig:period}
+    \centering
+    \includegraphics[width=5.0in]{{images/period}.pdf}
+\end{figure}
 
-<<periodplot,fig.height=4,echo=FALSE>>=
+<<periodplot,fig.height=4,echo=FALSE,eval=FALSE>>=
 last.point.with.period <- function(df, dop=5, 
                                    R0lim=4, max.period=12) { 
   ## data frame with only the last pt on each soln: 
