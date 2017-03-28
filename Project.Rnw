@@ -33,27 +33,35 @@
 
 \begin{document}
 
-\begin{center}
-{\bf Mathematics 4MB3/6MB3 Mathematical Biology\\
+\begin{titlepage}
+\centering
+\vspace*{\fill}
+{\bf \Large Mathematics 4MB3/6MB3 Mathematical Biology\\
 \smallskip
-2017 Project}\
-{\bf Spatial epidemics dynamics: Synchronization}\\
-\medskip
+2017 Project}\\
+\bigskip
+\bigskip
+\bigskip
+{\bf \LARGE Spatial epidemics dynamics: \\ Synchronization}\\
+\bigskip
+\bigskip
+\bigskip
 \underline{\emph{Group Name}}: \texttt{{\color{blue}Model Students}}\\
 \medskip
 \underline{\emph{Group Members}}: {\color{blue}Nicole Dumont, Melody Fong, Carolina Weishaar}
-\end{center}
+\vspace*{\fill}
+\end{titlepage}
 
 \bigskip
 \noindent
 
 \section{Abstract} 
 
-\section{Background/Introduction} 
+\section{Background} 
 
-In recent years there has been an increased awareness of the threat posed by various high profile diseases, such as SARS, Ebola and Influenza (Liu et al., 2009). Long-term incidence records of such diseases exhibit recurrent epidemics illustrated by homogeneous and heterogeneous cycles. In the presence of control health care measures, such as vaccination, the peaks of these cycles do dampen out yet persist (Lloyd, 1996). Due to the complex set of social and biological structures involved in this interaction, mathematical models provide an excellent framework in which the eradication of long-term recurrence can be studied (Sattenspiel, 2009). \\
-To accomplish this goal, many mathematical models have been derived on the basis of the migration of an individual through the various stages of an epidemic, however these models have failed to illustrate the recurrent nature of these diseases (Lloyd et. al, 2004). One observable biological factor neglected by many of these models is the notion of spatial dynamics. Classically it has been assumed that susceptible and infectious individuals are distributed uniformly within a population. However, incidence records clearly show that this long-term recurrent behavior is sustained through through the spatial dynamics that facilitate the spread of disease between sub populations experiencing an outbreak and disease free sub populations. As a result, to model recurrent oscillations it is essential that the disease dynamics of a  population is represented by the set of interactions between local homogeneous populations (Earn et al, 2000).\\
-In order to account for spatial heterogeneity, this study considers a metapopulation model, where a population is divided into several discrete sub classes, called patches, each exhibiting a well dispersed population. The population representing a patch is modeled by the susceptible, infectious and removed (SIR) model where each individual belongs to either the susceptible, infectious, or removed class. The state of the system changes according to the rates that allow an individual to migrate between classes. In addition to this, this study makes use of sinusoidal seasonal forcing on the transmission rate, in order to accurately depict the observed variation in the number of individuals that enter the infectious class on an annual basis based on various social parameters. The SIR model exhibits two equilibrium points whose stability is determined by the basic reproduction number $\R_0$. If  $\R_0 > 1$, the system approaches an endemic equilibrium via damped oscillations (Lloyd, 1996). Otherwise, the system approaches a disease free equilibrium. The aim of this study is to analyze the dynamics of this model overtime, in order to determine which parameter values lead the synchronization of all patches, thereby generating a disease free state exhibited by the entire population. \\
+In recent years there has been an increased awareness of the threat posed by various high profile diseases, such as SARS, Ebola and Influenza \cite{Liu2009}. Long-term incidence records of such diseases exhibit recurrent epidemics illustrated by homogeneous and heterogeneous cycles. In the presence of control health care measures, such as vaccination, the peaks of these cycles do dampen out yet persist \cite{Lloyd1996}. Due to the complex set of social and biological structures involved in this interaction, mathematical models provide an excellent framework in which the eradication of long-term recurrence can be studied \cite{Sattenspiel2009}. \\
+To accomplish this goal, many mathematical models have been derived on the basis of the migration of an individual through the various stages of an epidemic, however these models have failed to illustrate the recurrent nature of these diseases (Lloyd et. al, 2004). One observable biological factor neglected by many of these models is the notion of spatial dynamics. Classically it has been assumed that susceptible and infectious individuals are distributed uniformly within a population. However, incidence records clearly show that this long-term recurrent behavior is sustained through through the spatial dynamics that facilitate the spread of disease between sub populations experiencing an outbreak and disease free sub populations. As a result, to model recurrent oscillations it is essential that the disease dynamics of a  population is represented by the set of interactions between local homogeneous populations \cite{Earn2000}.\\
+In order to account for spatial heterogeneity, this study considers a metapopulation model, where a population is divided into several discrete sub classes, called patches, each exhibiting a well dispersed population. The population representing a patch is modeled by the susceptible, infectious and removed (SIR) model where each individual belongs to either the susceptible, infectious, or removed class. The state of the system changes according to the rates that allow an individual to migrate between classes. In addition to this, this study makes use of sinusoidal seasonal forcing on the transmission rate, in order to accurately depict the observed variation in the number of individuals that enter the infectious class on an annual basis based on various social parameters. The SIR model exhibits two equilibrium points whose stability is determined by the basic reproduction number $\R_0$. If  $\R_0 > 1$, the system approaches an endemic equilibrium via damped oscillations \cite{Lloyd1996}. Otherwise, the system approaches a disease free equilibrium. The aim of this study is to analyze the dynamics of this model overtime, in order to determine which parameter values lead the synchronization of all patches, thereby generating a disease free state exhibited by the entire population. \\
 
 \section{Methods}
 \indent
@@ -107,7 +115,7 @@ M =
 \section{Results}
 Solutions to \eqref{model} were calculated using the \Rlogo deSolve package. The following figures are the solutions for $n=10$, a 50 year life expectancy, a 13 day mean infectious period, nearest neighbor coupling, and seasonal forcing amplitude $\alpha = 0.1$. The initial conditions used were values within $\pm30\%$ of the $(S,I,R)$ values at the endemic equlibrium of the unforced single patch SIR model. Figure \ref{fig:detplotsm} shows the affect of the strength of connectivity, $m$. At low enough $m$ the solutions do not become coherent.
 
-\begin{figure}
+\begin{figure}[h]
     \caption{$\R_0=17$}
     \label{fig:detplotsm}
     \centering
@@ -121,7 +129,7 @@ Solutions to \eqref{model} were calculated using the \Rlogo deSolve package. The
     }
 \end{figure}
 Figure \ref{fig:detplotsC} shows the differene between equal coupling and nearest neighbor coupling. It takes longer for solutions to become coherent when using nearest neighbor coupling.
-\begin{figure}
+\begin{figure}[h]
     \caption{$\R_0=17$ and $m=0.2$}
     \label{fig:detplotsC}
     \centering
@@ -135,7 +143,7 @@ Figure \ref{fig:detplotsC} shows the differene between equal coupling and neares
     }
 \end{figure}
  Figure \ref{fig:detplotsR0} shows the affect $R_0$ has on the period of oscillations and nature of the cycles.
-\begin{figure}
+\begin{figure}[h]
     \caption{$m=0.2$}
     \label{fig:detplotsR0}
     \centering
@@ -154,14 +162,14 @@ Figure \ref{fig:detplotsC} shows the differene between equal coupling and neares
 \end{figure}
 
 A stochastic version of this model was simulated exactly using the Gillespie algorithm with the same parameters and similar initial conditions used for the deterministic solution. The population size per patch was 3000. Equal coupling and $R_0=17$ and $m=0.5$ were used. See Figure \ref{fig:Gillplot}.
-\begin{figure}
+\begin{figure}[h]
     \caption{An exact stochastic simulation using the Gillespie algorithm.}
     \label{fig:Gillplot}
     \centering
     \includegraphics[width=5.0in]{{images/GillECR017m0.2}.pdf}
 \end{figure}
 For larger population sizes, approximate stochastic simulations (using the \Rlogo adaptivetau package) were used. See Figure \ref{fig:adapplot} for a simulation with population of 100000.
-\begin{figure}
+\begin{figure}[h]
     \caption{An approximate stochastic simulation using the adaptive tau-leaping method}
     \label{fig:adapplot}
     \centering
@@ -171,7 +179,7 @@ For larger population sizes, approximate stochastic simulations (using the \Rlog
 A bifurcation diagram was created using \verb|XPPAUT|.
 %\lstinputlisting{bifurcation.ode}
 This produces a bifurcation diagram which shows the periodic recurrence patterns for the simulated deterministic model of the epidemic pattern. As shown in Figure \ref{fig:bifurcation}, there is a single period 1 orbit for $\{5<\R_0\}\cap\{\R_0>27\}$ as well as a single period 2 orbit for $15<\R_0<25$ and mixed dynamics elsewhere.
-\begin{figure}
+\begin{figure}[h]
     \caption{A bifurcation diagram for the single patch sinusoidal forced SIR model.}
     \label{fig:bifurcation}
     \centering
@@ -193,7 +201,7 @@ plot(bfd$R0,bfd$I, xlab="$\\R_0$",ylab="Prevalence (I)",pch=20, col="black")
 #tools::texi2dvi('bifurcation.tex',pdf=T)
 @
 Further analysis of the bifurcation diagram reveal the period compositional structure. See Figure \ref{fig:period}.
-\begin{figure}
+\begin{figure}[h]
     \caption{The periods of the single patch sinusoidal forced SIR model vs parameter $\R_0$.}
     \label{fig:period}
     \centering
@@ -246,7 +254,7 @@ plot.period.of.R0(bfd.last)
 
 \section{References}
 \bibliographystyle{unsrt}
-\bibliography{references} 
+\bibliography{ModelStudents} 
 
 
 
