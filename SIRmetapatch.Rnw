@@ -398,8 +398,15 @@ Approximate stochastic simulations using the adaptivetau package.
   simResults <- ssa.adaptivetau(init.values,transitions, rateFct, params, tf=tmax)
   
     #Measure of coherence: the coefficient of variation/relative standard deviation of all the patches at each time step
-  coherence <- sapply(1:length(simResults[,1]), 
-                      function(tims) sd(simResults[tims,(12:21)])/mean(simResults[tims,(12:21)]) )
+  coherence <- rep(0,length(simResults[,1]))
+  for(tims in 1:length(simResults[,1])){
+    coherence[tims]<- sd(simResults[tims,(12:21)])/mean(simResults[tims,(12:21)])
+    if(is.nan(coherence[tims])){
+      coherence[tims]<- 0
+    }
+  }
+
+  
   
   return(list("sim" = simResults, "coherence"= coherence))
   }
@@ -474,7 +481,7 @@ for (i in 1:n) {
 *
 Making grids of coherence (needs runadaptau fct from previous chuck to run):
 <<>>=
- gridsizeR_0 <- 20
+ gridsizeR_0 <- 50
  gridsizem <- 4
  nsample <- 1
  mlist <- seq(0.001, 1, (1-0.001)/(gridsizem-1))
@@ -489,7 +496,7 @@ EC <- TRUE ##if true use equal coupling, if false use nearest neighbors
 
 ##Params for Initial conditions
  percent <- 0.1
- population <- 10000
+ population <- 200000
 
 
 tmax <- 1000
