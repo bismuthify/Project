@@ -306,7 +306,7 @@ I <- results[,(n+2):(2*n+2)]
 
 
 ## draw box for plot
-  plot(0,0,xlim=c(0,tmax/365),ylim=c(0,10),xlab="Time (years)", 
+  plot(0,0,xlim=c(0,tmax/365),ylim=c(0,population*IEE*2),xlab="Time (years)", 
        ylab="Prevalence (I)")
 for (i in 1:n) {
     lines(times/365, I[,i],col=i,lwd=0.2) # use a different line colour for each patch
@@ -446,7 +446,7 @@ coherence <- run$coherence
   
 ## draw box for plot
   par(mar = c(5,5,2,5))
-  plot(0,0,xlim=c(0,tmax/365),ylim=c(0,800),xlab="Time (years)", 
+  plot(0,0,xlim=c(0,tmax/365),ylim=c(0,population*IEE*2),xlab="Time (years)", 
        ylab="Prevalence (I)")
   #lines(simResults[,1]/365, simResults[,13],col=i,lty=i,lwd=0.2)
 for (i in 1:n) {
@@ -481,10 +481,13 @@ for (i in 1:n) {
 *
 Making grids of coherence (needs runadaptau fct from previous chuck to run):
 <<>>=
- gridsizeR_0 <- 50
- gridsizem <- 4
- nsample <- 1
- mlist <- seq(0.001, 1, (1-0.001)/(gridsizem-1))
+ #The value at which things are considered coherent
+ threshold <- 0.5
+ gridsizeR_0 <- 30
+ gridsizem <- 10
+ nsample <- 10
+ mlist <- seq(0.001, 0.2, (0.2-0.001)/(gridsizem-1))
+ submlistInd <- c(1,2,3,gridsizem) #indices of m values that will be plotted on 4 panel plot
  R_0list <- seq(2,25,(25-2)/(gridsizeR_0-1))
  
  #Parameters
@@ -514,7 +517,7 @@ for (R_0 in R_0list){
   
   for (m in mlist){
     params<-c(R_0=R_0,gamma=gamma,mu=mu,alpha=alpha,m=m,EC=EC)
-    coherence <- rep(0, nsample)
+    coherenceProb <- rep(0, nsample)
     for (sampler in 1:nsample){
       #Run stochastic sim nsample times with different ICs
       #Take mean of coherence near end of sim
@@ -525,10 +528,15 @@ for (R_0 in R_0list){
       R0 <- population-S0-I0
       init.values <- c(S=S0,I=I0,R=R0)
       coherenceRun <- runadaptau(tmax,init.values,params)$coherence
-      coherence[sampler] <- mean(coherenceRun[length(coherenceRun)-(50:0)])
+      mean <- mean(coherenceRun[length(coherenceRun)-(50:0)])
+      if(mean<threshold){
+        coherenceProb[sampler] <- 1
+      }else{
+        coherenceProb[sampler] <- 0
+      }
     }
     #Take mean of all coherence for all runs with these parameters
-     avgCoherence[index1,index2]<- mean(coherence)
+     avgCoherence[index1,index2]<- mean(coherenceProb)
      index1<-index1+1
   }
   index2<-index2+1
@@ -540,27 +548,27 @@ for (R_0 in R_0list){
  
  yminval<-min(avgCoherence)
  ymaxval<-max(avgCoherence)
- par(mfrow=c(gridsizem/2,2))
+ par(mfrow=c(2,2))
  par(cex = 0.6)
 par(mar = c(0, 0, 0, 0), oma = c(4, 4, 0.5, 0.5))
 par(tcl = -0.25)
 par(mgp = c(2, 0.6, 0))
- for(ind in 1:gridsizem){
+ for(ind in 1:length(submlistInd)){
    
    #legend("bottomleft",legend=paste0("m=",mlist[ind]),cex=0.5,bty="n",text.col=ind)
    if (ind ==3){
-          plot(R_0list, avgCoherence[ind,],type='l',col=ind, ylim=c(yminval,ymaxval))}
+          plot(R_0list, avgCoherence[submlistInd[ind],],type='l',col=ind, ylim=c(yminval,ymaxval))}
          #axis(1, col = "grey40", col.axis = "grey20")}
    if (ind ==1){
-          plot(R_0list, avgCoherence[ind,],type='l',col=ind, ylim=c(yminval,ymaxval),xaxt='n')}
+          plot(R_0list, avgCoherence[submlistInd[ind],],type='l',col=ind, ylim=c(yminval,ymaxval),xaxt='n')}
          #axis(1, col = "grey40", col.axis = "grey20")}
      if (ind ==2){
-          plot(R_0list, avgCoherence[ind,],type='l',col=ind, ylim=c(yminval,ymaxval),xaxt='n',yaxt='n')}
+          plot(R_0list, avgCoherence[submlistInd[ind],],type='l',col=ind, ylim=c(yminval,ymaxval),xaxt='n',yaxt='n')}
    if (ind ==4){
-          plot(R_0list, avgCoherence[ind,],type='l',col=ind, ylim=c(yminval,ymaxval),yaxt='n')}
+          plot(R_0list, avgCoherence[submlistInd[ind],],type='l',col=ind, ylim=c(yminval,ymaxval),yaxt='n')}
          #axis(2, col = "grey40", col.axis = "grey20")}
      box(col = "grey60")
-     mtext(paste0("m=",mlist[ind]), side = 3, line = -2, adj = 0.1, cex = 0.6, col = "grey40")
+     mtext(paste0("m=",mlist[submlistInd[ind]]), side = 3, line = -2, adj = 0.1, cex = 0.6, col = "grey40")
  }
 mtext("$\\R_0$", side = 1, outer = TRUE, cex = 0.7, line = 2.2,
      col = "grey20")
