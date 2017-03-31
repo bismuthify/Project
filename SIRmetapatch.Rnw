@@ -3,7 +3,7 @@
 
 \begin{document}
 Deterministic model solution code:
-<<detSIRmeta,dev="tikz">>=
+<<detSIRmeta,dev="tikz",eval=FALSE>>=
 library("deSolve")
 library("tikzDevice")
 
@@ -51,13 +51,14 @@ draw.soln <- function(n,ic=c(x=rep(1,10),y=rep(0,10)),tmax=1,
                       func,parms,...) {
   soln <- ode(ic,times,func,parms)
   
-  #Plot I for all patches with different colours
+  #Plot I for all patches with different colours and lty
   for (i in 1:n){
-    lines(times/365,soln[,paste0('I',i)],col=i,...)
+    lines(times/365,soln[,paste0('I',i)],col=i,lty=i,...)
   }
   
   #Measure of coherence
-  coherence <- lapply(1:length(times), function(tims) sqrt(sum((soln[tims,paste0('I',1:n)]-mean(soln[tims,paste0('I',1:n)])*rep(1,n))^2)) )
+  coherence <- lapply(1:length(times), 
+                      function(tims) sqrt(sum((soln[tims,paste0('I',1:n)]-mean(soln[tims,paste0('I',1:n)])*rep(1,n))^2)) )
   
   lines(times/365,coherence,lwd=2,...)
   
@@ -85,11 +86,17 @@ IEE <-(1 - 1/R_0)*mu/gamma
 REE <-1-SEE-IEE
 #Use initials conditions within +/-30% of EE values
 percent <- 0.3
-S0 <- seq(SEE*(1-percent), SEE*(1+percent), SEE*2*percent/(n-1))
-I0 <- seq(IEE*(1+percent), IEE*(1-percent), -IEE*2*percent/(n-1))
+possibleS0 <- seq(SEE*(1-percent), SEE*(1+percent), SEE*2*percent/500)
+possibleI0 <- seq(IEE*(1-percent), IEE*(1+percent), IEE*2*percent/500)
+set.seed(34)
+#Sample from points
+S0 <- sample(possibleS0,n,replace=TRUE)
+I0 <- sample(possibleI0,n,replace=TRUE)
 R0 <- 1-S0-I0
 
 tmax<-10000
+
+#### Plotting lots of solutions to pdf ####
 
 tikz("detNNR017m0.2.tex",standAlone=TRUE,width=6,height=6)
 ## draw box for plot
@@ -159,13 +166,18 @@ tools::texi2dvi('detNNR025m0.2.tex',pdf=T)
 
 @
 
-
+*
+*
+*
+*
 Stochastic model simulations code:
-<<SIRmeta.Gillespie,dev="tikz">>=
+<<SIRmeta.Gillespie,dev="tikz",eval=FALSE>>=
 
 #For reprodubility set the seed
 set.seed(899)
-SIRmeta.Gillespie <- function(tmax,ic=c(S0,I0,R0),parms=c(R_0=2,gamma=0.25,mu=4e-5,alpha=0.1,m=0.2,EC=TRUE)){
+SIRmeta.Gillespie <- function(tmax,ic=c(S0,I0,R0),
+                              parms=c(R_0=2,gamma=0.25,mu=4e-5,
+                                      alpha=0.1,m=0.2,EC=TRUE)){
   times <- 0
   
   n <- length(ic)/3
@@ -203,7 +215,7 @@ SIRmeta.Gillespie <- function(tmax,ic=c(S0,I0,R0),parms=c(R_0=2,gamma=0.25,mu=4e
       M[row(M)%%n==(col(M)-1)%%n] <- m/2
       betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*times[index]/365))*M  ##beta matrix 
     }
-    rates[,2] <- S[index,]*colSums(t(betam[1:n,])*I[index,])
+    rates[,2] <- S[index,]*colSums(t(betam[1:n,])*I[index,])/(S[index,]+I[index,]+R[index,])
     totalrate <- sum(rates)
     
     #Getting a timestep using R's exp distribution
@@ -222,10 +234,13 @@ SIRmeta.Gillespie <- function(tmax,ic=c(S0,I0,R0),parms=c(R_0=2,gamma=0.25,mu=4e
     interval <- 1
     #Make the rates matrix into a vector for conveince
     rateslisted <- c(0,as.vector(t(rates)))
-    #Find which interval randomval is in from list: [0,a_1), [a_1, a_1+a_2), etc
-    #If in interval [a_1 + .. + a_(i-1), a_1 + ... + a_i), transition given by rate a_i occurred
+    #Find which interval randomval is in from list: 
+    #[0,a_1), [a_1, a_1+a_2), etc
+    #If in interval [a_1 + .. + a_(i-1), a_1 + ... + a_i), 
+    #transition given by rate a_i occurred
     while(interval < (6*n)){
-      if(randomvar >= sum(rateslisted[1:interval]) & randomvar < sum(rateslisted[1:(interval+1)])){
+      if(randomvar >= sum(rateslisted[1:interval]) & 
+         randomvar < sum(rateslisted[1:(interval+1)])){
         break
       }else{
         interval<- interval+1
@@ -274,15 +289,18 @@ EC <- TRUE ##if true use equal coupling, if false use nearest neighbors
 SEE <-1/R_0
 IEE <-(1 - 1/R_0)*mu/gamma
 REE <-1-SEE-IEE
-#Use initials conditions within +/-40% of EE values
+#Sample from initials conditions within +/-30% of EE values
 #convert from proportions to numbers and convert to integers
-percent <- 0.4
-population <- 3000
-S0 <- as.integer(population*seq(SEE*(1-percent), SEE*(1+percent), SEE*2*percent/(n-1)))
-I0 <- as.integer(population*seq(IEE*(1+percent), IEE*(1-percent), -IEE*2*percent/(n-1)))
-R0 <- population-S0-I0
+percent <- 0.1
+population <- 5000
+ possibleS0 <- seq(as.integer(population*SEE*(1-percent)), as.integer(population*SEE*(1+percent)),1)
+  possibleI0 <- seq(as.integer(population*IEE*(1-percent)), as.integer(population*IEE*(1+percent)),1)
+ S0 <- sample(possibleS0, n,replace=TRUE)
+ I0 <- sample(possibleI0, n,replace=TRUE)
+ R0 <- population-S0-I0
 
-results <- SIRmeta.Gillespie(tmax,ic=c(S0,I0,R0),parms=c(R_0,gamma,mu,alpha,m,EC))
+results <- SIRmeta.Gillespie(tmax,ic=c(S0,I0,R0),
+                             parms=c(R_0,gamma,mu,alpha,m,EC))
 times<-results[,1]
 I <- results[,(n+2):(2*n+2)]
 
@@ -300,16 +318,25 @@ for (i in 1:n) {
 
 
 @
-
+*
+*
+*
+*
 Approximate stochastic simulations using the adaptivetau package.
-<<SIRmeta.adaptivetau,dev="tikz">>=
+<<SIRmeta.adaptivetau,dev="tikz",eval=FALSE>>=
   library("adaptivetau")
+  
+  
+  runadaptau <-function(tmax,ic=c(S0,I0,R0),
+                              params=c(R_0,gamma,mu,alpha,m,EC)){
   #For reprodubility set the seed
   set.seed(45)
-  n <- 10 #number of patches
+    
+  n <- length(ic)/3
   
-  #TO DO: This should be changed so that it works with different n values and is less ugly
-  #a list of all possible transitions
+  #TO DO: This should be changed so that it works with different n values 
+  #and is less ugly
+  #A list of all possible transitions
   transitions <- list(c(S1 = +1), c(S1 = -1, I1= +1), c(I1 = -1, R1= +1), c(S1 = -1), c(I1 = -1), c(R1 = -1),
                     c(S2 = +1), c(S2 = -1, I2= +1), c(I2 = -1, R2= +1), c(S2 = -1), c(I2 = -1), c(R2 = -1),
                     c(S3 = +1), c(S3 = -1, I3= +1), c(I3 = -1, R3= +1), c(S3 = -1), c(I3 = -1), c(R3 = -1),
@@ -322,20 +349,20 @@ Approximate stochastic simulations using the adaptivetau package.
                     c(S10 = +1), c(S10 = -1, I10= +1), c(I10 = -1, R10= +1), c(S10 = -1), c(I10 = -1), c(R10 = -1))
 
   #a function that outputs the transition rates given parameters, S,I,R, and t
+  
   rateFct <- function(x,params,time){
     #x should be of form: x=c(S,I,R)
-    #parms should be of form: parms=c(R_0,gamma,mu,alpha,m,EC)
+    #parms should be of form: paarms=c(R_0,gamma,mu,alpha,m,EC)
+    
+    with(
+       as.list(c(params)),
+       {
     n <- length(x)/3
     S <- as.vector(x[1:n])
     I <- as.vector(x[(n+1):(2*n)])
     R <- as.vector(x[(2*n+1):(3*n)])
     
-    R_0 <- params[1]
-    gamma <- params[2]
-    mu <- params[3]
-    alpha <- params[4]
-    m <- params[5]
-    EC <- params[6]
+    
     
     #A matrix of all rates
     rates <- matrix(0,n,6)
@@ -359,54 +386,501 @@ Approximate stochastic simulations using the adaptivetau package.
       M[row(M)%%n==(col(M)-1)%%n] <- m/2
       betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*time/365))*M  ##beta matrix 
     }
-    rates[,2] <- S*colSums(t(betam[1:n,])*I)
+    rates[,2] <- S*colSums(t(betam[1:n,])*I)/(S+I+R)
     
     return(as.vector(t(rates)))
+       }
+    )
+  }
+  
+  init.values <- c(S=S0,I=I0,R=R0)
+  
+  simResults <- ssa.adaptivetau(init.values,transitions, rateFct, params, tf=tmax)
+  
+    #Measure of coherence: the coefficient of variation/relative standard deviation of all the patches at each time step
+  coherence <- sapply(1:length(simResults[,1]), 
+                      function(tims) sd(simResults[tims,(12:21)])/mean(simResults[tims,(12:21)]) )
+  
+  return(list("sim" = simResults, "coherence"= coherence))
   }
   
 #Parameters
-  R_0 <- 17   ##basic reproduction rate (if the system had no forcing)
-  gamma <- 1/13  ##inverse of mean infectious period
-  mu <- 1/(50*365)  ##death and birth rate
-  alpha <- 0.1  ##strength of seasonal forcing
-  n <- 10  ## Number of patches
-  m <- 0.5  ##Connectivity matrix parameter
-  EC <- TRUE ##if true use equal coupling, if false use nearest neighbors
-  params<-c(R_0,gamma,mu,alpha,m,EC)
+R_0 <- 17   ##basic reproduction rate (if the system had no forcing)
+gamma <- 1/13  ##inverse of mean infectious period
+mu <- 1/(50*365)  ##death and birth rate
+alpha <- 0.1  ##strength of seasonal forcing
+n <- 10  ## Number of patches
+m <- 0.2  ##Connectivity matrix parameter
+EC <- TRUE ##if true use equal coupling, if false use nearest neighbors
+params<-c(R_0,gamma,mu,alpha,m,EC)
   
-  ##Initial conditions
+
+##Initial conditions
 #Want ICs near EE for stability. Find EE values:
-SEE <-1/R_0
-IEE <-(1 - 1/R_0)*mu/gamma
-REE <-1-SEE-IEE
-#Use initials conditions within +/-30% of EE values
-#convert from proportions to numbers and convert to integers
-percent <- 0.2
-population <- 100000
-S0 <- as.integer(population*seq(SEE*(1-percent), SEE*(1+percent), SEE*2*percent/(n-1)))
-I0 <- as.integer(population*seq(IEE*(1+percent), IEE*(1-percent), -IEE*2*percent/(n-1)))
-R0 <- population-S0-I0
+ SEE <-1/R_0
+ IEE <-(1 - 1/R_0)*mu/gamma
+ REE <-1-SEE-IEE
+ percent <- 0.1
+ population <- 500000
+ possibleS0 <- seq(as.integer(population*SEE*(1-percent)), as.integer(population*SEE*(1+percent)),1)
+  possibleI0 <- seq(as.integer(population*IEE*(1-percent)), as.integer(population*IEE*(1+percent)),1)
+ S0 <- sample(possibleS0, n,replace=TRUE)
+ I0 <- sample(possibleI0, n,replace=TRUE)
+ R0 <- population-S0-I0
 init.values <- c(S=S0,I=I0,R=R0)
+
+tmax <- 1500
   
-  tmax <- 1000
+run <- runadaptau(tmax,init.values,params)
+    
+simResults <- run$sim
+coherence <- run$coherence
+
   
-  simResults <- ssa.adaptivetau(init.values,transitions, rateFct, params, tf=tmax)
-  ## draw box for plot
-  plot(0,0,xlim=c(0,tmax/365),ylim=c(0,150),xlab="Time (years)", 
+## draw box for plot
+  par(mar = c(5,5,2,5))
+  plot(0,0,xlim=c(0,tmax/365),ylim=c(0,800),xlab="Time (years)", 
        ylab="Prevalence (I)")
+  #lines(simResults[,1]/365, simResults[,13],col=i,lty=i,lwd=0.2)
 for (i in 1:n) {
-    lines(simResults[,1]/365, simResults[,11+i],col=i,lwd=0.2) # use a different line colour for each patch
+    lines(simResults[,1]/365, simResults[,11+i],col=(if(i%%8==1) i else i+5),lty=i,lwd=0.5) # use a different line colour for each patch
 }
-  #Measure of coherence
-  coherence <- lapply(1:length(simResults[,1]), function(tims) sqrt(sum((simResults[tims,(12:21)]-mean(simResults[tims,(12:21)])*rep(1,n))^2)) )
-  #Plot coherence 
+
+  #Det soln
+  draw.single.soln(n,ic=c(S=SEE,I=IEE,R=(1-SEE-IEE)),tmax=tmax,
+            func=SIR.vector.field,
+            parms=c(R_0,gamma,mu,alpha,population))
+  
+#Plot coherence 
+  par(new = T)
+  plot(simResults[,1]/365,coherence,type='l',axes=F,xlab=NA, ylab=NA,ylim=c(0,1),col="yellow",cex=2)
   lines(simResults[,1]/365,coherence)
+  axis(side=4)
+  mtext(side = 4, line = 3, 'Coherence')
+  
+  
   
   #Make legends
   legend("topright",legend=1:n,title="Patch",col=1:n,lty=1,lwd=0.2,cex=0.5)
  legend(x=2,y=20, legend=expression("||"~italic(I)~"-<"~italic(I)~">"~italic(e)~"||"),bg="white",bty='n',col=1, text.font=3)
  #TO DO: fix this ugly expression
+ 
+ 
 @
 
+*
+*
+*
+*
+Making grids of coherence (needs runadaptau fct from previous chuck to run):
+<<>>=
+ gridsizeR_0 <- 20
+ gridsizem <- 4
+ nsample <- 1
+ mlist <- seq(0.001, 1, (1-0.001)/(gridsizem-1))
+ R_0list <- seq(2,25,(25-2)/(gridsizeR_0-1))
+ 
+ #Parameters
+gamma <- 1/13  ##inverse of mean infectious period
+mu <- 1/(50*365)  ##death and birth rate
+alpha <- 0.1  ##strength of seasonal forcing
+n <- 10  ## Number of patches
+EC <- TRUE ##if true use equal coupling, if false use nearest neighbors
+
+##Params for Initial conditions
+ percent <- 0.1
+ population <- 10000
+
+
+tmax <- 1000
+avgCoherence<- matrix(0, gridsizem,gridsizeR_0)
+
+index2 <- 1
+for (R_0 in R_0list){
+  index1 <- 1
+  #Want ICs near EE for stability. Find EE values:
+  #Note: They depend on R_0
+  SEE <-1/R_0
+  IEE <-(1 - 1/R_0)*mu/gamma
+  possibleS0 <- seq(as.integer(population*SEE*(1-percent)), as.integer(population*SEE*(1+percent)),1)
+  possibleI0 <- seq(as.integer(population*IEE*(1-percent)), as.integer(population*IEE*(1+percent)),1)
+  
+  for (m in mlist){
+    params<-c(R_0=R_0,gamma=gamma,mu=mu,alpha=alpha,m=m,EC=EC)
+    coherence <- rep(0, nsample)
+    for (sampler in 1:nsample){
+      #Run stochastic sim nsample times with different ICs
+      #Take mean of coherence near end of sim
+      #(since coherence is very oscilatory)
+      
+      S0 <- sample(possibleS0, n,replace=TRUE)
+      I0 <- sample(possibleI0, n,replace=TRUE)
+      R0 <- population-S0-I0
+      init.values <- c(S=S0,I=I0,R=R0)
+      coherenceRun <- runadaptau(tmax,init.values,params)$coherence
+      coherence[sampler] <- mean(coherenceRun[length(coherenceRun)-(50:0)])
+    }
+    #Take mean of all coherence for all runs with these parameters
+     avgCoherence[index1,index2]<- mean(coherence)
+     index1<-index1+1
+  }
+  index2<-index2+1
+}
+ 
+ persp( R_0list,mlist, t(avgCoherence), theta = 30, phi = 30, expand = 0.5, col = "lightblue",ltheta = 120, shade = 0.75, ticktype = "detailed",
+      xlab = "$\\R_0$", ylab = "m", zlab = "Coherence")
+        
+ 
+ yminval<-min(avgCoherence)
+ ymaxval<-max(avgCoherence)
+ par(mfrow=c(gridsizem/2,2))
+ par(cex = 0.6)
+par(mar = c(0, 0, 0, 0), oma = c(4, 4, 0.5, 0.5))
+par(tcl = -0.25)
+par(mgp = c(2, 0.6, 0))
+ for(ind in 1:gridsizem){
+   
+   #legend("bottomleft",legend=paste0("m=",mlist[ind]),cex=0.5,bty="n",text.col=ind)
+   if (ind ==3){
+          plot(R_0list, avgCoherence[ind,],type='l',col=ind, ylim=c(yminval,ymaxval))}
+         #axis(1, col = "grey40", col.axis = "grey20")}
+   if (ind ==1){
+          plot(R_0list, avgCoherence[ind,],type='l',col=ind, ylim=c(yminval,ymaxval),xaxt='n')}
+         #axis(1, col = "grey40", col.axis = "grey20")}
+     if (ind ==2){
+          plot(R_0list, avgCoherence[ind,],type='l',col=ind, ylim=c(yminval,ymaxval),xaxt='n',yaxt='n')}
+   if (ind ==4){
+          plot(R_0list, avgCoherence[ind,],type='l',col=ind, ylim=c(yminval,ymaxval),yaxt='n')}
+         #axis(2, col = "grey40", col.axis = "grey20")}
+     box(col = "grey60")
+     mtext(paste0("m=",mlist[ind]), side = 3, line = -2, adj = 0.1, cex = 0.6, col = "grey40")
+ }
+mtext("$\\R_0$", side = 1, outer = TRUE, cex = 0.7, line = 2.2,
+     col = "grey20")
+ mtext("Coherence", side = 2, outer = TRUE, cex = 0.7, line = 2.2,
+     col = "grey20")
+#xlab = "$\\R_0$", ylab = "Coherence",
+ 
+@
+
+
+*
+*
+*
+*
+Single patch adaptive tau simulation for bifurcation:
+<<>>=
+library("adaptivetau")
+library("deSolve")
+  
+  runadaptauSin <-function(tmax,ic=c(S0,I0,R0),
+                              params=c(R_0,gamma,mu,alpha)){
+  #For reprodubility set the seed
+  set.seed(45)
+    
+  
+  #TO DO: This should be changed so that it works with different n values 
+  #and is less ugly
+  #A list of all possible transitions
+  transitions <- list(c(S = +1), 
+                      c(S = -1, I= +1), 
+                      c(I = -1, R= +1), 
+                      c(S = -1), 
+                      c(I = -1), 
+                      c(R = -1))
+
+  #a function that outputs the transition rates given parameters, S,I,R, and t
+  
+  rateFct <- function(x,params,t){
+    #x should be of form: x=c(S,I,R)
+    #parms should be of form: paarms=c(R_0,gamma,mu,alpha,m,EC)
+    with(
+       as.list(c(x,params)),
+       {
+    
+    
+    #A vector of all rates
+    rates <- array(0,6)
+    #the first ele is birth rate
+    rates[1] <- mu*(S+I+R)
+    #thrid ele is recovery rate
+    rates[3] <- gamma*I
+    #last three eles is death rate from S and I
+    rates[4] <- mu*S
+    rates[5] <- mu*I
+    rates[6] <- mu*R
+    #Second ele is transmission rate
+    #Equal Coupling
+    beta <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*t))  ##beta  
+    rates[2] <- S*beta*I/(S+I+R)
+    
+    return(rates)
+       }
+    )
+  }
+  
+  init.values <- c(S=S0,I=I0,R=R0)
+  
+  simResults <- ssa.adaptivetau(init.values,transitions, rateFct, params, tf=tmax)
+  
+    #Measure of coherence: the coefficient of variation/relative standard deviation of all the patches at each time step
+  coherence <- sapply(1:length(simResults[,1]), 
+                      function(tims) sd(simResults[tims,3])/mean(simResults[tims,3]) )
+  
+  return(list("sim" = simResults, "coherence"= coherence))
+  }
+  
+#Parameters
+R_0 <- 17   ##basic reproduction rate (if the system had no forcing)
+gamma <- 1/13  ##inverse of mean infectious period
+mu <- 1/(50*365)  ##death and birth rate
+alpha <- 0.1  ##strength of seasonal forcing
+
+params<-list(R_0=R_0,gamma=gamma,mu=mu,alpha=alpha)
+  
+
+##Initial conditions
+#Want ICs near EE for stability. Find EE values:
+ SEE <-1/R_0
+ IEE <-(1 - 1/R_0)*mu/gamma
+ REE <-1-SEE-IEE
+ percent <- 0.05
+ population <- 300000
+ possibleS0 <- seq(as.integer(population*SEE*(1-percent)), as.integer(population*SEE*(1+percent)),1)
+  possibleI0 <- seq(as.integer(population*IEE*(1-percent)), as.integer(population*IEE*(1+percent)),1)
+ S0 <- sample(possibleS0, 1,replace=TRUE)
+ I0 <- sample(possibleI0, 1,replace=TRUE)
+ R0 <- population-S0-I0
+init.values <- c(S=S0,I=I0,R=R0)
+
+tmax <- 2000
+  
+run <- runadaptauSin(tmax,init.values,params)
+    
+simResults <- run$sim
+coherence <- run$coherence
+
+  
+## draw box for plot
+  par(mar = c(5,5,2,5))
+  plot(0,0,xlim=c(0,tmax/365),ylim=c(0,400),xlab="Time (years)", 
+       ylab="Prevalence (I)")
+  
+    lines(simResults[,1]/365, simResults[,3],col=2,lty=1,lwd=0.5) 
+
+
+ 
+  ## Vector Field for SIR single patch Model
+SIR.vector.field <- function(t,vars,parms=NULL) {
+  ##parms should be of form (R_0,gamma,mu,alpha)
+  ##vars should be of form (S,I,R)
+  with(as.list(c(parms,vars)), {
+    S <- vars[1]
+    I <- vars[2]
+    R <- vars[3]
+    beta <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*t/365))  ##beta 
+    
+    dS <- mu*(1-S) - S*beta*I ##dS/dt
+    dI <- S*beta*I - (mu+gamma)*I  ## dI/dt
+    dR <- gamma*I -mu*R
+    
+    vec.fld <- c(dS=dS,dI=dI,dR=dR)
+    return(list(vec.fld))
+  })
+}
+
+## Draw Solutions and coherence measure
+draw.single.soln <- function(n,ic=c(x=1,y=0),tmax=1,
+                      times=seq(0,tmax,
+                                by=tmax/1000),
+                      func,parms,...) {
+  soln <- ode(ic,times,func,parms)
+  
+  #Plot I 
+  lines(times/365,soln[,'I']*population,col=1,lty=2,lwd=1,...)
+}
+
+##Initial conditions
+#Want ICs near EE for stability. 
+ possibleS0 <- seq(SEE*(1-percent), SEE*(1+percent),1)
+ possibleI0 <- seq(IEE*(1-percent), IEE*(1+percent),1)
+ S0 <- sample(possibleS0, 1,replace=TRUE)
+ I0 <- sample(possibleI0, 1,replace=TRUE)
+ R0 <- 1-S0-I0
+
+
+## draw solutions
+draw.single.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
+            func=SIR.vector.field,
+            parms=c(R_0,gamma,mu,alpha,population))
+
+@
+
+
+*
+*
+*
+*
+Same as above but with Gillespie
+<<>>=
+#For reprodubility set the seed
+set.seed(899)
+SIR.Gillespie <- function(tmax,ic=c(S0,I0,R0),
+                              parms=c(R_0,gamma,mu,
+                                      alpha)){
+  with(
+       as.list(c(ic,parms)),
+       {
+  times <- 0
+  
+  #Initial Coniditions
+  S <- S0
+  I <- I0
+  R <- R0
+  
+  index <- 1
+  while(times[index] < tmax){
+    #A matrix of all rates
+    rates <- array(0,6)
+    #the first element is all birth rates
+    rates[1] <- mu*(S[index]+I[index]+R[index])
+    #thrid element are recovery rates
+    rates[3] <- gamma*I[index]
+    #last three element are death rates from S and I
+    rates[4] <- mu*S[index]
+    rates[5] <- mu*I[index]
+    rates[6] <- mu*R[index]
+    #Second element are transmission rates
+    beta <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*times[index]/365))  ##beta  
+    
+    rates[2] <- S[index]*beta*I[index]/(S[index]+I[index]+R[index])
+    totalrate <- sum(rates)
+    
+    #Getting a timestep using R's exp distribution
+    timestep <- rexp(n=1, rate= totalrate)
+    times <- rbind(times, times[index]+timestep)
+    
+    #Adding new element to S, I, R
+    S <- rbind(S, S[index])
+    I <- rbind(I, I[index])
+    R <- rbind(R, R[index])
+    
+    #Getting which compartment transistion occurred
+    #TO DO: Do a bisection search (or some other faster method) instead
+    #Get a random number from a uniform distribution
+    randomvar <- runif(n=1,min=0,max=totalrate)  
+    interval <- 1
+    #Adding 0 to list of rates
+    rateslisted <- c(0,rates)
+    #Find which interval randomval is in from list: 
+    #[0,a_1), [a_1, a_1+a_2), etc
+    #If in interval [a_1 + .. + a_(i-1), a_1 + ... + a_i), 
+    #transition given by rate a_i occurred
+    while(interval < (6*n)){
+      if(randomvar >= sum(rateslisted[1:interval]) & 
+         randomvar < sum(rateslisted[1:(interval+1)])){
+        break
+      }else{
+        interval<- interval+1
+      }
+    }
+    if(interval ==1){  ##A birth occurred
+      S[index+1] <- S[index]+1
+    }else if(interval ==2){  ##An infection occurred
+      S[index+1] <- S[index]-1
+      I[index+1] <- I[index]+1
+    }else if(interval ==3){  ##A recovery occurred
+      I[index+1] <- I[index]-1
+      R[index+1] <- R[index]+1
+    }else if(interval ==4){  ##A death in S occurred
+      S[index+1] <- S[index]-1
+    }else if(interval ==5){  ##A death in I occurred
+      I[index+1] <- I[index]-1
+    }else if(interval ==0){  ##A death in R occurred
+      R[index+1] <-  R[index]-1
+    }
+    
+    index <- index+1
+  }
+  return(cbind(times, S, I, R))
+       }
+  )
+}
+
+tmax <- 2000
+n <- 10
+
+#Parameters
+R_0 <- 36  ##basic reproduction rate (if the system had no forcing)
+gamma <- 1/13  ##inverse of mean infectious period
+mu <- 1/(50*365)  ##death and birth rate
+alpha <- 0.1  ##strength of seasonal forcing
+
+##Initial conditions
+#Want ICs near EE for stability. Find EE values:
+SEE <-1/R_0
+IEE <-(1 - 1/R_0)*mu/gamma
+REE <-1-SEE-IEE
+#Sample from initials conditions within +/-30% of EE values
+#convert from proportions to numbers and convert to integers
+#percent <- 0.3
+population <- 30000
+# possibleS0 <- seq(as.integer(population*SEE*(1-percent)), as.integer(population*SEE*(1+percent)),1)
+ # possibleI0 <- seq(as.integer(population*IEE*(1-percent)), as.integer(population*IEE*(1+percent)),1)
+# S0 <- sample(possibleS0, 1,replace=TRUE)
+# I0 <- sample(possibleI0, 1,replace=TRUE)
+S0 <- as.integer(SEE*population)
+I0 <- as.integer(IEE*population)+1
+ R0 <- population-S0-I0
+
+results <- SIR.Gillespie(tmax,ic=c(S0=S0,I0=I0,R0=R0),
+                             parms=c(R_0,gamma,mu,alpha))
+times<-results[,1]
+I <- results[,3]
+
+
+## draw box for plot
+  plot(0,0,xlim=c(0,tmax/365),ylim=c(0,60),xlab="Time (years)", 
+       ylab="Prevalence (I)")
+lines(times/365, I,col=2,lwd=1) # use a different line colour for each patch
+
+  ## Vector Field for SIR single patch Model
+SIR.vector.field <- function(t,vars,parms=NULL) {
+  ##parms should be of form (R_0,gamma,mu,alpha)
+  ##vars should be of form (S,I,R)
+  with(as.list(c(parms,vars)), {
+    S <- vars[1]
+    I <- vars[2]
+    R <- vars[3]
+    beta <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*t/365))  ##beta 
+    
+    dS <- mu*(1-S) - S*beta*I ##dS/dt
+    dI <- S*beta*I - (mu+gamma)*I  ## dI/dt
+    dR <- gamma*I -mu*R
+    
+    vec.fld <- c(dS=dS,dI=dI,dR=dR)
+    return(list(vec.fld))
+  })
+}
+
+## Draw Solutions and coherence measure
+draw.single.soln <- function(n,ic=c(x=1,y=0),tmax=1,
+                      times=seq(0,tmax,
+                                by=tmax/1000),
+                      func,parms,...) {
+  soln <- ode(ic,times,func,parms)
+  
+  #Plot I 
+  lines(times/365,soln[,'I']*population,col=4,lty=1,...)
+}
+
+
+
+## draw solutions
+draw.single.soln(n,ic=c(S=SEE,I=IEE,R=(1-SEE-IEE)),tmax=tmax,
+            func=SIR.vector.field,
+            parms=c(R_0,gamma,mu,alpha,population))
+
+@
 
 \end{document}
