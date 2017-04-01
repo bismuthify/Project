@@ -487,8 +487,7 @@ Making grids of coherence (needs runadaptau fct from previous chuck to run):
  gridsizem <- 10
  nsample <- 10
  mlist <- seq(0.001, 0.2, (0.2-0.001)/(gridsizem-1))
- submlistInd <- c(1,2,3,gridsizem) #indices of m values that will be plotted on 4 panel plot
- R_0list <- seq(2,25,(25-2)/(gridsizeR_0-1))
+ R_0list <- seq(2,30,(30-2)/(gridsizeR_0-1))
  
  #Parameters
 gamma <- 1/13  ##inverse of mean infectious period
@@ -542,12 +541,19 @@ for (R_0 in R_0list){
   index2<-index2+1
 }
  
+#3D plot
+#TO DO: a colour gradient would be nice
  persp( R_0list,mlist, t(avgCoherence), theta = 30, phi = 30, expand = 0.5, col = "lightblue",ltheta = 120, shade = 0.75, ticktype = "detailed",
       xlab = "$\\R_0$", ylab = "m", zlab = "Coherence")
         
  
- yminval<-min(avgCoherence)
- ymaxval<-max(avgCoherence)
+ 
+ ##Four panel plot
+ #get bifur data for backgrounds
+bfd <- read.table("bifurcation.dat", 
+                  col.names=c("time","S","I","R0","log10S","log10I"))
+bfd$I <- (1/max(bfd$I))*bfd$I
+ submlistInd <- c(1,2,3,gridsizem) #indices of m values that will be plotted on 4 panel plot
  par(mfrow=c(2,2))
  par(cex = 0.6)
 par(mar = c(0, 0, 0, 0), oma = c(4, 4, 0.5, 0.5))
@@ -555,18 +561,23 @@ par(tcl = -0.25)
 par(mgp = c(2, 0.6, 0))
  for(ind in 1:length(submlistInd)){
    
-   #legend("bottomleft",legend=paste0("m=",mlist[ind]),cex=0.5,bty="n",text.col=ind)
-   if (ind ==3){
-          plot(R_0list, avgCoherence[submlistInd[ind],],type='l',col=ind, ylim=c(yminval,ymaxval))}
-         #axis(1, col = "grey40", col.axis = "grey20")}
+   #Make an empty plot and gave it either x axis, yaxis, both or neither depending on which plot position it is
    if (ind ==1){
-          plot(R_0list, avgCoherence[submlistInd[ind],],type='l',col=ind, ylim=c(yminval,ymaxval),xaxt='n')}
-         #axis(1, col = "grey40", col.axis = "grey20")}
-     if (ind ==2){
-          plot(R_0list, avgCoherence[submlistInd[ind],],type='l',col=ind, ylim=c(yminval,ymaxval),xaxt='n',yaxt='n')}
-   if (ind ==4){
-          plot(R_0list, avgCoherence[submlistInd[ind],],type='l',col=ind, ylim=c(yminval,ymaxval),yaxt='n')}
-         #axis(2, col = "grey40", col.axis = "grey20")}
+          plot(0,0,xlim=c(R_0list[1],R_0list[gridsizeR_0]), 
+               ylim=c(0,1),type='n',xaxt='n')
+   }else if (ind ==2){
+          plot(0,0,xlim=c(R_0list[1],R_0list[gridsizeR_0]), 
+               ylim=c(0,1),type='n',xaxt='n',yaxt='n')
+   }else if (ind ==3){
+          plot(0,0,xlim=c(R_0list[1],R_0list[gridsizeR_0]), 
+               ylim=c(0,1),type='n')
+  }else if (ind ==4){
+          plot(0,0,xlim=c(R_0list[1],R_0list[gridsizeR_0]), 
+               ylim=c(0,1),type='n',yaxt='n')
+  }
+   #PLot the bifur background and then the coherence prob
+   points(bfd$R0,bfd$I, pch=20, col="grey90")
+   lines(R_0list, avgCoherence[submlistInd[ind],],col=ind)
      box(col = "grey60")
      mtext(paste0("m=",mlist[submlistInd[ind]]), side = 3, line = -2, adj = 0.1, cex = 0.6, col = "grey40")
  }
@@ -579,6 +590,13 @@ mtext("$\\R_0$", side = 1, outer = TRUE, cex = 0.7, line = 2.2,
 @
 
 
+
+*
+*
+*
+*
+
+Code beyond this point exists for testing purposes only
 *
 *
 *
