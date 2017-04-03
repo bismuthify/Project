@@ -1,9 +1,18 @@
 \documentclass[12pt]{article}
 
 \input  4mbapreamble
+\usepackage{float}
 \usepackage{listings}
 \usepackage{graphicx}
-\usepackage{subfigure}
+\usepackage{subfigure}\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\tikzset{
+  int/.style={circle, draw=black, fill=blue!20, minimum size=3em},
+  init/.style={pin distance=1.2cm,pin edge={loop,thin,black}}
+}
+\tikzstyle{arrow} = [thick,black,->,>=stealth]
+\tikzstyle{pinstyleto} = [pin edge={<-,thick,black}]
+\tikzstyle{pinstyleout} = [pin edge={->,thick,black}]
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows}
@@ -60,7 +69,7 @@
 \section{Background} 
 
 In recent years there has been an increased awareness of the threat posed by various high profile diseases, such as SARS, Ebola and Influenza \cite{Liu2009}. Long-term incidence records of such diseases exhibit recurrent epidemics illustrated by homogeneous and heterogeneous cycles. In the presence of control health care measures, such as vaccination, the peaks of these cycles do dampen out yet persist \cite{Lloyd1996}. Due to the complex set of social and biological structures involved in this interaction, mathematical models provide an excellent framework in which the eradication of long-term recurrence can be studied \cite{Sattenspiel2009}. \\
-To accomplish this goal, many mathematical models have been derived on the basis of the migration of an individual through the various stages of an epidemic, however these models have failed to illustrate the recurrent nature of these diseases (Lloyd et. al, 2004). One observable biological factor neglected by many of these models is the notion of spatial dynamics. Classically it has been assumed that susceptible and infectious individuals are distributed uniformly within a population. However, incidence records clearly show that this long-term recurrent behavior is sustained through through the spatial dynamics that facilitate the spread of disease between sub populations experiencing an outbreak and disease free sub populations. As a result, to model recurrent oscillations it is essential that the disease dynamics of a  population is represented by the set of interactions between local homogeneous populations \cite{Earn2000}.\\
+To accomplish this goal, many mathematical models have been derived on the basis of the migration of an individual through the various stages of an epidemic, however these models have failed to illustrate the recurrent nature of these diseases \cite{Lloyd2004}. One observable biological factor neglected by many of these models is the notion of spatial dynamics. Classically it has been assumed that susceptible and infectious individuals are distributed uniformly within a population. However, incidence records clearly show that this long-term recurrent behavior is sustained through through the spatial dynamics that facilitate the spread of disease between sub populations experiencing an outbreak and disease free sub populations. As a result, to model recurrent oscillations it is essential that the disease dynamics of a  population is represented by the set of interactions between local homogeneous populations \cite{Earn2000}.\\
 In order to account for spatial heterogeneity, this study considers a metapopulation model, where a population is divided into several discrete sub classes, called patches, each exhibiting a well dispersed population. The population representing a patch is modeled by the susceptible, infectious and removed (SIR) model where each individual belongs to either the susceptible, infectious, or removed class. The state of the system changes according to the rates that allow an individual to migrate between classes. In addition to this, this study makes use of sinusoidal seasonal forcing on the transmission rate, in order to accurately depict the observed variation in the number of individuals that enter the infectious class on an annual basis based on various social parameters. The SIR model exhibits two equilibrium points whose stability is determined by the basic reproduction number $\R_0$. If  $\R_0 > 1$, the system approaches an endemic equilibrium via damped oscillations \cite{Lloyd1996}. Otherwise, the system approaches a disease free equilibrium. The aim of this study is to analyze the dynamics of this model overtime, in order to determine which parameter values lead the synchronization of all patches, thereby generating a disease free state exhibited by the entire population. \\
 
 \section{Methods}
@@ -83,7 +92,7 @@ The equations describing the dynamics in a single patch are
   \frac{dI_i}{dt} &= S_i\sum\limits_{j=1}^{n}\beta_{ij}(t) I_j -\gamma I_i - \mu I_i \\
   \frac{dR_i}{dt} &= \gamma I_i -\mu R_i      \numberthis \label{model}
 \end{align*}
-where $S$ is the proportion of the population that is susceptible to infection, $I$ is the proportion of the population that is infectious, and $R$ is the proportion of the population that has recovered from the disease (and  have lifelong immunity) or who have died as a result of the disease. $\mu$ is the birth/death rate, $\gamma$ is the recovery rate, and $\beta_{ij}(t)$ are the elements of the $nxn$ matrix $\beta(t)$:
+where $S$ is the proportion of the population that is susceptible to infection, $I$ is the proportion of the population that is infectious, and $R$ is the proportion of the population that has recovered from the disease (and  have lifelong immunity) or who have died as a result of the disease. $\mu$ is the birth/death rate, $\gamma$ is the recovery rate, and $\beta_{ij}(t)$ are the elements of the $n\times n$ matrix $\beta(t)$:
 \begin{equation}
   \beta(t) = \left < \beta \right > (1+\alpha \cos(2\pi t))M
 \end{equation}
@@ -113,9 +122,9 @@ M =
 
 
 \section{Results}
-Solutions to \eqref{model} were calculated using the \Rlogo deSolve package. The following figures are the solutions for $n=10$, a 50 year life expectancy, a 13 day mean infectious period, nearest neighbor coupling, and seasonal forcing amplitude $\alpha = 0.1$. The initial conditions used were values within $\pm30\%$ of the $(S,I,R)$ values at the endemic equlibrium of the unforced single patch SIR model. Figure \ref{fig:detplotsm} shows the affect of the strength of connectivity, $m$. At low enough $m$ the solutions do not become coherent.
+Solutions to \eqref{model} were calculated using the \Rlogo \verb|deSolve| package. The following figures are the solutions for $n=10$, a 50 year life expectancy, a 13 day mean infectious period, nearest neighbor coupling, and seasonal forcing amplitude $\alpha = 0.1$. The initial conditions used were values within $\pm30\%$ of the $(S,I,R)$ values at the endemic equlibrium of the unforced single patch SIR model. Figure \ref{fig:detplotsm} shows the affect of the strength of connectivity, $m$. At low enough $m$ the solutions do not become coherent.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \caption{$\R_0=17$}
     \label{fig:detplotsm}
     \centering
@@ -128,8 +137,8 @@ Solutions to \eqref{model} were calculated using the \Rlogo deSolve package. The
         \includegraphics[width=3.0in]{{images/detNNR017m0.01}.pdf}
     }
 \end{figure}
-Figure \ref{fig:detplotsC} shows the differene between equal coupling and nearest neighbor coupling. It takes longer for solutions to become coherent when using nearest neighbor coupling.
-\begin{figure}[h]
+Figure \ref{fig:detplotsC} shows the difference between equal coupling and nearest neighbor coupling. It takes longer for solutions to become coherent when using nearest neighbor coupling.
+\begin{figure}[H]
     \caption{$\R_0=17$ and $m=0.2$}
     \label{fig:detplotsC}
     \centering
@@ -142,8 +151,8 @@ Figure \ref{fig:detplotsC} shows the differene between equal coupling and neares
         \includegraphics[width=3.0in]{{images/detNNR017m0.2}.pdf}
     }
 \end{figure}
- Figure \ref{fig:detplotsR0} shows the affect $R_0$ has on the period of oscillations and nature of the cycles.
-\begin{figure}[h]
+ Figure \ref{fig:detplotsR0} shows the effect $\R_0$ has on the period of oscillations and nature of the cycles.
+\begin{figure}[H]
     \caption{$m=0.2$}
     \label{fig:detplotsR0}
     \centering
@@ -161,15 +170,15 @@ Figure \ref{fig:detplotsC} shows the differene between equal coupling and neares
     }
 \end{figure}
 
-A stochastic version of this model was simulated exactly using the Gillespie algorithm with the same parameters and similar initial conditions used for the deterministic solution. The population size per patch was 3000. Equal coupling and $R_0=17$ and $m=0.5$ were used. See Figure \ref{fig:Gillplot}.
-\begin{figure}[h]
+A stochastic version of this model was simulated exactly using the Gillespie algorithm with the same parameters and similar initial conditions used for the deterministic solution. The population size per patch was $\Sexpr(-change-)3000$. Equal coupling and $R_0=17$ and $m=0.5$ were used. See Figure \ref{fig:Gillplot}.
+\begin{figure}[H]
     \caption{An exact stochastic simulation using the Gillespie algorithm.}
     \label{fig:Gillplot}
     \centering
     \includegraphics[width=5.0in]{{images/GillECR017m0.2}.pdf}
 \end{figure}
-For larger population sizes, approximate stochastic simulations (using the \Rlogo adaptivetau package) were used. See Figure \ref{fig:adapplot} for a simulation with population of 100000.
-\begin{figure}[h]
+For larger population sizes, approximate stochastic simulations (using the \Rlogo \verb|adaptivetau| package) were used. See Figure \ref{fig:adapplot} for a simulation with population of 100000.
+\begin{figure}[H]
     \caption{An approximate stochastic simulation using the adaptive tau-leaping method}
     \label{fig:adapplot}
     \centering
@@ -177,77 +186,21 @@ For larger population sizes, approximate stochastic simulations (using the \Rlog
 \end{figure}
 
 A bifurcation diagram was created using \verb|XPPAUT|.
-%\lstinputlisting{bifurcation.ode}
 This produces a bifurcation diagram which shows the periodic recurrence patterns for the simulated deterministic model of the epidemic pattern. As shown in Figure \ref{fig:bifurcation}, there is a single period 1 orbit for $\{5<\R_0\}\cap\{\R_0>27\}$ as well as a single period 2 orbit for $15<\R_0<25$ and mixed dynamics elsewhere.
-\begin{figure}[h]
+\begin{figure}[H]
     \caption{A bifurcation diagram for the single patch sinusoidal forced SIR model.}
     \label{fig:bifurcation}
     \centering
     \includegraphics[width=5.0in]{{images/bifurcation}.pdf}
 \end{figure}
-<<bifurcation,fig.height=4,echo=FALSE,eval=FALSE>>=
-## system("xpp bifurcation.ode -silent")
-## can be generated within R, but takes awhile
-## outputted data file included
-#library("tikzDevice")
-
-bfd <- read.table("bifurcation.dat", 
-                  col.names=c("time","S","I","R0","log10S","log10I"))
-
-## plot bifurcation
-#tikz("bifurcation.tex",standAlone=TRUE,width=6,height=6)
-plot(bfd$R0,bfd$I, xlab="$\\R_0$",ylab="Prevalence (I)",pch=20, col="black")
-#dev.off()
-#tools::texi2dvi('bifurcation.tex',pdf=T)
-@
 Further analysis of the bifurcation diagram reveal the period compositional structure. See Figure \ref{fig:period}.
-\begin{figure}[h]
+\begin{figure}[H]
     \caption{The periods of the single patch sinusoidal forced SIR model vs parameter $\R_0$.}
     \label{fig:period}
     \centering
     \includegraphics[width=5.0in]{{images/period}.pdf}
 \end{figure}
 
-<<periodplot,fig.height=4,echo=FALSE,eval=FALSE>>=
-last.point.with.period <- function(df, dop=5, 
-                                   R0lim=4, max.period=12) { 
-  ## data frame with only the last pt on each soln: 
-  df.last <- subset(df, time==max(time)) 
-  nR0 <- nrow(df.last) 
-  # number of R0 values 
-  df.last$period <- rep(0,nR0) 
-  # add period column 
-  for (i in 1:nR0) { 
-    ## data frame with all pts on soln with given R0: 
-    R0i <- df.last[i,"R0"] 
-    df.R0i <- subset(df,R0==R0i) 
-    ## compute period of this solution: 
-    if (R0i < R0lim) { 
-      period <- 1 
-    } 
-    else { 
-      period <- length(unique(round(df.R0i[,"log10I"],dop))) 
-      if (period > max.period) period <- NA 
-    }
-    df.last$period[i] <- period 
-  } 
-  return(df.last) 
-}
-
-plot.period.of.R0 <- function(df, R0lim=1, ...) { 
-  with(df,{ 
-    period[which(R0 < R0lim)] <- 1 
-    plot(R0,period,pch=".",col=period,cex=period, 
-         xlab=expression(R[0]), 
-         ylab="Period [yr]", 
-         cex.axis=1.3, cex.lab=1.5, las=1,
-         ...)
-  })
-}
-
-bfd.last <- last.point.with.period(bfd) 
-plot.period.of.R0(bfd.last)
-@
 \section{Discussion} 
 
 \section{Conclusion}

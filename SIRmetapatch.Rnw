@@ -97,7 +97,6 @@ R0 <- 1-S0-I0
 tmax<-10000
 
 #### Plotting lots of solutions to pdf ####
-
 tikz("detNNR017m0.2.tex",standAlone=TRUE,width=6,height=6)
 ## draw box for plot
 plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.004),type="n",xlab="Time (years)",
@@ -292,7 +291,7 @@ REE <-1-SEE-IEE
 #Sample from initials conditions within +/-30% of EE values
 #convert from proportions to numbers and convert to integers
 percent <- 0.1
-population <- 5000
+population <- 100000
  possibleS0 <- seq(as.integer(population*SEE*(1-percent)), as.integer(population*SEE*(1+percent)),1)
   possibleI0 <- seq(as.integer(population*IEE*(1-percent)), as.integer(population*IEE*(1+percent)),1)
  S0 <- sample(possibleS0, n,replace=TRUE)
@@ -304,6 +303,11 @@ results <- SIRmeta.Gillespie(tmax,ic=c(S0,I0,R0),
 times<-results[,1]
 I <- results[,(n+2):(2*n+2)]
 
+write.table(results,file="GillECR017m0.2.pdf")
+pdf(file="images/GillECR017m0.2.pdf")
+copy <- dev.cur()
+png(file="images/GillECR017m0.2.png")
+dev.control("enable")
 
 ## draw box for plot
   plot(0,0,xlim=c(0,tmax/365),ylim=c(0,population*IEE*2),xlab="Time (years)", 
@@ -314,8 +318,10 @@ for (i in 1:n) {
   #Make legend
 
   legend("topright",legend=1:n,title="Patch",col=1:n,lty=1,cex=0.5)
- 
-
+  
+dev.copy(which=copy)
+dev.off
+dev.off
 
 @
 *
@@ -443,7 +449,9 @@ run <- runadaptau(tmax,init.values,params)
 simResults <- run$sim
 coherence <- run$coherence
 
-  
+write.table(run,file="Gill.csv")
+pdf(file="C:/../images/Gill.pdf")
+
 ## draw box for plot
   par(mar = c(5,5,2,5))
   plot(0,0,xlim=c(0,tmax/365),ylim=c(0,population*IEE*2),xlab="Time (years)", 
@@ -471,7 +479,7 @@ for (i in 1:n) {
   legend("topright",legend=1:n,title="Patch",col=1:n,lty=1,lwd=0.2,cex=0.5)
  legend(x=2,y=20, legend=expression("||"~italic(I)~"-<"~italic(I)~">"~italic(e)~"||"),bg="white",bty='n',col=1, text.font=3)
  #TO DO: fix this ugly expression
- 
+ dev.off()
  
 @
 
@@ -482,9 +490,9 @@ for (i in 1:n) {
 Making grids of coherence (needs runadaptau fct from previous chuck to run):
 <<>>=
  #The value at which things are considered coherent
- threshold <- 0.5
- gridsizeR_0 <- 30
- gridsizem <- 10
+ threshold <- 0.2
+ gridsizeR_0 <- 100
+ gridsizem <- 50
  nsample <- 10
  mlist <- seq(0.001, 0.2, (0.2-0.001)/(gridsizem-1))
  R_0list <- seq(2,30,(30-2)/(gridsizeR_0-1))
@@ -498,7 +506,7 @@ EC <- TRUE ##if true use equal coupling, if false use nearest neighbors
 
 ##Params for Initial conditions
  percent <- 0.1
- population <- 200000
+ population <- 250000
 
 
 tmax <- 1000
@@ -540,7 +548,11 @@ for (R_0 in R_0list){
   }
   index2<-index2+1
 }
- 
+
+Adaptau3D <- cbind.data.frame(R_0list,mlist,avgCoherence)
+write.table(Adaptau3D,file="Adaptau3DEC.csv")
+
+pdf(file="images/Adaptau3DEC.pdf")
 #3D plot
 nbcol <- 100
 #You can change start and end to get different parts of the rainbow
@@ -548,9 +560,10 @@ color <- rev(rainbow(nbcol, start = 3.5/6, end = 5.5/6))
 #color <- rev(heat.colors(nbcol))  
 zcol  <- cut(t(avgCoherence), nbcol)
  persp( R_0list,mlist, t(avgCoherence), theta = 30, phi = 30, expand = 0.5, col = color[zcol],ltheta = 120, shade = 0.75, ticktype = "detailed",
-      xlab = "$\\R_0$", ylab = "m", zlab = "Coherence")
+      xlab = "R0", ylab = "m", zlab = "Coherence")
+ dev.off()
         
- 
+ pdf(file="images/FourPanelEC.pdf")
  ##Four panel plot
  #get bifur data for backgrounds
 bfd <- read.table("bifurcation.dat", 
@@ -578,17 +591,17 @@ par(mgp = c(2, 0.6, 0))
           plot(0,0,xlim=c(R_0list[1],R_0list[gridsizeR_0]), 
                ylim=c(0,1),type='n',yaxt='n')
   }
-   #PLot the bifur background and then the coherence prob
+   #Plot the bifur background and then the coherence prob
    points(bfd$R0,bfd$I, pch=20, col="grey90")
    lines(R_0list, avgCoherence[submlistInd[ind],],col=ind)
      box(col = "grey60")
      mtext(paste0("m=",mlist[submlistInd[ind]]), side = 3, line = -2, adj = 0.1, cex = 0.6, col = "grey40")
  }
-mtext("$\\R_0$", side = 1, outer = TRUE, cex = 0.7, line = 2.2,
+mtext("R0", side = 1, outer = TRUE, cex = 0.7, line = 2.2,
      col = "grey20")
  mtext("Coherence", side = 2, outer = TRUE, cex = 0.7, line = 2.2,
      col = "grey20")
-#xlab = "$\\R_0$", ylab = "Coherence",
+dev.off()
  
 @
 
