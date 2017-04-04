@@ -16,7 +16,7 @@
 \tikzstyle{pinstyleto} = [pin edge={<-,thick,black}]
 \tikzstyle{pinstyleout} = [pin edge={->,thick,black}]
 
-\title{Mathematics 4MB3/6MB3\\~~~Mathematical Biology~~~\bigskip Spatial epidemics dynamics: Synchronization}
+\title{Mathematics 4MB3/6MB3\\~~~Mathematical Biology~~~\\ \bigskip Spatial epidemics dynamics:\\ Synchronization}
 \author{Model Students: Nicole Dumont, Melody Fong, Carolina Weishaar}
 \date{\today}
 
@@ -26,9 +26,9 @@
 
 \section{Background}
 
-\frame{
-  [Text]
-}
+\begin{frame}
+\frametitle{Synchronization}
+\end{frame}
 
 \frame{
   [Text]
