@@ -384,13 +384,13 @@ Approximate stochastic simulations using the adaptivetau package.
     #Equal Coupling
     if(EC==TRUE){
       M <- matrix(m/(n-1),n,n)+(1-m*(1+1/(n-1)))*diag(n)  ##connectivity matrix
-      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*time/365))*M  ##beta matrix 
+      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*time))*M  ##beta matrix 
     }else{
       #Nearest Neighbors
       M <- (1-m)*diag(n)
       M[row(M)%%n==(col(M)+1)%%n ] <- m/2
       M[row(M)%%n==(col(M)-1)%%n] <- m/2
-      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*time/365))*M  ##beta matrix 
+      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*time))*M  ##beta matrix 
     }
     rates[,2] <- S*colSums(t(betam[1:n,])*I)/(S+I+R)
     
@@ -418,12 +418,12 @@ Approximate stochastic simulations using the adaptivetau package.
   }
   
 #Parameters
-R_0 <- 23.21   ##basic reproduction rate (if the system had no forcing)
+R_0 <- 25   ##basic reproduction rate (if the system had no forcing)
 gamma <- 365/13  ##inverse of mean infectious period
 mu <- 1/50  ##death and birth rate
 alpha <- 0.1  ##strength of seasonal forcing
 n <- 10  ## Number of patches
-m <- 0.1025  ##Connectivity matrix parameter
+m <- 0.2  ##Connectivity matrix parameter
 EC <- TRUE ##if true use equal coupling, if false use nearest neighbors
 params<-c(R_0,gamma,mu,alpha,m,EC)
   
@@ -434,7 +434,7 @@ params<-c(R_0,gamma,mu,alpha,m,EC)
  REE <-1-SEE-IEE
  #Sample ics from points +/-10% from the EE values
  percent <- 0.1
- population <- 500000
+ population <- 1000000
  possibleS0 <- seq(as.integer(population*SEE*(1-percent)), as.integer(population*SEE*(1+percent)),1)
   possibleI0 <- seq(as.integer(population*IEE*(1-percent)), as.integer(population*IEE*(1+percent)),1)
  S0 <- sample(possibleS0, n,replace=TRUE)
@@ -442,7 +442,7 @@ params<-c(R_0,gamma,mu,alpha,m,EC)
  R0 <- population-S0-I0
 init.values <- c(S=S0,I=I0,R=R0)
 
-tmax <- 10
+tmax <- 15
   
 run <- runadaptau(tmax,init.values,params)
     
@@ -450,14 +450,14 @@ simResults <- run$sim
 coherence <- run$coherence
 
 ##Saving the data and the print plot to pdf
-write.table(run,file="adaptauECtests.csv")
-pdf(file="images/adaptauECtests.pdf")
+write.table(run,file="adaptauECR025m0.02s.csv")
+pdf(file="images/adaptauECR025m0.02s.pdf")
 
 ## draw box for plot
 #leave room on right margin for Coherence label
   par(mar = c(5,5,2,5))
 #Solutions should ocsillate around IEE so ylim should go to around twice that so solns are in the middle of plot
-  plot(0,0,xlim=c(0,tmax),ylim=c(0,population*IEE*2.5),xlab="Time (years)", 
+  plot(0,0,xlim=c(0,tmax),ylim=c(0,population*IEE*3),xlab="Time (years)", 
        ylab="Prevalence (I)")
   ##plot I_i for each patch
   j<-1:n 
