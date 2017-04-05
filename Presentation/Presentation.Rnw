@@ -37,11 +37,24 @@
 \end{frame}
 
   \section{Introduction}
-  \begin{frame}{Diseases are fun}
-    Text goes here
+  \begin{frame}{Synchrony of measles epidemics}
+     \centering \includegraphics[width=0.7\linewidth]{{images/MeaslesCaption}.png}
   \end{frame}
+  \begin{frame}
+  \begin{itemize}
+  \pause\item 
+  \pause\item
+  \end{itemize}
+  \end{frame}
+  \begin{frame}
   \begin{frame}{Diseases are cool}
-    Text goes here
+    \centering \includegraphics[width=0.7\linewidth]{{images/MeaslesCaption}.png}
+  \end{frame}
+  \begin{frame}
+  \begin{itemize}
+  \pause\item
+  \pause\item
+  \end{itemize}
   \end{frame}
   
   \section{Methods}
@@ -125,10 +138,6 @@ M =
 \]
 \end{alertblock}
   \end{frame}
-  
-  \begin{frame}{Adaptive Tau Algorthim}
-   
-   \end{frame}
   
   \section{Results}
   
@@ -229,9 +238,13 @@ M =
    \end{frame}
    
    \begin{frame}{Stochastic: Gillespie Model}
-   Equal Coupling, Population of , $\mathcal{R}_0=17$, $m=0.2$ 
+   Equal Coupling, Population of 100,000, $\mathcal{R}_0=17$, $m=0.2$ 
    \centering \includegraphics[width=0.6\linewidth]{{images/GillECR017m0.2}.pdf}\\
    \centering \alert{3 hour run time!}
+   \end{frame}
+   
+     \begin{frame}{Adaptive Tau Algorthim}
+   
    \end{frame}
    
    \begin{frame}{Stochastic: Adaptive Tau Algorthim}
@@ -261,16 +274,21 @@ M =
    
    \begin{frame}{Coherence dependence on Parameters}
    Nearest Neighbour Coupling, Population of 250,000, 5 simulations per grid point
-   \centering \includegraphics[width=0.7\linewidth]{{images/FourPanelNN}.pdf}
+   \centering \includegraphics[height=6cm,width=0.7\linewidth]{{images/FourPanelNN}.png}
    \end{frame}
    
 \section{Conclusion}
-\begin{frame}{We all learned some things}
+\begin{frame}
+  \begin{itemize}
+    \pause\item Importance of synchronization
+    \pause\item Coherence dependence on parameters
+    \pause\item Further study
+  \end{itemize}
    \end{frame}
    
 \begin{frame}[allowframebreaks]{References}
 
-  \bibliography{demo}
+  \bibliography{ModelStudents}
   \bibliographystyle{abbrv}
 
 \end{frame}
