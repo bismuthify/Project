@@ -107,15 +107,17 @@
     \draw [arrow] (b) -- node[anchor=south] {$\gamma$} (c);
 \end{tikzpicture}
 \begin{align*}
-  \frac{dS}{dt} &= \mu -\beta(t) S I -\mu S \\ 
-  \frac{dI}{dt} &= \beta(t) S I -\gamma I - \mu I \\
+  \frac{dS}{dt} &= \mu -\textcolor{orange}{\beta(t)} S I -\mu S \\ 
+  \frac{dI}{dt} &= \textcolor{orange}{\beta(t)} S I -\gamma I - \mu I \\
   \frac{dR}{dt} &= \gamma I -\mu R
 \end{align*}
 
+\begin{alertblock}{
 \begin{align*}
   \beta(t) &= \left < \beta \right > (1+\alpha \cos(2\pi t)) \\
   \left < \beta \right > &= \mathcal{R}_0 (\mu + \gamma)
 \end{align*}
+}\end{alertblock}
 \end{center}
    \end{frame}
   
@@ -141,8 +143,8 @@
     \begin{equation*}
   \beta(t) = \left < \beta \right > (1+\alpha \cos(2\pi t))M
 \end{equation*}
-
-Equal Coupling Matrix:
+\metroset{block=fill}
+\begin{alertblock}{Equal Coupling Matrix}
   \[
 M =
 \begin{bmatrix}
@@ -152,14 +154,15 @@ M =
   \vdots &  &  & \ddots 
 \end{bmatrix}
 \]
-
+\end{alertblock}
   \end{frame}
   
   \begin{frame}{Beta Matrix}
     \begin{equation*}
   \beta(t) = \left < \beta \right > (1+\alpha \cos(2\pi t))M
 \end{equation*}
-Nearest Neighbour Matrix:
+\metroset{block=fill}
+\begin{alertblock}{Nearest Neighbour Matrix}
   \[
 M =
 \begin{bmatrix}
@@ -171,7 +174,12 @@ M =
   \frac{m}{2} &  & & \dots & \frac{m}{2} & 1-m \ 
 \end{bmatrix}
 \]
+\end{alertblock}
   \end{frame}
+  
+  \begin{frame}{Adaptive Tau Algorthim}
+   
+   \end{frame}
   
   \section{Results}
   
@@ -186,34 +194,80 @@ M =
    \end{frame}
 
    \begin{frame}{Deterministic Model}
-   Nearest Neighbour Coupling, $\mathcal{R}_0=17$, $m=0.2$
-   \centering \includegraphics[width=0.7\linewidth]{{images/detNNR017m0.2}.pdf}
-   \end{frame}
-   
-   \begin{frame}{Deterministic Model}
    Equal Coupling, $\mathcal{R}_0=17$, $m=0.2$
    \centering \includegraphics[width=0.7\linewidth]{{images/detECR017m0.2}.pdf}
    \end{frame}
    
+   \begin{frame}{Deterministic Model: EC vs NN}
+   \begin{centering}
+   $\mathcal{R}_0=17$, $m=0.2$
+     \begin{columns}[T,onlytextwidth]
+      \begin{column}{0.5\textwidth}
+      \scalebox{0.8}{\parbox{.5\linewidth}{%
+       \includegraphics[width=2.2\linewidth]{{images/detNNR017m0.2s}.pdf} \\
+       \metroset{block=fill}
+      \begin{block}{Nearest Neighbour Coupling}
+      \end{block}
+      
+      }}
+     \end{column}
+    \begin{column}{0.5\textwidth}
+    \scalebox{0.8}{\parbox{.5\linewidth}{%
+       \includegraphics[width=2.2\linewidth]{{images/detECR017m0.2s}.pdf} \\
+       \metroset{block=fill}
+       \begin{block}{Equal Coupling}
+      \end{block}
+      }}
+    \end{column}
+    \end{columns}
+    \end{centering}
+   \end{frame}
+   
    \begin{frame}{Deterministic Model}
+    \begin{centering}
    Nearest Neighbour Coupling, $\mathcal{R}_0=17$, $m=0.01$
-   \centering \includegraphics[width=0.7\linewidth]{{images/detNNR017m0.01}.pdf}
+     \begin{columns}[T,onlytextwidth]
+      \begin{column}{0.5\textwidth}
+      \scalebox{0.8}{\parbox{.5\linewidth}{%
+       \includegraphics[width=2.2\linewidth]{{images/detNNR017m0.01}.pdf} \\
+        
+      \metroset{block=fill}
+      \begin{alertblock}{Initial Conditions}
+        Within 30\% percent of endemic equilibrium
+      \end{alertblock}
+      }}
+     \end{column}
+    \begin{column}{0.5\textwidth}
+    \scalebox{0.8}{\parbox{.5\linewidth}{%
+       \includegraphics[width=2.2\linewidth]{{images/detNNR017m0.01wider}.pdf} \\
+       \metroset{block=fill}
+      \begin{alertblock}{Initial Conditions}
+        Within 40\% percent of endemic equilibrium
+      \end{alertblock}
+      }}
+    \end{column}
+    \end{columns}
+    \end{centering}
    \end{frame}
    
    \begin{frame}{Deterministic Model}
    \begin{centering}
    Nearest Neighbour Coupling, $m=0.2$
-     \begin{columns}
+     \begin{columns}[T,onlytextwidth]
       \begin{column}{0.5\textwidth}
       \scalebox{0.8}{\parbox{.5\linewidth}{%
-       \includegraphics[width=2.2\linewidth]{{images/detNNR06m0.2}.pdf} \\
-      $\mathcal{R}_0=6$
+       \includegraphics[width=2.2\linewidth]{{images/detNNR010m0.2}.pdf} \\
+       \metroset{block=fill} \begin{block}{$\mathcal{R}_0=10$}
+      \end{block}
+      
       }}
      \end{column}
     \begin{column}{0.5\textwidth}
     \scalebox{0.8}{\parbox{.5\linewidth}{%
        \includegraphics[width=2.2\linewidth]{{images/detNNR025m0.2}.pdf} \\
-       $\mathcal{R}_0=25$
+       \metroset{block=fill} \begin{block}{$\mathcal{R}_0=25$}
+      \end{block}
+       
       }}
     \end{column}
     \end{columns}
@@ -226,17 +280,51 @@ M =
    \end{frame}
    
    \begin{frame}{Stochastic: Gillespie Model}
-   Equal Coupling, Population of , $\mathcal{R}_0=17$, $m=0.2$
-   \centering \includegraphics[width=0.7\linewidth]{{images/GillECR017m0.2}.pdf}
+   Equal Coupling, Population of , $\mathcal{R}_0=17$, $m=0.2$ 
+   \centering \includegraphics[width=0.6\linewidth]{{images/GillECR017m0.2}.pdf}\\
+   \centering \alert{3 hour run time!}
    \end{frame}
    
    \begin{frame}{Stochastic: Adaptive Tau Algorthim}
-   Equal Coupling, Population of 500000, $\mathcal{R}_0=18.69$, $m=0.2$
-   \centering \includegraphics[width=0.7\linewidth]{{images/adaptauECR018.6869m0.2}.pdf}
+   Equal Coupling, Population of 500,000, $\mathcal{R}_0=17$, $m=0.2$
+   \centering \includegraphics[width=0.7\linewidth]{{images/adaptauECR017m0.2}.pdf}
+   \end{frame}
+   
+   \begin{frame}{Stochastic: Adaptive Tau Algorthim}
+   Equal Coupling, Population of 500,000, $\mathcal{R}_0=17$, $m=0.01$
+   \centering \includegraphics[width=0.7\linewidth]{{images/adaptauECR017m0.01}.pdf}
+   \end{frame}
+   
+   \begin{frame}{Stochastic: Adaptive Tau Algorthim}
+   Equal Coupling, Population of 500,000, $\mathcal{R}_0=25$, $m=0.2$
+   \centering \includegraphics[width=0.7\linewidth]{{images/adaptauECR025m0.2}.pdf}
    \end{frame}
    
    \begin{frame}{Coherence dependence on Parameters}
+   Equal Coupling, Population of 250,000,\\ $80 \times 80$ grid, 5 simulations per grid point
+   \centering \includegraphics[width=0.7\linewidth]{{images/Adaptau3DEC}.pdf}
    \end{frame}
+   
+   \begin{frame}{Coherence dependence on Parameters}
+   Nearest Neighbour Coupling, Population of 250,000,\\ $80 \times 80$ grid, 5 simulations per grid point
+   \centering \includegraphics[width=0.7\linewidth]{{images/Adaptau3DNN}.pdf}
+   \end{frame}
+   
+   \begin{frame}{Coherence dependence on Parameters}
+   Nearest Neighbour Coupling, Population of 250,000, 5 simulations per grid point
+   \centering \includegraphics[width=0.7\linewidth]{{images/FourPanelNN}.pdf}
+   \end{frame}
+   
+\section{Conclusion}
+\begin{frame}{We all learned some things}
+   \end{frame}
+   
+\begin{frame}[allowframebreaks]{References}
+
+  \bibliography{demo}
+  \bibliographystyle{abbrv}
+
+\end{frame}
    
 \begin{frame}[standout]
   Questions?
@@ -245,11 +333,6 @@ M =
 \appendix
 
 
-\begin{frame}[allowframebreaks]{References}
 
-  \bibliography{demo}
-  \bibliographystyle{abbrv}
-
-\end{frame}
    
 \end{document}
