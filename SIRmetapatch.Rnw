@@ -20,14 +20,14 @@ SIRmeta.vector.field <- function(t,vars,parms=NULL) {
     #Equal Coupling
     if(EC==TRUE){
       M <- matrix(m/(n-1),n,n)+(1-m*(1+1/(n-1)))*diag(n)   ##connectivity matrix
-      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*t/365))*M  ##beta matrix
+      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*t))*M  ##beta matrix
       #factor of (1/(1+(n-1)*m)) for normalizing row sums of M
     }else{
       #Nearest Neighbors
       M <- (1-m)*diag(n)
       M[row(M)%%n==(col(M)+1)%%n ] <- m/2
       M[row(M)%%n==(col(M)-1)%%n] <- m/2
-      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*t/365))*M  ##beta matrix
+      betam <- R_0*(gamma+mu)*(1+alpha*cos(2*pi*t))*M  ##beta matrix
       #factor of (1/(1+2*m)) for normalizing row sums of M
     }
     
@@ -53,27 +53,42 @@ draw.soln <- function(n,ic=c(x=rep(1,10),y=rep(0,10)),tmax=1,
   
   #Plot I for all patches with different colours and lty
   for (i in 1:n){
-    lines(times/365,soln[,paste0('I',i)],col=i,lty=i,...)
+    lines(times,soln[,paste0('I',i)],col=i,lty=i,...)
   }
   
   #Measure of coherence
-  coherence <- lapply(1:length(times), 
-                      function(tims) sqrt(sum((soln[tims,paste0('I',1:n)]-mean(soln[tims,paste0('I',1:n)])*rep(1,n))^2)) )
+ # coherence <- lapply(1:length(times), 
+#                      function(tims) sqrt(sum((soln[tims,paste0('I',1:n)]-mean(soln[tims,paste0('I',1:n)])*rep(1,n))^2)) )
   
-  lines(times/365,coherence,lwd=2,...)
+   #Measure of coherence: the coefficient of variation/relative standard deviation of all the patches at each time step
+  coherence <- rep(0,length(times))
+  for(tims in 1:length(times)){
+    coherence[tims]<- sd(soln[tims,paste0('I',1:n)])/mean(soln[tims,paste0('I',1:n)])
+    if(is.nan(coherence[tims])){
+      coherence[tims]<- 0
+    }
+  }
+  
+  #Plot coherence 
+  par(new = T)
+  plot(times,coherence,type='l',axes=F,xlab=NA, ylab=NA,ylim=c(0,1),lwd=2)
+  #lines(simResults[,1],coherence)
+  axis(side=4)
+  mtext(side = 4, line = 3, 'Coherence')
+  
   
   labels <- c(1:n)
   for(i in 1:n){
     labels[i]<-paste('$I_{',i,'}$',collapse=NULL)
   }
   legend("topright",legend=labels,col=1:n,lty=1,bty='n')
-  legend(x=22,y=0.0005, legend="$\\| I - \\langle I \\rangle  e \\|$",bg="white",col=1,lwd=2)
+ # legend("bottomright", legend="Relative Standard Deviation",bg="white",col=1,lwd=2)
 }
 
 #Parameters
 R_0 <- 17   ##basic reproduction rate (if the system had no forcing)
-gamma <- 1/13  ##inverse of mean infectious period
-mu <- 1/(50*365)  ##death and birth rate
+gamma <- 365/13  ##inverse of mean infectious period
+mu <- 1/50  ##death and birth rate
 alpha <- 0.1  ##strength of seasonal forcing
 n <- 10  ## Number of patches
 m <- 0.2  ##Connectivity matrix parameter
@@ -94,13 +109,16 @@ S0 <- sample(possibleS0,n,replace=TRUE)
 I0 <- sample(possibleI0,n,replace=TRUE)
 R0 <- 1-S0-I0
 
-tmax<-10000
+tmax<-10
 
 #### Plotting lots of solutions to pdf ####
 tikz("detNNR017m0.2.tex",standAlone=TRUE,width=6,height=6)
 ## draw box for plot
-plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.004),type="n",xlab="Time (years)",
+#leave room on right margin for Coherence label
+  par(mar = c(5,5,2,5))
+plot(0,0,xlim=c(0,tmax),ylim=c(0,0.004),type="n",xlab="Time (years)",
      ylab="Prevalence (I)",las=1)
+
 
 ## draw solutions
 draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
@@ -112,7 +130,9 @@ tools::texi2dvi('detNNR017m0.2.tex',pdf=T)
 tikz("detECR017m0.2.tex",standAlone=TRUE,width=6,height=6)
 EC <- TRUE
 ## draw box for plot
-plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.004),type="n",xlab="Time (years)",
+#leave room on right margin for Coherence label
+  par(mar = c(5,5,2,5))
+plot(0,0,xlim=c(0,tmax),ylim=c(0,0.004),type="n",xlab="Time (years)",
      ylab="Prevalence (I)",las=1)
 
 ## draw solutions
@@ -126,7 +146,7 @@ tikz("detNNR017m0.01.tex",standAlone=TRUE,width=6,height=6)
 EC <- FALSE
 m<-0.01
 ## draw box for plot
-plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.004),type="n",xlab="Time (years)",
+plot(0,0,xlim=c(0,tmax),ylim=c(0,0.004),type="n",xlab="Time (years)",
      ylab="Prevalence (I)",las=1)
 
 ## draw solutions
@@ -136,32 +156,7 @@ draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
 dev.off()
 tools::texi2dvi('detNNR017m0.01.tex',pdf=T)
 
-tikz("detNNR06m0.2.tex",standAlone=TRUE,width=6,height=6)
-m<-0.2
-R_0<-6
-## draw box for plot
-plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.006),type="n",xlab="Time (years)",
-     ylab="Prevalence (I)",las=1)
 
-## draw solutions
-draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
-            func=SIRmeta.vector.field,
-            parms=c(R_0,gamma,mu,alpha,m,EC))
-dev.off()
-tools::texi2dvi('detNNR06m0.2.tex',pdf=T)
-
-tikz("detNNR025m0.2.tex",standAlone=TRUE,width=6,height=6)
-R_0<-25
-## draw box for plot
-plot(0,0,xlim=c(0,tmax/365),ylim=c(0,0.006),type="n",xlab="Time (years)",
-     ylab="Prevalence (I)",las=1)
-
-## draw solutions
-draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
-            func=SIRmeta.vector.field,
-            parms=c(R_0,gamma,mu,alpha,m,EC))
-dev.off()
-tools::texi2dvi('detNNR025m0.2.tex',pdf=T)
 
 @
 
@@ -418,7 +413,7 @@ Approximate stochastic simulations using the adaptivetau package.
   }
   
 #Parameters
-R_0 <- 25   ##basic reproduction rate (if the system had no forcing)
+R_0 <- 17   ##basic reproduction rate (if the system had no forcing)
 gamma <- 365/13  ##inverse of mean infectious period
 mu <- 1/50  ##death and birth rate
 alpha <- 0.1  ##strength of seasonal forcing
@@ -434,7 +429,7 @@ params<-c(R_0,gamma,mu,alpha,m,EC)
  REE <-1-SEE-IEE
  #Sample ics from points +/-10% from the EE values
  percent <- 0.1
- population <- 1000000
+ population <- 5000000
  possibleS0 <- seq(as.integer(population*SEE*(1-percent)), as.integer(population*SEE*(1+percent)),1)
   possibleI0 <- seq(as.integer(population*IEE*(1-percent)), as.integer(population*IEE*(1+percent)),1)
  S0 <- sample(possibleS0, n,replace=TRUE)
@@ -450,14 +445,14 @@ simResults <- run$sim
 coherence <- run$coherence
 
 ##Saving the data and the print plot to pdf
-write.table(run,file="adaptauECR025m0.02s.csv")
-pdf(file="images/adaptauECR025m0.02s.pdf")
+write.table(run,file="adaptauECR017m0.01.csv")
+pdf(file="images/adaptauECR017m0.01.pdf")
 
 ## draw box for plot
 #leave room on right margin for Coherence label
   par(mar = c(5,5,2,5))
 #Solutions should ocsillate around IEE so ylim should go to around twice that so solns are in the middle of plot
-  plot(0,0,xlim=c(0,tmax),ylim=c(0,population*IEE*3),xlab="Time (years)", 
+  plot(0,0,xlim=c(0,tmax),ylim=c(0,population*IEE*4),xlab="Time (years)", 
        ylab="Prevalence (I)")
   ##plot I_i for each patch
   j<-1:n 
@@ -494,12 +489,12 @@ for (i in 1:n) {
 Making grids of coherence (needs runadaptau fct from previous chuck to run):
 <<>>=
  #The value at which things are considered coherent
- threshold <- 0.2
+ threshold <- 0.15
  #Parameter values for grid
- gridsizeR_0 <- 10
- gridsizem <- 10
+ gridsizeR_0 <- 80
+ gridsizem <- 80
  nsample <- 5
- mlist <- seq(0.001, 1, (1-0.001)/(gridsizem-1))
+ mlist <- seq(0, 1, (1-0)/(gridsizem-1))
  R_0list <- seq(2,30,(30-2)/(gridsizeR_0-1))
  
  #Parameters
@@ -576,7 +571,7 @@ zcol  <- cut(t(avgCoherence), nbcol)
 bfd <- read.table("bifurcation.dat", 
                   col.names=c("time","S","I","R0","log10S","log10I"))
 bfd$I <- (1/max(bfd$I))*bfd$I
- submlistInd <- c(1,2,3,gridsizem) #indices of m values that will be plotted on 4 panel plot
+ submlistInd <- c(1,30,60,gridsizem) #indices of m values that will be plotted on 4 panel plot
  par(mfrow=c(2,2))
  par(cex = 0.6)
 par(mar = c(0, 0, 0, 0), oma = c(4, 4, 0.5, 0.5))

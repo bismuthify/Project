@@ -122,6 +122,11 @@ M =
 \]
   \end{frame}
   
+  \begin{frame}{Adaptive Tau Algorthim}
+   \item An approximate stochastic simulation
+   \item 
+   \end{frame}
+  
   \section{Results}
   
   \begin{frame}{Bifurcation Diagram}
@@ -135,13 +140,28 @@ M =
    \end{frame}
 
    \begin{frame}{Deterministic Model}
-   Nearest Neighbour Coupling, $\mathcal{R}_0=17$, $m=0.2$
-   \centering \includegraphics[width=0.7\linewidth]{{images/detNNR017m0.2}.pdf}
-   \end{frame}
-   
-   \begin{frame}{Deterministic Model}
    Equal Coupling, $\mathcal{R}_0=17$, $m=0.2$
    \centering \includegraphics[width=0.7\linewidth]{{images/detECR017m0.2}.pdf}
+   \end{frame}
+   
+   \begin{frame}{Deterministic Model: EC vs NN}
+   \begin{centering}
+   $\mathcal{R}_0=17$, $m=0.2$
+     \begin{columns}
+      \begin{column}{0.5\textwidth}
+      \scalebox{0.8}{\parbox{.5\linewidth}{%
+       \includegraphics[width=2.2\linewidth]{{images/detNNR017m0.2s}.pdf} \\
+      Nearest Neighbour Coupling
+      }}
+     \end{column}
+    \begin{column}{0.5\textwidth}
+    \scalebox{0.8}{\parbox{.5\linewidth}{%
+       \includegraphics[width=2.2\linewidth]{{images/detECR017m0.2s}.pdf} \\
+       Equal Coupling
+      }}
+    \end{column}
+    \end{columns}
+    \end{centering}
    \end{frame}
    
    \begin{frame}{Deterministic Model}
@@ -155,8 +175,8 @@ M =
      \begin{columns}
       \begin{column}{0.5\textwidth}
       \scalebox{0.8}{\parbox{.5\linewidth}{%
-       \includegraphics[width=2.2\linewidth]{{images/detNNR06m0.2}.pdf} \\
-      $\mathcal{R}_0=6$
+       \includegraphics[width=2.2\linewidth]{{images/detNNR010m0.2}.pdf} \\
+      $\mathcal{R}_0=10$
       }}
      \end{column}
     \begin{column}{0.5\textwidth}
@@ -180,8 +200,18 @@ M =
    \end{frame}
    
    \begin{frame}{Stochastic: Adaptive Tau Algorthim}
-   Equal Coupling, Population of 500000, $\mathcal{R}_0=18.69$, $m=0.2$
-   \centering \includegraphics[width=0.7\linewidth]{{images/adaptauECR018.6869m0.2}.pdf}
+   Equal Coupling, Population of 500000, $\mathcal{R}_0=17$, $m=0.2$
+   \centering \includegraphics[width=0.7\linewidth]{{images/adaptauECR017m0.2}.pdf}
+   \end{frame}
+   
+   \begin{frame}{Stochastic: Adaptive Tau Algorthim}
+   Equal Coupling, Population of 500000, $\mathcal{R}_0=17$, $m=0.01$
+   \centering \includegraphics[width=0.7\linewidth]{{images/adaptauECR017m0.01}.pdf}
+   \end{frame}
+   
+   \begin{frame}{Stochastic: Adaptive Tau Algorthim}
+   Equal Coupling, Population of 500000, $\mathcal{R}_0=25$, $m=0.2$
+   \centering \includegraphics[width=0.7\linewidth]{{images/adaptauECR025m0.2}.pdf}
    \end{frame}
    
    \begin{frame}{Coherence dependence on Parameters}
@@ -191,6 +221,13 @@ M =
 \begin{frame}{We all learned some things}
    \end{frame}
    
+\begin{frame}[allowframebreaks]{References}
+
+  \bibliography{demo}
+  \bibliographystyle{abbrv}
+
+\end{frame}
+   
 \begin{frame}[standout]
   Questions?
 \end{frame}
@@ -198,11 +235,6 @@ M =
 \appendix
 
 
-\begin{frame}[allowframebreaks]{References}
 
-  \bibliography{demo}
-  \bibliographystyle{abbrv}
-
-\end{frame}
    
 \end{document}
