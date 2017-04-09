@@ -456,15 +456,96 @@ for (i in 1:n) {
 *
 *
 *
-Making grids of coherence (needs runadaptau fct from previous chuck to run):
+Making grids of coherence (needs run.soln fct from first chuck to run):
+<<>>=
+ #The value at which things are considered coherent
+ threshold <- 0.05
+ #Parameter values for grid
+ gridsizeR_0 <- 20
+ gridsizem <- 20
+ nsample <- 5
+ mlist <- seq(0, 0.2, (0.2-0)/(gridsizem-1))
+ R_0list <- seq(1,35,(35-1)/(gridsizeR_0-1))
+ 
+ #Parameters
+gamma <- 365/13  ##inverse of mean infectious period
+mu <- 1/50  ##death and birth rate
+alpha <- 0.1  ##strength of seasonal forcing
+n <- 10  ## Number of patches
+EC <- FALSE ##if true use equal coupling, if false use nearest neighbors
+
+##Params for Initial conditions
+ percent <- 0.1
+
+tmax <- 10
+avgCoherence<- matrix(0, gridsizem,gridsizeR_0)
+
+index2 <- 1
+for (R_0 in R_0list){
+  index1 <- 1
+  #Want ICs near EE for stability. Find EE values:
+  #Note: They depend on R_0
+  SEE <-1/R_0
+  IEE <-(1 - 1/R_0)*mu/gamma
+  
+  for (m in mlist){
+    coherenceProb <- rep(0, nsample)
+    for (sampler in 1:nsample){
+      #Get det soln nsample times with different ICs
+      #Take mean of coherence near end of soln
+      #(since coherence is very oscilatory)
+      
+      S0 <- runif(n,SEE*(1-percent),SEE*(1+percent))
+      I0 <- runif(n,IEE*(1-percent),IEE*(1+percent))
+      R0 <- 1-S0-I0
+     
+      coherenceRun <- run.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
+            func=SIRmeta.vector.field,
+            parms=c(R_0,gamma,mu,alpha,m,EC))$coherence
+      mean <- mean(coherenceRun[length(coherenceRun)-(100:0)])
+      if(mean<threshold){
+        coherenceProb[sampler] <- 1
+      }else{
+        coherenceProb[sampler] <- 0
+      }
+    }
+    #Take mean of all coherence for all runs with these parameters
+     avgCoherence[index1,index2]<- mean(coherenceProb)
+     index1<-index1+1
+  }
+  index2<-index2+1
+}
+
+det3D <- cbind.data.frame(R_0list,mlist,avgCoherence)
+write.table(det3D,file="det3DNN.csv")
+
+pdf(file="images/det3DNN.pdf")
+#3D plot
+nbcol <- 100
+#You can change start and end to get different parts of the rainbow
+color <- rev(rainbow(nbcol, start = 3/6, end = 3.5/6))
+#color <- rev(topo.colors(nbcol))  
+zcol  <- cut(t(avgCoherence), nbcol)
+ persp( R_0list,mlist, t(avgCoherence), theta = 30, phi = 30, expand = 0.5, col = color[zcol],ltheta = 120, shade = 0.75, ticktype = "detailed",
+      xlab = "Basic Reproduction Rate", ylab = "Mixing Parameter", zlab = "Coherence")
+ dev.off()
+        
+
+ 
+@
+*
+*
+
+*
+Making grids of coherence (needs runadaptau fct from earlier chuck to run):
 <<>>=
  #The value at which things are considered coherent
  threshold <- 0.15
  #Parameter values for grid
- gridsizeR_0 <- 80
- gridsizem <- 80
+ gridsizeR_0 <- 200
+ gridsizem <- 4
  nsample <- 5
- mlist <- seq(0, 0.99, (0.99-0)/(gridsizem-1))
+ mlist <- c(0.05,0.2,0.4)
  R_0list <- seq(2,30,(30-2)/(gridsizeR_0-1))
  
  #Parameters
@@ -478,8 +559,8 @@ EC <- FALSE ##if true use equal coupling, if false use nearest neighbors
  percent <- 0.1
  population <- 250000
 
-
 tmax <- 10
+
 avgCoherence<- matrix(0, gridsizem,gridsizeR_0)
 
 index2 <- 1
@@ -519,36 +600,22 @@ for (R_0 in R_0list){
   index2<-index2+1
 }
 
-Adaptau3D <- cbind.data.frame(R_0list,mlist,avgCoherence)
-write.table(Adaptau3D,file="Adaptau3DNN.csv")
+Adaptau4pan <- cbind.data.frame(R_0list,mlist,avgCoherence)
+write.table(Adaptau3D,file="Adaptau4pan.csv")
 
-pdf(file="images/Adaptau3DNN.pdf")
-#3D plot
-nbcol <- 100
-#You can change start and end to get different parts of the rainbow
-color <- rev(rainbow(nbcol, start = 3/6, end = 3.5/6))
-#color <- rev(topo.colors(nbcol))  
-zcol  <- cut(t(avgCoherence), nbcol)
- persp( R_0list,mlist, t(avgCoherence), theta = 30, phi = 30, expand = 0.5, col = color[zcol],ltheta = 120, shade = 0.75, ticktype = "detailed",
-      xlab = "Basic Reproduction Rate", ylab = "Mixing Parameter", zlab = "Coherence")
- dev.off()
-        
  pdf(file="images/FourPanelNN.pdf")
-
   
  ##Four panel plot
  #get bifur data for backgrounds
 bfd <- read.table("bifurcation.dat", 
                   col.names=c("time","S","I","R0","log10S","log10I"))
 bfd$I <- (1/max(bfd$I))*bfd$I
- submlistInd <- c(30,50,70,gridsizem) #indices of m values that will be plotted on 4 panel plot
  par(mfrow=c(2,2))
  par(cex = 0.6)
 par(mar = c(0, 0, 0, 0), oma = c(4, 4, 0.5, 0.5))
 par(tcl = -0.25)
 par(mgp = c(2, 0.6, 0))
- for(ind in 1:length(submlistInd)){
-   
+ for(ind in 1:4){
    #Make an empty plot and gave it either x axis, yaxis, both or neither depending on which plot position it is
    if (ind ==1){
           plot(0,0,xlim=c(R_0list[1],R_0list[gridsizeR_0]), 
@@ -565,9 +632,9 @@ par(mgp = c(2, 0.6, 0))
   }
    #Plot the bifur background and then the coherence prob
    points(bfd$R0,bfd$I, pch=20, col="grey90")
-   lines(R_0list, avgCoherence[submlistInd[ind],],col=ind)
+   lines(R_0list, avgCoherence[mlist[ind],],col=ind)
      box(col = "grey60")
-     mtext(paste0("m=",mlist[submlistInd[ind]]), side = 3, line = -2, adj = 0.1, cex = 0.6, col = "grey40")
+     mtext(paste0("m=",mlist[mlist[ind]]), side = 3, line = -2, adj = 0.1, cex = 0.6, col = "grey40")
  }
 mtext("R0", side = 1, outer = TRUE, cex = 0.7, line = 2.2,
      col = "grey20")
@@ -576,8 +643,6 @@ mtext("R0", side = 1, outer = TRUE, cex = 0.7, line = 2.2,
 dev.off()
  
 @
-
-
 
 <<PlotGill>>=
 GillECR017m0_2 <- read_delim("GillECR017m0.2.csv",
