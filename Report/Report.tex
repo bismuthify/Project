@@ -30,8 +30,11 @@
 %\newcommand{\R}{{\cal R}}
 %\newcommand{\Rlogo}{\protect\includegraphics[height=2ex,keepaspectratio]{images/Rlogo.pdf}\xspace}
 
-
-
+\AtBeginDocument{%
+\renewcommand{\thesection}{\arabic{section}}%
+\renewcommand{\contentsname}{\sc{Contents}}
+\renewcommand{\bibname}{\sc{Bibilography}}
+}
 \author{\sc{Model Students:}\\
  \small \emph{Melody Fong} \\
  \small \emph{Nicole Dumont} \\
@@ -40,9 +43,7 @@
   \Huge \sc{Spatial Epidemics Dynamics:\\ Synchronization}}
   \date{\today}
   
-\renewcommand{\thesection}{\arabic{section}}%
-\renewcommand{\contentsname}{\sc{Contents}}
-\renewcommand{\bibname}{\sc{Bibilography}}
+
 %\renewcommand{\abstractname}{\Huge \sc{Executive Summary}}
 
   \titleformat{\section}
@@ -197,7 +198,7 @@ Solutions to \eqref{model} were calculated using the \Rlogo \texttt{deSolve} pac
 Figure \ref{fig:detplotsC} shows the difference between equal coupling and nearest neighbour coupling. It takes longer for solutions to become coherent when using nearest neighbour coupling.
 
 
-\begin{figure8}
+\begin{figure*}
     \caption{An exact stochastic simulation using the Gillespie algorithm.}
     \label{fig:Gillplot}
     \centering
