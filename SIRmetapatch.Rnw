@@ -5,7 +5,7 @@
 Deterministic model solution code:
 <<detSIRmeta,dev="tikz",eval=FALSE>>=
 library("deSolve")
-library("tikzDevice")
+#library("tikzDevice")
 
 ## Vector Field for SIR Metapatch Model
 SIRmeta.vector.field <- function(t,vars,parms=NULL) {
@@ -44,21 +44,13 @@ SIRmeta.vector.field <- function(t,vars,parms=NULL) {
   })
 }
 
-## Draw Solutions and coherence measure
-draw.soln <- function(n,ic=c(x=rep(1,10),y=rep(0,10)),tmax=1,
+## Get Solutions and coherence measure
+run.soln <- function(n,ic=c(x=rep(1,10),y=rep(0,10)),tmax=1,
                       times=seq(0,tmax,
                                 by=tmax/1000),
                       func,parms,...) {
   soln <- ode(ic,times,func,parms)
   
-  #Plot I for all patches with different colours and lty
-  for (i in 1:n){
-    lines(times,soln[,paste0('I',i)],col=i,lty=i,...)
-  }
-  
-  #Measure of coherence
- # coherence <- lapply(1:length(times), 
-#                      function(tims) sqrt(sum((soln[tims,paste0('I',1:n)]-mean(soln[tims,paste0('I',1:n)])*rep(1,n))^2)) )
   
    #Measure of coherence: the coefficient of variation/relative standard deviation of all the patches at each time step
   coherence <- rep(0,length(times))
@@ -68,22 +60,11 @@ draw.soln <- function(n,ic=c(x=rep(1,10),y=rep(0,10)),tmax=1,
       coherence[tims]<- 0
     }
   }
+  return(list("times"=times, "soln" = soln, "coherence"= coherence))
   
-  #Plot coherence 
-  par(new = T)
-  plot(times,coherence,type='l',axes=F,xlab=NA, ylab=NA,ylim=c(0,1),lwd=2)
-  #lines(simResults[,1],coherence)
-  axis(side=4)
-  mtext(side = 4, line = 3, 'Coherence')
-  
-  
-  labels <- c(1:n)
-  for(i in 1:n){
-    labels[i]<-paste('$I_{',i,'}$',collapse=NULL)
-  }
-  legend("topright",legend=labels,col=1:n,lty=1,bty='n')
- # legend("bottomright", legend="Relative Standard Deviation",bg="white",col=1,lwd=2)
 }
+
+
 
 #Parameters
 R_0 <- 17   ##basic reproduction rate (if the system had no forcing)
@@ -109,53 +90,42 @@ S0 <- sample(possibleS0,n,replace=TRUE)
 I0 <- sample(possibleI0,n,replace=TRUE)
 R0 <- 1-S0-I0
 
-tmax<-10
+tmax<-15
 
 #### Plotting lots of solutions to pdf ####
-tikz("detNNR017m0.2.tex",standAlone=TRUE,width=6,height=6)
+#tikz("detNNR017m0.2.tex",standAlone=TRUE,width=6,height=6)
+
+
+## draw solutions
+run <- run.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
+            func=SIRmeta.vector.field,
+            parms=c(R_0,gamma,mu,alpha,m,EC))
+times<-run$times
+soln<-run$soln
+coherence<-run$coherence
 ## draw box for plot
 #leave room on right margin for Coherence label
   par(mar = c(5,5,2,5))
-plot(0,0,xlim=c(0,tmax),ylim=c(0,0.004),type="n",xlab="Time (years)",
+plot(0,0,xlim=c(0,tmax),ylim=c(0,IEE*5),type="n",xlab="Time (years)",
      ylab="Prevalence (I)",las=1)
-
-
-## draw solutions
-draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
-            func=SIRmeta.vector.field,
-            parms=c(R_0,gamma,mu,alpha,m,EC))
-dev.off()
-tools::texi2dvi('detNNR017m0.2.tex',pdf=T)
-
-tikz("detECR017m0.2.tex",standAlone=TRUE,width=6,height=6)
-EC <- TRUE
-## draw box for plot
-#leave room on right margin for Coherence label
-  par(mar = c(5,5,2,5))
-plot(0,0,xlim=c(0,tmax),ylim=c(0,0.004),type="n",xlab="Time (years)",
-     ylab="Prevalence (I)",las=1)
-
-## draw solutions
-draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
-            func=SIRmeta.vector.field,
-            parms=c(R_0,gamma,mu,alpha,m,EC))
-dev.off()
-tools::texi2dvi('detECR017m0.2.tex',pdf=T)
-
-tikz("detNNR017m0.01.tex",standAlone=TRUE,width=6,height=6)
-EC <- FALSE
-m<-0.01
-## draw box for plot
-plot(0,0,xlim=c(0,tmax),ylim=c(0,0.004),type="n",xlab="Time (years)",
-     ylab="Prevalence (I)",las=1)
-
-## draw solutions
-draw.soln(n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
-            func=SIRmeta.vector.field,
-            parms=c(R_0,gamma,mu,alpha,m,EC))
-dev.off()
-tools::texi2dvi('detNNR017m0.01.tex',pdf=T)
-
+#Plot I for all patches with different colours and lty
+  for (i in 1:n){
+    lines(times,soln[,paste0('I',i)],col=i,lty=i)
+  }
+#Plot coherence 
+  par(new = T)
+  plot(times,coherence,type='l',lwd=2,axes=F,xlab=NA, ylab=NA,ylim=c(0,1))
+  axis(side=4)
+  mtext(side = 4, line = 3, 'Coherence')
+  
+  #make legends
+  labels <- c(1:n)
+  for(i in 1:n){
+    labels[i]<-paste('$I_{',i,'}$',collapse=NULL)
+  }
+  legend("topright",legend=labels,col=1:n,lty=1,bty='n')
+#dev.off()
+#tools::texi2dvi('detNNR017m0.2.tex',pdf=T)
 
 
 @
@@ -445,8 +415,8 @@ simResults <- run$sim
 coherence <- run$coherence
 
 ##Saving the data and the print plot to pdf
-write.table(run,file="adaptauECR017m0.01.csv")
-pdf(file="images/adaptauECR017m0.01.pdf")
+write.table(run,file="adaptauECR017m0.01j.csv")
+pdf(file="images/adaptauECR017m0.01j.pdf")
 
 ## draw box for plot
 #leave room on right margin for Coherence label
@@ -494,7 +464,7 @@ Making grids of coherence (needs runadaptau fct from previous chuck to run):
  gridsizeR_0 <- 80
  gridsizem <- 80
  nsample <- 5
- mlist <- seq(0, 1, (1-0)/(gridsizem-1))
+ mlist <- seq(0, 0.99, (0.99-0)/(gridsizem-1))
  R_0list <- seq(2,30,(30-2)/(gridsizeR_0-1))
  
  #Parameters
@@ -502,7 +472,7 @@ gamma <- 365/13  ##inverse of mean infectious period
 mu <- 1/50  ##death and birth rate
 alpha <- 0.1  ##strength of seasonal forcing
 n <- 10  ## Number of patches
-EC <- TRUE ##if true use equal coupling, if false use nearest neighbors
+EC <- FALSE ##if true use equal coupling, if false use nearest neighbors
 
 ##Params for Initial conditions
  percent <- 0.1
@@ -550,9 +520,9 @@ for (R_0 in R_0list){
 }
 
 Adaptau3D <- cbind.data.frame(R_0list,mlist,avgCoherence)
-write.table(Adaptau3D,file="Adaptau3DEC.csv")
+write.table(Adaptau3D,file="Adaptau3DNN.csv")
 
-pdf(file="images/Adaptau3DEC.pdf")
+pdf(file="images/Adaptau3DNN.pdf")
 #3D plot
 nbcol <- 100
 #You can change start and end to get different parts of the rainbow
@@ -563,7 +533,7 @@ zcol  <- cut(t(avgCoherence), nbcol)
       xlab = "Basic Reproduction Rate", ylab = "Mixing Parameter", zlab = "Coherence")
  dev.off()
         
- pdf(file="images/FourPanelEC.pdf")
+ pdf(file="images/FourPanelNN.pdf")
 
   
  ##Four panel plot
@@ -571,7 +541,7 @@ zcol  <- cut(t(avgCoherence), nbcol)
 bfd <- read.table("bifurcation.dat", 
                   col.names=c("time","S","I","R0","log10S","log10I"))
 bfd$I <- (1/max(bfd$I))*bfd$I
- submlistInd <- c(1,30,60,gridsizem) #indices of m values that will be plotted on 4 panel plot
+ submlistInd <- c(30,50,70,gridsizem) #indices of m values that will be plotted on 4 panel plot
  par(mfrow=c(2,2))
  par(cex = 0.6)
 par(mar = c(0, 0, 0, 0), oma = c(4, 4, 0.5, 0.5))
