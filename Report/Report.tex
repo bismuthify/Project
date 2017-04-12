@@ -9,8 +9,9 @@
 \usepackage{natbib}% 
 \usepackage{fancyhdr,lastpage}
 \usepackage{titlesec}
+\usepackage{bold-extra}
 %\usepackage[margin=0.7in,headheight=60pt]{geometry}
-\usepackage[width = 18cm, height = 22cm,headheight=60pt, columnsep = 1cm]{geometry}
+\usepackage[width = 18cm, height = 22cm,headheight=70pt, columnsep = 1cm]{geometry}
 
 \usepackage{lipsum}% http://ctan.org/pkg/lipsum
 \usepackage{float}
@@ -32,25 +33,26 @@
 
 \AtBeginDocument{%
 \renewcommand{\thesection}{\arabic{section}}%
-\renewcommand{\contentsname}{\sc{Contents}}
-\renewcommand{\bibname}{\sc{Bibilography}}
+\renewcommand{\contentsname}{\sc{\bfseries Contents}}
+\renewcommand{\bibname}{\sc{\bfseries Bibilography}}
 }
-\author{\sc{Model Students:}\\
+
+\author{\sc{\bfseries Model Students:}\\
+\small \emph{Nicole Dumont} \\
  \small \emph{Melody Fong} \\
- \small \emph{Nicole Dumont} \\
  \small  \emph{Carolina Weishaar}}
  \title{ \small \emph{Mathematics 4MB3/6MB3: Mathematical Biology }\\
-  \Huge \sc{Spatial Epidemics Dynamics:\\ Synchronization}}
+  \Huge \sc{\bfseries Spatial Epidemics Dynamics:\\ Synchronization}}
   \date{\today}
   
 
 %\renewcommand{\abstractname}{\Huge \sc{Executive Summary}}
 
   \titleformat{\section}
-  {\centering \normalfont \scshape}{\thesection}{1em}{}
+  {\centering \normalfont \bfseries \scshape }{\thesection}{1em}{}
   
   \titleformat{\subsection}
-  {\centering \normalfont \itshape}{\thesubsection}{1em}{}
+  {\centering \normalfont \itshape \bfseries}{\thesubsection}{1em}{}
 
 
 
@@ -75,14 +77,18 @@
 
 \section{Abstract} Text goes here.
 \section{Literature Review }
-Long-term incidence records of many childhood diseases, such as measles, exhibit recurrent epidemics with  both regular (annual, biannual and even tri-annual cycles) and irregular dynamics \cite{Earn2000}. In countries where measles immunization is systematically distributed at 15 months and at 6 years, the observed amplitude of the incidence curve declines and the period of the epidemics become more irregular. However, overall this does not antagonize the natural dynamics of the disease \cite{Samanta2014,Earn2000}. As a result in order to increase the efficiency of control health care measures, it is essential to understand the factors that allow a follow up epidemic to occur after the aversion of an epidemic. In regards to childhood diseases, researchers have previously speculated that the phenomena of recurrence can be attributed to factors such as _____ (add citation and list parameters). However, many of these models have been found to be ineffective or possibly overfitted (citation). 
-
+Long-term incidence records of many childhood diseases, such as measles, exhibit recurrent epidemics with  both regular (annual, biannual and even tri-annual cycles) and irregular dynamics \cite{Earn2000}. In countries where measles immunization is systematically distributed at 15 months and at 6 years, the observed amplitude of the incidence curve declines and the period of the epidemics become more irregular. However, overall this does not antagonize the natural dynamics of the disease \cite{Samanta2014,Earn2000}. As a result in order to increase the efficiency of control health care measures, it is essential to understand the factors that allow a follow up epidemic to occur after the aversion of an epidemic. In regards to childhood diseases, researchers have previously speculated that the phenomena of recurrence can be attributed to factors such as ***** (add citation and list parameters). However, many of these models have been found to be ineffective or possibly overfitted (citation). 
+\par
+\smallskip \qquad
 One characteristic of disease spread that has been found to accurately induce persistence within compartmental models is spatial dynamics. To induce this property a metapopulation model is utilized, where the population is divided into several discrete subclasses, called patches, each exhibiting a well-mixed population. This model is analogous to the observed population distribution within countries, where the population is concentrated throughout towns and cities. As a result, subpopulations can exhibit a variety of states, which are out of phase in contrast to, the disease state observed by the entire population. For example, weekly incidence measles data from Birmingham, Newcastle, Cambridge and Norwich recorded between 1944 and 1958, clearly show that the epidemics are in phase in Birmingham and Newcastle and out of phase in Cambridge and Norwich \cite{Grenfell2001}.  Asynchronous dynamics facilitate rescue effects, where the dispersal from patches with a large population prevents local extinctions in patches with small populations, thereby prolonging the eradication of disease. Hence, synchrony inhibits such processes, and could have a strong inﬂuence on the vulnerability of a disease from becoming eradicated globally. In addition to this, the facilitation of migration in modern society has allowed synchronicity to be of importance on a larger scale \cite{McCluskley2014}. For example in the case of Hepatitis B, Gay and Edmunds argue that it would be more cost effective for the United Kingdom to sponsor a vaccination program in Bangladesh than a national universal program \cite{Burton2012}. 
-
+\par
+\smallskip \qquad
 In this study, we have used a metapopulation model where, the state of each patch is modelled by the susceptible, infectious and removed ($SIR$) model. The parameters chosen are based on the expected $R_0$ value for measles.  In addition to this, this study makes use of sinusoidal seasonal forcing on the transmission rate, in order to estimate the effects of vacation  on the contact rate between the infectious and susceptible population, as opposed to the school year. The aim of this study is to analyze the dynamics of this model overtime, in order to determine which parameters lead to a synchronous state, thereby eradicating the disease. \par
+\smallskip
 
 \section{Methods}
 \subsection{The Metapatch SIR Model} 
+\indent
 The spatial SIR model consists of $n$ identical patches (which represent cities or some other spatial grouping of people) with identical population sizes. The population is constant in each patch and there is no migration between patches. Intra-patch dynamics are given by the standard SIR model with vital dynamics and sinusoidal seasonal forcing. Connectivity between patches is represented by disease transmission. Infected individuals can infect people from other patches. This models individuals visiting other patches, creating additional sources of infection in the visited patch. 
 A visualization of the dynamics in a single patch $i$ is shown by
 \begin{center}
@@ -95,7 +101,7 @@ A visualization of the dynamics in a single patch $i$ is shown by
     \draw [arrow] (b) -- node[anchor=south] {$\gamma$} (c);
 \end{tikzpicture}
 \end{center}
-
+\qquad
 The equations describing the dynamics in a single patch are
 \begin{align*}
   \frac{dS_i}{dt} &= \mu - S_i\sum\limits_{j=1}^{n}\beta_{ij}(t) I_j -\mu S_i \\ 
@@ -106,7 +112,8 @@ where $S$ is the proportion of the population that is susceptible to infection, 
 \begin{equation}
   \beta(t) = \left < \beta \right > (1+\alpha \cos(2\pi t))M
 \end{equation}
-$\left < \beta \right > (1+\alpha \cos(2\pi t))$ is the standard sinusoidal forced transmission rate. $M$ is a matrix describing the connectivity between patches. Its $(i,j)$ element is the fraction of time infected individuals from patch $i$ spend visiting $j$. The off-diagonal elements are generally less than the diagonal elements since it is usually assumed individuals spend most of their time in their own patch. $M$ is assumed here to be symmetric - i.e. patch $i$ has as much contact with patch $j$ as $j$ does with $i$. The column sums of $M$ (and thus the rows sums too) are all equal to one - i.e. $M$ is doubley stochastic. This means that all of an individual's time is accounted for.
+$\left < \beta \right > (1+\alpha \cos(2\pi t))$ is the standard sinusoidal forced transmission rate. $M$ is a matrix describing the connectivity between patches. Its $(i,j)$ element is the fraction of time infected individuals from patch $i$ spend visiting $j$. The off-diagonal elements are generally less than the diagonal elements since it is usually assumed individuals spend most of their time in their own patch. $M$ is assumed here to be symmetric - i.e. patch $i$ has as much contact with patch $j$ as $j$ does with $i$. The column sums of $M$ (and thus the rows sums too) are all equal to one - i.e. $M$ is doubly stochastic. This means that all of an individual's time is accounted for. 
+\par \smallskip \qquad
 Two different types of $M$ matrices are used in this paper. The first is equal coupling where all patches are equally connected, i.e. all off-diagonal elements of $M$ are equal. The fraction of time individuals spend outside their own patch is given by the parameter $m$.
 \[
 M =
@@ -117,7 +124,7 @@ M =
   \frac{m}{n-1} &  &  & \ddots 
 \end{bmatrix}
 \]
-The second motif is nearest neighbor coupling. In this case it is assumed that the patches reside on a ring and people can only visit their two nearest neighbors.
+The second motif is nearest neighbour coupling. In this case it is assumed that the patches reside on a ring and people can only visit their two nearest neighbours.
 \[
 M =
 \begin{bmatrix}
@@ -134,6 +141,7 @@ M =
 
 \section{Results}
 \subsection{Periods of Single Patch Model }
+\indent
 A bifurcation diagram was created using \verb|XPPAUT|.
 This produces a bifurcation diagram which shows the periodic recurrence patterns for the simulated deterministic model of the epidemic pattern. As shown in Figure \ref{fig:bifurcation}, there is a single period 1 orbit for $\{5<\R_0\}\cap\{\R_0>27\}$ as well as a single period 2 orbit for $15<\R_0<25$ and mixed dynamics elsewhere.
 \begin{figure}[H]
@@ -192,42 +200,58 @@ Further analysis of the bifurcation diagram reveal the period compositional stru
 \end{figure*}
 
 \subsection{Deterministic Solution}
-Solutions to \eqref{model} were calculated using the \Rlogo \texttt{deSolve} package. The following figures are the solutions for $n=10$, a 50 year life expectancy, a 13 day mean infectious period, nearest neighbour coupling, and seasonal forcing amplitude $\alpha = 0.1$. The initial conditions used were values within $\pm30\%$ of the $(S,I,R)$ values at the endemic equilibrium of the unforced single patch SIR model. Figure \ref{fig:detplotsm} shows the affect of the strength of connectivity, $m$***Change this. At low enough $m$ the solutions do not become coherent.
-
+Solutions to \eqref{model} were calculated using the \Rlogo \texttt{deSolve} package. The following figures are the solutions for $n=10$, a 50 year life expectancy, a 13 day mean infectious period, nearest neighbour coupling, and seasonal forcing amplitude $\alpha = 0.1$. The initial conditions used were values within $\pm30\%$ of the $(S,I,R)$ values at the endemic equilibrium of the unforced single patch SIR model. Figure \ref{fig:detplotsm} shows the affect of the strength of connectivity, $m$***Change this. At low enough $m$ the solutions do not become coherent.\par
+ \smallskip \qquad
  Figure \ref{fig:detplotsR0} shows the effect $\R_0$ has on the period of oscillations and nature of the cycles.
 Figure \ref{fig:detplotsC} shows the difference between equal coupling and nearest neighbour coupling. It takes longer for solutions to become coherent when using nearest neighbour coupling.
 
 
-\begin{figure*}
-    \caption{An exact stochastic simulation using the Gillespie algorithm.}
-    \label{fig:Gillplot}
-    \centering
-    \subfigure[Population of 3,000 per patch]
-    {
-        \includegraphics[width=3.0in]{{images/GillECR017m0.2small}.pdf}
-    }
-    \subfigure[Population of 250,000 per patch]
-    {
-        \includegraphics[width=3.0in]{{images/GillECR017m0.2}.pdf}
-    }
-\end{figure*}
-
 
 \subsection{Stochastic Simulations} 
-A stochastic version of this model was simulated exactly using the Gillespie algorithm with the same parameters and similar initial conditions used for the deterministic solution. Equal coupling and $R_0=17$ and $m=0.5$ were used. See Figure \ref{fig:Gillplot}. \par
-For larger population sizes, approximate stochastic simulations (using the \Rlogo \verb|adaptivetau| package) were used. See Figure \ref{fig:adapplot} for a simulation with population of 500,000.
+\indent
+A stochastic version of this model was simulated exactly using the Gillespie algorithm with the same parameters and similar initial conditions used for the deterministic solution. However, . \par
+ \smallskip \qquad
+A stochastic version of this model was simulated approximately using the adaptive tau-leaping algorithm. The same parameters and similar initial conditions to the ones used for the deterministic solution were used. See Figure \ref{fig:adapplot} for a simulation with $\R_0=17$ and a population of 500,000.
 
-\begin{figure}[h]
+\begin{figure*}
     \caption{An approximate stochastic simulation using the adaptive tau-leaping method}
     \label{fig:adapplot}
     \centering
-    \includegraphics[width=\linewidth]{{images/adaptauECR017m0.2}.pdf}
-\end{figure}
+    \subfigure[$m=0.2$]
+    {
+        \includegraphics[width=3.0in]{{images/adaptauECR017m0.2}.pdf}
+    }
+    \subfigure[$m=0.01$]
+    {
+        \includegraphics[width=3.0in]{{images/adaptauECR017m0.2}.pdf}
+    }   
+\end{figure*}
 
 \subsection{Coherence Dependence Parameters} 
+The ...
+\begin{figure*}
+    \caption{...}
+    \label{fig:3D}
+    \centering
+    \subfigure[Nearest Neighbour Coupling]
+    {
+        \includegraphics[width=3.0in]{{images/Adaptau3DNN}.pdf}
+    }
+    \subfigure[Equal Coupling]
+    {
+        \includegraphics[width=3.0in]{{images/Adaptau3DEC}.pdf}
+    }   
+\end{figure*}
+
+\begin{figure*}
+    \caption{A ...}
+    \label{fig:4pan}
+    \centering
+    \includegraphics[width=\linewidth]{{images/FourPanelNN}.pdf}
+\end{figure*}
 
 \section{Discussion} 
-\section{Conclusion } 
+\section{Conclusion} 
 
 \onecolumn
 \addcontentsline{toc}{section}{\protect\numberline{}Bibilography}%
