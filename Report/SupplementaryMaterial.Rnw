@@ -334,7 +334,7 @@ plot.SIRmeta(n=n,ic=c(S=S0,I=I0,R=R0),tmax=tmax,
 \section{Stochastic Simulation}
 Stochastic simulations of the model were also used. 
 \subsection{Gillespie Algorthim} 
-The Gillespie algorthim is a method of exactly simulating a stochastic process. Consider a process involving transitions between different states. The rate for a given transition $i$ is labelled $a_i$. The total transistion rate is defined as
+The Gillespie algorthim is a method of exactly simulating a stochastic process. Consider a process involving transitions between different states. The rate for a transition of type $i$ is $a_i$. The total transistion rate is the sum of the rates of all possible transitions:
 \begin{equation}
 a_0 = \sum a_i
 \end{equation}
@@ -528,10 +528,10 @@ dev.off
 dev.off
 
 @
-This code runs very slowly for large populations. For a 250,000 person per patch population it took 3 hours. This method for simulating the stochastic realization of the model is thus not practial.
+This code runs very slowly for large populations. This is because the average waiting time between each transition is the inverse of the total rate - which is proportional to the population. Thus, the time steps become very small. For a 250,000 person per patch population it took 3 hours. This method for simulating the stochastic realization of the model is thus not practial.
 
 \subsection{Adaptive Tau-Leaping Algorthim} 
-To simulate a stochastic process efficiently, an approximate method can be used. The adaptive tau-leaping algorithm works by 
+To simulate a stochastic process efficiently, an approximate method can be used. In the adaptive tau-leaping algorithm, instead of having a time step for every single transition, periods of time where transition rates are approximately constant are found by the algorithm and ``leaped" over. For such a time period, $\tau$, the number of transitions that occured is given by Possion distributions. The number of $i$ transitions is given by a Possion random variable with parameter $\tau a_i$. 
 \par
 The \verb|runadaptau| function contains a list of all possible transitions and \verb|rateFct|, a function that returns the values of all transition rates given the time and current state. \verb|runadaptau| passes these, along with the input initial conditions and parameters, to the \verb|ssa.adaptivetau| function. It returns a list of times (starting at zero and ending near input \verb|tmax| with non-uniform step size) and the values of the state at all these times. 
 <<SIRmeta.adaptivetau,eval=FALSE>>=
