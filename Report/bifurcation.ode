@@ -1,0 +1,31 @@
+## Equations: 
+f(x,y)=mu-R0*(gamma+mu)*(1 + a*cos(2*pi*t))*x*y-mu*x
+g(x,y)=R0*(gamma+mu)*(1 + a*cos(2*pi*t))*x*y-(gamma+mu)*y
+x(t+1)=f(x,y)
+y(t+1)=g(x,y)
+R0(t+1)=R0 
+
+## Auxiliary Output Variables
+aux R0
+
+## Initial Conditions
+init x=0.058824,y=0.00067043,R0=0
+par a=0.1,mu=0.02,gamma=28.077
+## auxiliary parameters to corresponding with 
+## deterministic/stochastic models
+
+## Plotting in XPPAUT 
+@ xp=R0, yp=y
+@ xlo=0,xhi=40,yhi=0.008,ylo=-0.008
+
+## Range over R0
+@ rangeover=R0,rangestep=5000
+@ rangelow=0,rangehigh=30,rangereset=no
+@ rangeoldic=yes,lt=0
+
+## Storing variables
+@ total=650,trans=0
+@ maxstor=10000000
+@ meth=discrete
+@ output=bifurcation.dat
+done
