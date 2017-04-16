@@ -641,7 +641,8 @@ The \verb|runadaptau| function contains a list of all possible transitions and \
       globalextinction<-0
     }
   
-  return(list("sim" = simResults, "coherence"= coherence,"localext"=localext,"globalext"=globalextinction))
+  return(list("sim" = simResults, "coherence"= coherence,"localext"=localext,
+              "globalext"=globalextinction))
   }
 @
 
@@ -661,7 +662,8 @@ plot.adaptau <- function(tmax,init.values,params,IEE,population){
     filename <- paste0("adaptau",if(EC==TRUE) "EC" else "NN", "R0", R_0, "m", m, "(1)")
   }
   if(file.exists(filename)){ #If the filename(1) is already used
-    filename <- paste0("images/adaptau",if(EC==TRUE) "EC" else "NN", "R0", R_0, "m", m, "(2)")
+    filename <- paste0("images/adaptau",if(EC==TRUE) "EC" else "NN", "R0", R_0, "m", m, 
+                       "(2)")
   }
   write.table(run,file=paste0(filename,".csv"))
   pdf(file=paste0("images/",filename,".pdf"))
@@ -828,7 +830,8 @@ coherenceGrid <- function(params=c(gamma,mu,alpha,EC),
   #Save data
   filename<-paste0("grid",if(DetOrAdap) "det" else "adap",if(EC) "EC" else "NN",".csv")
   if(file.exists(filename)){ #If the filename is already used
-    filename <-paste0("grid",if(DetOrAdap) "det" else "adap",if(EC) "EC" else "NN","(1).csv")
+    filename <-paste0("grid",if(DetOrAdap) "det" else "adap",if(EC) "EC" else "NN",
+                      "(1).csv")
   }
   cohdata <- cbind.data.frame(avgCoherence,avgLE,avgGE)
   write.table(cohdata,file=filename)
@@ -848,7 +851,8 @@ coherence3DPlot <- function(avgCoherence,params=c(gamma,mu,alpha,EC),R_0list,
        {
   
   #3D plot:
-  filename<-paste0("images/",if(DetOrAdap) "det" else "adap","3D",if(EC) "EC" else "NN",".pdf")
+  filename<-paste0("images/",if(DetOrAdap) "det" else "adap","3D",if(EC) "EC" else "NN",
+                   ".pdf")
    pdf(file=filename)
   #Making a colour gradient for the plot
   nbcol <- 100
@@ -913,7 +917,8 @@ The function \verb|fourPanPlot| makes a four panel plot showing the probability 
        as.list(c(params)),
        {
    if(length(mlist)!=4){
-     print("Warning: mlist should have length 4 for 4 panel plot \\ The first 4 elements of mlist will be used")
+     print("Warning: mlist should have length 4 for 4 panel plot 
+       \\ The first 4 elements of mlist will be used")
    }
    
 #Save plot to pdf
