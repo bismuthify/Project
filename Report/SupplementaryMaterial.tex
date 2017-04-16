@@ -1,0 +1,1134 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\input 4mbapreamble
+\usepackage{bold-extra}
+\usepackage{fancyhdr,lastpage}
+\usepackage{titlesec}
+\usepackage{amssymb}% 
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+%\usepackage[width = 18cm, height = 22cm,headheight=70pt, columnsep = 1cm]{geometry}
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\AtBeginDocument{%
+\renewcommand{\thesection}{\arabic{section}}%
+\renewcommand{\contentsname}{\sc{\bfseries Contents}}
+}
+  \titleformat{\section}
+  {\normalfont \large \bfseries \scshape }{\thesection}{1em}{}
+  
+  \titleformat{\subsection}
+  { \normalfont \itshape \bfseries}{\thesubsection}{1em}{}
+  
+\lhead{\sc{Supplementary Material}}
+\rhead{\emph{Model Students}} 
+\renewcommand\headrulewidth{0pt}% Removes funny header line
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  morekeywords={*,...},           % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\begin{center}
+{\emph{Mathematics 4MB3/6MB3 Mathematical Biology}\\
+\smallskip
+\huge  \sc{\bfseries ELECTRONIC SUPPLEMENTARY MATERIAL \\ \medskip
+Spatial epidemics dynamics: Synchronization} }\\
+\medskip \medskip
+\sc{Model Students}\\
+\emph{Nicole Dumont, Melody Fong, Carolina Weishaar}
+ 
+\end{center}
+\tableofcontents
+
+\section{Introduction}
+This is a supplemenary document for the report ``Spatial epidemics dynamics: Synchronization" created for reproducibility. This supplement was created using \verb|knitr|, an \Rlogo package that merges output languages such as \LaTeX  with coding languages, allowing for dynamic reproducible report generation \cite{Knitr}. Other packages used are \verb|deSolve|, \verb|titzDevice|, and \verb|adaptivetau|. 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(}\hlstr{"deSolve"}\hlstd{)}
+\hlkwd{library}\hlstd{(}\hlstr{"tikzDevice"}\hlstd{)}
+\hlkwd{library}\hlstd{(}\hlstr{"adaptivetau"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Output is currently suppressed during compile in the interest of speed - some code chunks take hours to run - but code can still be run using the uncompiled document \verb|SupplementaryMaterial.Rnw|.
+
+\section{Bifurcation Diagram}
+The bifurcation diagram was created using \verb|XPPAUT| following the script described in the supplementary by Krylova and Earn \cite{Krylova2013}. In the script, equations for the single patch model with sinusoidal forcing were passed to the argument. The program was then instructed to solve the ODE by evaluating the equations with given initial conditions and parameters ranging over the parameter $\R_0$ from 0-30 using Poincar\'{e} maps with period one year. \par \smallskip
+
+\lstinputlisting{bifurcation.ode}
+
+\smallskip \indent
+When run using \verb|XPPAUT|, this code outputs a file containing the values of time, susceptibles, infecteds, and $\R_0$ for all specified iterations of $\R_0$. \par
+This file can be generated and read by \Rlogo via the following console commands:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{system}\hlstd{(}\hlstr{"xppaut bifurcation.ode -silent"}\hlstd{)}
+
+\hlstd{bfd} \hlkwb{<-} \hlkwd{read.table}\hlstd{(}\hlstr{"bifurcation.dat"}\hlstd{,} \hlkwc{col.names}\hlstd{=}\hlkwd{c}\hlstd{(}\hlstr{"time"}\hlstd{,}\hlstr{"S"}\hlstd{,}\hlstr{"I"}\hlstd{,}\hlstr{"R0"}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+The bifurcation diagram can be generated using the following command:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(I}\hlopt{$}\hlstd{bfd,R0}\hlopt{$}\hlstd{bfd)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\section{Deterministic Solution}
+The SIR meta-patch vector field function, \verb|SIRmeta.vector.field|, returns the values of $\frac{dS_i}{dt}$, $\frac{dI_i}{dt}$, and $\frac{dR_i}{dt}$ for all patches (i.e. $1 \leq i \leq n$) at a given time, given the values of $S_i$, $I_i$, and $R_i$ for all patches and the values of parameters $\R_0$ (the basic reproductive number), $\mu$ (the death/birth rate), $\gamma$ (the recovery rate), $\alpha$ (the strength of seasonal forcing), $m$ (the mixing parameter) and EC (a switch: if {\color{magenta}\verb|TRUE|} use equal coupling, otherwise use nearest neighbour coupling). \\
+It creates the beta matrix:
+\begin{equation}
+  \beta(t) = \left < \beta \right > (1+\alpha \cos(2\pi t))M
+\end{equation}
+where M is the mixing matrix. If equal coupling is used then 
+\[
+M =
+\begin{bmatrix}
+  1-m & \frac{m}{n-1} & \frac{m}{n-1} & \frac{m}{n-1} \\
+  \frac{m}{n-1} & 1 & \frac{m}{n-1} & \frac{m}{n-1}  \\
+  \frac{m}{n-1} & \frac{m}{n-1} & 1 &  \\
+  \frac{m}{n-1} &  &  & \ddots 
+\end{bmatrix}
+\]
+Otherwise nearest neighbour coupling is used.
+\[
+M =
+\begin{bmatrix}
+  1-m & \frac{m}{2} & 0 & 0 & \dots & \frac{m}{2} \\
+  \frac{m}{2} & 1-m & \frac{m}{2} & 0 & & \vdots \\
+  0 & \frac{m}{2} & 1-m &  \\
+  0 & 0 & & \ddots \\
+  \vdots & & & & \ddots & \frac{m}{2} \\
+  \frac{m}{2} &  & & \dots & \frac{m}{2} & 1-m \ 
+\end{bmatrix}
+\]
+The proportional dynamics of a single patch in the meta-patch SIR model are given by
+\begin{align*}
+  \frac{dS_i}{dt} &= \mu  - S_i\sum\limits_{j=1}^{n}\beta_{ij}(t) I_j -\mu S_i \\ 
+  \frac{dI_i}{dt} &= S_i\sum\limits_{j=1}^{n}\beta_{ij}(t) I_j -\gamma I_i - \mu I_i \numberthis \label{model} \\
+  \frac{dR_i}{dt} &= \gamma I_i -\mu R_i      
+\end{align*}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{SIRmeta.vector.field} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{t}\hlstd{,}\hlkwc{vars}\hlstd{,}\hlkwc{parms}\hlstd{=}\hlkwa{NULL}\hlstd{) \{}
+  \hlcom{##parms should be of form (R_0,gamma,mu,alpha,m,EC)}
+  \hlcom{##vars should be of form (S,I,R)}
+  \hlkwd{with}\hlstd{(}\hlkwd{as.list}\hlstd{(}\hlkwd{c}\hlstd{(parms,vars)), \{}  \hlcom{#So that it can call variables stored in parms}
+    \hlcom{##vars contains the values of S, I, and R at time t}
+    \hlstd{n} \hlkwb{<-} \hlkwd{length}\hlstd{(vars)}\hlopt{/}\hlnum{3}
+    \hlstd{S} \hlkwb{<-} \hlstd{vars[}\hlnum{1}\hlopt{:}\hlstd{n]}
+    \hlstd{I} \hlkwb{<-} \hlstd{vars[(n}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{:}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{n)]}
+    \hlstd{R} \hlkwb{<-} \hlstd{vars[(}\hlnum{2}\hlopt{*}\hlstd{n}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{:}\hlstd{(}\hlnum{3}\hlopt{*}\hlstd{n)]}
+
+    \hlcom{#Equal Coupling}
+    \hlkwa{if}\hlstd{(EC}\hlopt{==}\hlnum{TRUE}\hlstd{)\{}
+      \hlcom{##mixing matrix}
+      \hlstd{M} \hlkwb{<-} \hlkwd{matrix}\hlstd{(m}\hlopt{/}\hlstd{(n}\hlopt{-}\hlnum{1}\hlstd{),n,n)}\hlopt{+}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{m}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlnum{1}\hlopt{/}\hlstd{(n}\hlopt{-}\hlnum{1}\hlstd{)))}\hlopt{*}\hlkwd{diag}\hlstd{(n)}
+       \hlcom{##beta matrix}
+      \hlstd{betam} \hlkwb{<-} \hlstd{R_0}\hlopt{*}\hlstd{(gamma}\hlopt{+}\hlstd{mu)}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{alpha}\hlopt{*}\hlkwd{cos}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{pi}\hlopt{*}\hlstd{t))}\hlopt{*}\hlstd{M}
+    \hlstd{\}}\hlkwa{else}\hlstd{\{}
+      \hlcom{#Nearest Neighbors}
+      \hlcom{##mixing matrix}
+      \hlstd{M} \hlkwb{<-} \hlstd{(}\hlnum{1}\hlopt{-}\hlstd{m)}\hlopt{*}\hlkwd{diag}\hlstd{(n)}
+      \hlstd{M[}\hlkwd{row}\hlstd{(M)}\hlopt{%%}\hlstd{n}\hlopt{==}\hlstd{(}\hlkwd{col}\hlstd{(M)}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{%%}\hlstd{n ]} \hlkwb{<-} \hlstd{m}\hlopt{/}\hlnum{2}
+      \hlstd{M[}\hlkwd{row}\hlstd{(M)}\hlopt{%%}\hlstd{n}\hlopt{==}\hlstd{(}\hlkwd{col}\hlstd{(M)}\hlopt{-}\hlnum{1}\hlstd{)}\hlopt{%%}\hlstd{n]} \hlkwb{<-} \hlstd{m}\hlopt{/}\hlnum{2}
+      \hlcom{##beta matrix}
+      \hlstd{betam} \hlkwb{<-} \hlstd{R_0}\hlopt{*}\hlstd{(gamma}\hlopt{+}\hlstd{mu)}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{alpha}\hlopt{*}\hlkwd{cos}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{pi}\hlopt{*}\hlstd{t))}\hlopt{*}\hlstd{M}
+    \hlstd{\}}
+
+    \hlstd{dS} \hlkwb{<-} \hlkwa{NULL}
+    \hlstd{dI} \hlkwb{<-} \hlkwa{NULL}
+    \hlstd{dR} \hlkwb{<-} \hlkwa{NULL}
+    \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{n)\{}
+      \hlstd{dS[i]} \hlkwb{<-} \hlstd{mu}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{S[i])} \hlopt{-} \hlstd{S[i]}\hlopt{*}\hlkwd{sum}\hlstd{(betam[i,]}\hlopt{*}\hlstd{I)} \hlcom{##dS_i/dt}
+      \hlstd{dI[i]} \hlkwb{<-} \hlstd{S[i]}\hlopt{*}\hlkwd{sum}\hlstd{(betam[i,]}\hlopt{*}\hlstd{I)} \hlopt{-} \hlstd{(mu}\hlopt{+}\hlstd{gamma)}\hlopt{*}\hlstd{I[i]}  \hlcom{## dI_i/dt}
+      \hlstd{dR[i]} \hlkwb{<-} \hlstd{gamma}\hlopt{*}\hlstd{I[i]} \hlopt{-}\hlstd{mu}\hlopt{*}\hlstd{R[i]}
+    \hlstd{\}}
+    \hlstd{vec.fld} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlkwc{dS}\hlstd{=dS,}\hlkwc{dI}\hlstd{=dI,}\hlkwc{dR}\hlstd{=dR)}
+    \hlkwd{return}\hlstd{(}\hlkwd{list}\hlstd{(vec.fld))}
+  \hlstd{\})}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+The \verb|run.soln| function returns the values of $S_i$, $I_i$, and $R_i$ for all patches at times given in \verb|times|, given the initial conditions, the vector field function, and parameter to pass to the vector field function. It also returns the value of ``coherence" at all times. A state is said to be coherent at time step $t$ when $I_1(t)=I_2(t)=...=I_n(t)$ for all $n$ patches \cite{McCluskey2011}. The measure used here of ``how coherent" a state is is the coefficient of variation, also called the relative standard deviation, of $\{I_i(t) \}_{i=1}^n$. It is the standard deviation of these values divided by the mean. The smaller it is the closer all states are to the mean and the more coherent the state is. 
+\begin{align*}
+  c_v(t) &= \frac{SD(I_i(t))}{\overline{I_i(t)}} \\
+  &= \frac{\sqrt{\frac{1}{n}\sum\limits_{i=1}^{n}\left (I_i(t)-\overline{I_i(t)} \right ) } }{\overline{I_i(t)}} \numberthis
+\end{align*}
+This is calculated using \Rlogo's native \verb|sd| and \verb|mean| functions. 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{## Get Solutions and coherence measure}
+\hlstd{run.soln} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{n}\hlstd{,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=}\hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,n),}\hlkwc{I}\hlstd{=}\hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,n),}\hlkwc{R}\hlstd{=}\hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,n)),}\hlkwc{tmax}\hlstd{=}\hlnum{1}\hlstd{,}
+                      \hlkwc{times}\hlstd{=}\hlkwd{seq}\hlstd{(}\hlnum{0}\hlstd{,tmax,}
+                                \hlkwc{by}\hlstd{=tmax}\hlopt{/}\hlnum{1000}\hlstd{),}
+                      \hlkwc{func}\hlstd{,}\hlkwc{parms}\hlstd{) \{}
+  \hlstd{soln} \hlkwb{<-} \hlkwd{ode}\hlstd{(ic,times,func,parms)}
+
+   \hlcom{#Measure of coherence: the coefficient of variation/relative standard deviation of }
+  \hlcom{#all the patches at each time step}
+  \hlstd{coherence} \hlkwb{<-} \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlkwd{length}\hlstd{(times))}
+  \hlkwa{for}\hlstd{(tims} \hlkwa{in} \hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(times))\{}
+    \hlstd{coherence[tims]}\hlkwb{<-} \hlkwd{sd}\hlstd{(soln[tims,}\hlkwd{paste0}\hlstd{(}\hlstr{'I'}\hlstd{,}\hlnum{1}\hlopt{:}\hlstd{n)])}\hlopt{/}\hlkwd{mean}\hlstd{(soln[tims,}\hlkwd{paste0}\hlstd{(}\hlstr{'I'}\hlstd{,}\hlnum{1}\hlopt{:}\hlstd{n)])}
+    \hlkwa{if}\hlstd{(}\hlkwd{is.nan}\hlstd{(coherence[tims]))\{}
+      \hlstd{coherence[tims]}\hlkwb{<-} \hlnum{0}
+    \hlstd{\}}
+  \hlstd{\}}
+  \hlkwd{return}\hlstd{(}\hlkwd{list}\hlstd{(}\hlstr{"times"}\hlstd{=times,} \hlstr{"soln"} \hlstd{= soln,} \hlstr{"coherence"}\hlstd{= coherence))}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Function \verb|plot.SIRmeta| uses \verb|run.soln| to get the solution of the deteminitic model with the given initial conditions and parameters, and plots the results. It should be noted that when ouputting the images, they were run through the \verb|tikzDevice| package for \Rlogo to enable the use of \LaTeX within figures. The images were also saved to PDF through \verb|tikzDevice|.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{#Given ics and paramters, plot the det soln of the SIR meta model to pdf}
+\hlstd{plot.SIRmeta} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{n}\hlstd{,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=}\hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,n),}\hlkwc{I}\hlstd{=}\hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,n),}\hlkwc{R}\hlstd{=}\hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,n)),}\hlkwc{tmax}\hlstd{=}\hlnum{1}\hlstd{,}
+                      \hlkwc{parms}\hlstd{,}\hlkwc{...}\hlstd{)\{}
+  \hlcom{##parms should be of form (R_0,gamma,mu,alpha,m,EC)}
+  \hlkwd{with}\hlstd{(}\hlkwd{as.list}\hlstd{(}\hlkwd{c}\hlstd{(parms)), \{}  \hlcom{#So that it can call variables stored in parms}
+  \hlcom{## get solutions}
+  \hlstd{run} \hlkwb{<-} \hlkwd{run.soln}\hlstd{(}\hlkwc{n}\hlstd{=n,}\hlkwc{ic}\hlstd{=ic,}\hlkwc{tmax}\hlstd{=tmax,}
+            \hlkwc{func}\hlstd{=SIRmeta.vector.field,}
+            \hlkwc{parms}\hlstd{=parms)}
+  \hlstd{times}\hlkwb{<-}\hlstd{run}\hlopt{$}\hlstd{times}
+  \hlstd{soln}\hlkwb{<-}\hlstd{run}\hlopt{$}\hlstd{soln}
+  \hlstd{coherence}\hlkwb{<-}\hlstd{run}\hlopt{$}\hlstd{coherence}
+
+  \hlcom{#Print to pdf using tikz}
+  \hlstd{filename} \hlkwb{<-} \hlkwd{paste0}\hlstd{(}\hlstr{"images/det"}\hlstd{,}\hlkwa{if}\hlstd{(EC)} \hlstr{"EC"} \hlkwa{else} \hlstr{"NN"}\hlstd{,} \hlstr{"R0"}\hlstd{, R_0,} \hlstr{"m"}\hlstd{, m,} \hlstr{".tex"}\hlstd{)}
+  \hlkwa{if}\hlstd{(}\hlkwd{file.exists}\hlstd{(filename))\{} \hlcom{#If the filename is already used}
+    \hlstd{filename} \hlkwb{<-} \hlkwd{paste0}\hlstd{(}\hlstr{"images/det"}\hlstd{,}\hlkwa{if}\hlstd{(EC)} \hlstr{"EC"} \hlkwa{else} \hlstr{"NN"}\hlstd{,} \hlstr{"R0"}\hlstd{, R_0,} \hlstr{"m"}\hlstd{, m,} \hlstr{"(1).tex"}\hlstd{)}
+  \hlstd{\}}
+  \hlkwa{if}\hlstd{(}\hlkwd{file.exists}\hlstd{(filename))\{} \hlcom{#If the filename(1) is already used}
+    \hlstd{filename} \hlkwb{<-} \hlkwd{paste0}\hlstd{(}\hlstr{"images/det"}\hlstd{,}\hlkwa{if}\hlstd{(EC)} \hlstr{"EC"} \hlkwa{else} \hlstr{"NN"}\hlstd{,} \hlstr{"R0"}\hlstd{, R_0,} \hlstr{"m"}\hlstd{, m,} \hlstr{"(2).tex"}\hlstd{)}
+  \hlstd{\}}
+
+  \hlkwd{tikz}\hlstd{(filename,}\hlkwc{standAlone}\hlstd{=}\hlnum{TRUE}\hlstd{,}\hlkwc{width}\hlstd{=}\hlnum{6}\hlstd{,}\hlkwc{height}\hlstd{=}\hlnum{6}\hlstd{)}
+
+  \hlcom{#leave room on right margin for coherence label}
+  \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,}\hlnum{5}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{5}\hlstd{))}
+  \hlcom{#Calculates I* to estimate how high the y-axis needs to be}
+  \hlstd{IEE} \hlkwb{<-} \hlstd{(}\hlnum{1} \hlopt{-} \hlnum{1}\hlopt{/}\hlstd{R_0)}\hlopt{*}\hlstd{mu}\hlopt{/}\hlstd{gamma}
+  \hlcom{## draw box for plot}
+  \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{,}\hlkwc{xlim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,tmax),}\hlkwc{ylim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,IEE}\hlopt{*}\hlnum{5}\hlstd{),}\hlkwc{type}\hlstd{=}\hlstr{"n"}\hlstd{,}\hlkwc{xlab}\hlstd{=}\hlstr{"Time (years)"}\hlstd{,}
+     \hlkwc{ylab}\hlstd{=}\hlstr{"Prevalence (I)"}\hlstd{,}\hlkwc{las}\hlstd{=}\hlnum{1}\hlstd{)}
+
+  \hlcom{#Plot I for all patches with different colours and lty}
+  \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{n)\{}
+    \hlkwd{lines}\hlstd{(times,soln[,}\hlkwd{paste0}\hlstd{(}\hlstr{'I'}\hlstd{,i)],}\hlkwc{col}\hlstd{=i,}\hlkwc{lty}\hlstd{=i)}
+  \hlstd{\}}
+
+  \hlcom{#Plot coherence over top}
+  \hlkwd{par}\hlstd{(}\hlkwc{new} \hlstd{= T)}
+  \hlkwd{plot}\hlstd{(times,coherence,}\hlkwc{type}\hlstd{=}\hlstr{'l'}\hlstd{,}\hlkwc{lwd}\hlstd{=}\hlnum{2}\hlstd{,}\hlkwc{axes}\hlstd{=F,}\hlkwc{xlab}\hlstd{=}\hlnum{NA}\hlstd{,} \hlkwc{ylab}\hlstd{=}\hlnum{NA}\hlstd{,}\hlkwc{ylim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{1}\hlstd{))}
+  \hlkwd{axis}\hlstd{(}\hlkwc{side}\hlstd{=}\hlnum{4}\hlstd{)}
+  \hlcom{#Label left axis}
+  \hlkwd{mtext}\hlstd{(}\hlkwc{side} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{3}\hlstd{,} \hlstr{'Coherence'}\hlstd{)}
+
+  \hlcom{#Make legend}
+  \hlstd{labels} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{1}\hlopt{:}\hlstd{n)}
+  \hlkwa{for}\hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{n)\{}
+    \hlstd{labels[i]}\hlkwb{<-}\hlkwd{paste}\hlstd{(}\hlstr{'$I_\{'}\hlstd{,i,}\hlstr{'\}$'}\hlstd{,}\hlkwc{collapse}\hlstd{=}\hlkwa{NULL}\hlstd{)}
+  \hlstd{\}}
+  \hlkwd{legend}\hlstd{(}\hlstr{"topright"}\hlstd{,}\hlkwc{legend}\hlstd{=labels,}\hlkwc{col}\hlstd{=}\hlnum{1}\hlopt{:}\hlstd{n,}\hlkwc{lty}\hlstd{=}\hlnum{1}\hlstd{,}\hlkwc{bty}\hlstd{=}\hlstr{'n'}\hlstd{)}
+  \hlkwd{dev.off}\hlstd{()}
+  \hlstd{tools}\hlopt{::}\hlkwd{texi2dvi}\hlstd{(filename,}\hlkwc{pdf}\hlstd{=T)}
+  \hlstd{\})}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+The following chunk of code uses \verb|plot.SIRmeta| to plot solutions to the meta-patch model for different parameters and with initial conditions within $\pm$30\% of the Endemic Equilibrium (EE) to preserve asymptotic local stability of the system\cite{Ass3}. This is so that the solutions converge quickly to a stable solution. The endemic equilibruim is
+\begin{align*}
+  S^* &= \frac{1}{\R_0} \\ 
+  I^* &=\frac{\mu}{\gamma} \left (1-\frac{1}{\R_0} \right ) \numberthis  \\
+  R^* &= 1 - S^* - I^*   
+\end{align*}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{#Parameters}
+\hlstd{R_0} \hlkwb{<-} \hlnum{17}   \hlcom{##basic reproduction rate (if the system had no forcing)}
+\hlstd{gamma} \hlkwb{<-} \hlnum{365}\hlopt{/}\hlnum{13}  \hlcom{##inverse of mean infectious period}
+\hlstd{mu} \hlkwb{<-} \hlnum{1}\hlopt{/}\hlnum{50}  \hlcom{##death and birth rate}
+\hlstd{alpha} \hlkwb{<-} \hlnum{0.1}  \hlcom{##strength of seasonal forcing}
+\hlstd{n} \hlkwb{<-} \hlnum{10}  \hlcom{## Number of patches}
+\hlstd{m} \hlkwb{<-} \hlnum{0.2}  \hlcom{##Connectivity matrix parameter}
+\hlstd{EC} \hlkwb{<-} \hlnum{FALSE} \hlcom{##if true use equal coupling, if false use nearest neighbors}
+
+\hlcom{##Initial conditions}
+\hlcom{#Want ICs near EE for stability. Find EE values:}
+\hlstd{SEE} \hlkwb{<-}\hlnum{1}\hlopt{/}\hlstd{R_0}
+\hlstd{IEE} \hlkwb{<-}\hlstd{(}\hlnum{1} \hlopt{-} \hlnum{1}\hlopt{/}\hlstd{R_0)}\hlopt{*}\hlstd{mu}\hlopt{/}\hlstd{gamma}
+\hlstd{REE} \hlkwb{<-}\hlnum{1}\hlopt{-}\hlstd{SEE}\hlopt{-}\hlstd{IEE}
+\hlcom{#Use random initials conditions within +/-30% of EE values}
+\hlkwd{set.seed}\hlstd{(}\hlnum{34}\hlstd{)} \hlcom{#For reproducbility}
+\hlstd{percent} \hlkwb{<-} \hlnum{0.3}
+\hlstd{S0} \hlkwb{<-} \hlkwd{runif}\hlstd{(SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent), SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent), n)}
+\hlstd{I0} \hlkwb{<-} \hlkwd{runif}\hlstd{(IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent), IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent), n)}
+\hlstd{R0} \hlkwb{<-} \hlnum{1}\hlopt{-}\hlstd{S0}\hlopt{-}\hlstd{I0}
+
+\hlstd{tmax}\hlkwb{<-}\hlnum{15}
+
+\hlcom{#### Plotting lots of solutions to pdf ####}
+\hlcom{#Making detNNR017m0.2}
+\hlkwd{plot.SIRmeta}\hlstd{(}\hlkwc{n}\hlstd{=n,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=S0,}\hlkwc{I}\hlstd{=I0,}\hlkwc{R}\hlstd{=R0),}\hlkwc{tmax}\hlstd{=tmax,}
+                      \hlkwc{parms}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{R_0}\hlstd{=R_0,}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{m}\hlstd{=m,}\hlkwc{EC}\hlstd{=EC))}
+\hlcom{#Making detNNR010m0.2}
+\hlstd{R_0}\hlkwb{<-}\hlnum{10}
+\hlkwd{plot.SIRmeta}\hlstd{(}\hlkwc{n}\hlstd{=n,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=S0,}\hlkwc{I}\hlstd{=I0,}\hlkwc{R}\hlstd{=R0),}\hlkwc{tmax}\hlstd{=tmax,}
+                      \hlkwc{parms}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{R_0}\hlstd{=R_0,}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{m}\hlstd{=m,}\hlkwc{EC}\hlstd{=EC))}
+\hlcom{#Making detNNR025m0.2}
+\hlstd{R_0}\hlkwb{<-}\hlnum{25}
+\hlkwd{plot.SIRmeta}\hlstd{(}\hlkwc{n}\hlstd{=n,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=S0,}\hlkwc{I}\hlstd{=I0,}\hlkwc{R}\hlstd{=R0),}\hlkwc{tmax}\hlstd{=tmax,}
+                      \hlkwc{parms}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{R_0}\hlstd{=R_0,}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{m}\hlstd{=m,}\hlkwc{EC}\hlstd{=EC))}
+\hlcom{#Making detECR017m0.2s}
+\hlstd{R_0}\hlkwb{<-}\hlnum{17}
+\hlstd{tmax}\hlkwb{<-}\hlnum{5}
+\hlstd{EC}\hlkwb{<-}\hlnum{TRUE}
+\hlkwd{plot.SIRmeta}\hlstd{(}\hlkwc{n}\hlstd{=n,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=S0,}\hlkwc{I}\hlstd{=I0,}\hlkwc{R}\hlstd{=R0),}\hlkwc{tmax}\hlstd{=tmax,}
+                      \hlkwc{parms}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{R_0}\hlstd{=R_0,}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{m}\hlstd{=m,}\hlkwc{EC}\hlstd{=EC))}
+\hlcom{#Making detNNR017m0.2s}
+\hlstd{EC}\hlkwb{<-}\hlnum{FALSE}
+\hlkwd{plot.SIRmeta}\hlstd{(}\hlkwc{n}\hlstd{=n,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=S0,}\hlkwc{I}\hlstd{=I0,}\hlkwc{R}\hlstd{=R0),}\hlkwc{tmax}\hlstd{=tmax,}
+                      \hlkwc{parms}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{R_0}\hlstd{=R_0,}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{m}\hlstd{=m,}\hlkwc{EC}\hlstd{=EC))}
+\hlcom{#Making detNNR017m0.01}
+\hlstd{tmax}\hlkwb{<-}\hlnum{15}
+\hlstd{m}\hlkwb{<-}\hlnum{0.01}
+\hlkwd{plot.SIRmeta}\hlstd{(}\hlkwc{n}\hlstd{=n,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=S0,}\hlkwc{I}\hlstd{=I0,}\hlkwc{R}\hlstd{=R0),}\hlkwc{tmax}\hlstd{=tmax,}
+                      \hlkwc{parms}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{R_0}\hlstd{=R_0,}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{m}\hlstd{=m,}\hlkwc{EC}\hlstd{=EC))}
+\hlcom{#Making detNNR017m0.01wider}
+\hlstd{percent} \hlkwb{<-} \hlnum{0.4}
+\hlstd{S0} \hlkwb{<-} \hlkwd{runif}\hlstd{(SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent), SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent), n)}
+\hlstd{I0} \hlkwb{<-} \hlkwd{runif}\hlstd{(IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent), IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent), n)}
+\hlstd{R0} \hlkwb{<-} \hlnum{1}\hlopt{-}\hlstd{S0}\hlopt{-}\hlstd{I0}
+\hlkwd{plot.SIRmeta}\hlstd{(}\hlkwc{n}\hlstd{=n,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=S0,}\hlkwc{I}\hlstd{=I0,}\hlkwc{R}\hlstd{=R0),}\hlkwc{tmax}\hlstd{=tmax,}
+                      \hlkwc{parms}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{R_0}\hlstd{=R_0,}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{m}\hlstd{=m,}\hlkwc{EC}\hlstd{=EC))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\section{Stochastic Simulation}
+Stochastic simulations of the model were also used. 
+\subsection{Gillespie Algorthim} 
+The Gillespie algorthim is a method of exactly simulating a stochastic process. Consider a process involving transitions between different states. The rate for a transition of type $i$ is $a_i$. The total transistion rate is the sum of the rates of all possible transitions:
+\begin{equation}
+a_0 = \sum a_i
+\end{equation}
+If we assume that the time spent in a given state is exponentially distributed, then by sampling from an exponential distribution with rate $a_0$ (using \Rlogo's \verb|rexp| function) we can simulate how much time was spent in a given state before the next transition. \par
+The probability that transition $i$ occured is $\frac{a_i}{a_0}$. By sampling from a uniform distribution over $[0,a_0]$ we can simulate which transition occured in the following way: if the sampled value is in the $i^{th}$ interval from the list
+\begin{equation}
+[0,a_1), [a_1,a_1+a_2), \dots [a_1+a_2+\dots+a_{i-1},a_1+a_2+\dots+a_{i}), \dots
+\end{equation}
+than say transition $i$ occured. 
+\par
+For this problem, the states are the values of $\{ (S_i,I_i,R_i) \}_{i=1}^n$. The state space is all possible set of $n$ triplets of non-negative integers. Possible transitions are: 
+\begin{itemize}
+\item A birth ($S_i \rightarrow S_i+1$)
+\item A transmission ($S_i \rightarrow S_i-1$ and $I_i \rightarrow I_i+1$)
+\item A recovery ($I_i \rightarrow I_i-1$ and $R_i \rightarrow R_i+1$)
+\item A death of a susceptible ($S_i \rightarrow S_i-1$)
+\item A death of an infected ($I_i \rightarrow I_i-1$)
+\item A death of a recovered ($R_i \rightarrow R_i-1$)
+\end{itemize}
+for $1 \leq i \leq n$. The transition rates are:
+\begin{itemize}
+\item The birth rate $\mu(S_i + I_i + R_i)$
+\item The transmission rate $\frac{S_i}{S_i+I_i+R_i}\sum\limits_{j=1}^{n}\beta_{ij}(t) I_j$
+\item The recovery rate $\gamma I_i $
+\item The susceptible death rate $\mu S_i $
+\item The infected death rate $\mu I_i $
+\item The recovered death rate $\mu R_i $
+\end{itemize}
+for $1 \leq i \leq n$. \\
+The function \verb|SIRmeta.Gillespie| implements a stochastic simulation of the meta-patch SIR model using the Gillespie algorthim. It returns a list of times (starting at zero and ending near the input variable \verb|tmax| with non-uniform step sizes) and the values of $S_i$, $I_i$, and $R_i$ for all patches at these times given initial conditions and parameter values.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{SIRmeta.Gillespie} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{tmax}\hlstd{,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(S0,I0,R0),}
+                              \hlkwc{parms}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{R_0}\hlstd{=}\hlnum{2}\hlstd{,}\hlkwc{gamma}\hlstd{=}\hlnum{0.25}\hlstd{,}\hlkwc{mu}\hlstd{=}\hlnum{4e-5}\hlstd{,}
+                                      \hlkwc{alpha}\hlstd{=}\hlnum{0.1}\hlstd{,}\hlkwc{m}\hlstd{=}\hlnum{0.2}\hlstd{,}\hlkwc{EC}\hlstd{=}\hlnum{TRUE}\hlstd{))\{}
+  \hlstd{times} \hlkwb{<-} \hlnum{0}
+
+  \hlstd{n} \hlkwb{<-} \hlkwd{length}\hlstd{(ic)}\hlopt{/}\hlnum{3}
+  \hlcom{#S, I, R matrices: column index is patch index and rows (added later in while loop) }
+  \hlcom{#are values at different time steps}
+  \hlstd{S} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{1}\hlstd{,n)}
+  \hlstd{I} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{1}\hlstd{,n)}
+  \hlstd{R} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{1}\hlstd{,n)}
+  \hlcom{#Initial Coniditions}
+  \hlstd{S[}\hlnum{1}\hlstd{,]} \hlkwb{<-} \hlstd{ic[}\hlnum{1}\hlopt{:}\hlstd{n]}
+  \hlstd{I[}\hlnum{1}\hlstd{,]} \hlkwb{<-} \hlstd{ic[(n}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{:}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{n)]}
+  \hlstd{R[}\hlnum{1}\hlstd{,]} \hlkwb{<-} \hlstd{ic[(}\hlnum{2}\hlopt{*}\hlstd{n}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{:}\hlstd{(}\hlnum{3}\hlopt{*}\hlstd{n)]}
+
+  \hlstd{index} \hlkwb{<-} \hlnum{1}
+  \hlkwa{while}\hlstd{(times[index]} \hlopt{<} \hlstd{tmax)\{}
+    \hlcom{#A matrix of all rates}
+    \hlstd{rates} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{0}\hlstd{,n,}\hlnum{6}\hlstd{)}
+    \hlcom{#the first column is all birth rates}
+    \hlstd{rates[,}\hlnum{1}\hlstd{]} \hlkwb{<-} \hlstd{mu}\hlopt{*}\hlstd{(S[index,]}\hlopt{+}\hlstd{I[index,]}\hlopt{+}\hlstd{R[index,])}
+    \hlcom{#thrid column are recovery rates}
+    \hlstd{rates[,}\hlnum{3}\hlstd{]} \hlkwb{<-} \hlstd{gamma}\hlopt{*}\hlstd{I[index,]}
+    \hlcom{#last three columns are death rates from S and I}
+    \hlstd{rates[,}\hlnum{4}\hlstd{]} \hlkwb{<-} \hlstd{mu}\hlopt{*}\hlstd{S[index,]}
+    \hlstd{rates[,}\hlnum{5}\hlstd{]} \hlkwb{<-} \hlstd{mu}\hlopt{*}\hlstd{I[index,]}
+    \hlstd{rates[,}\hlnum{6}\hlstd{]} \hlkwb{<-} \hlstd{mu}\hlopt{*}\hlstd{R[index,]}
+    \hlcom{#Second column are transmission rates}
+    \hlcom{#Equal Coupling}
+    \hlkwa{if}\hlstd{(EC)\{}
+      \hlstd{M} \hlkwb{<-} \hlkwd{matrix}\hlstd{(m}\hlopt{/}\hlstd{(n}\hlopt{-}\hlnum{1}\hlstd{),n,n)}\hlopt{+}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{m}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlnum{1}\hlopt{/}\hlstd{(n}\hlopt{-}\hlnum{1}\hlstd{)))}\hlopt{*}\hlkwd{diag}\hlstd{(n)}   \hlcom{##connectivity matrix}
+      \hlstd{betam} \hlkwb{<-} \hlstd{R_0}\hlopt{*}\hlstd{(gamma}\hlopt{+}\hlstd{mu)}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{alpha}\hlopt{*}\hlkwd{cos}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{pi}\hlopt{*}\hlstd{times[index]))}\hlopt{*}\hlstd{M}  \hlcom{##beta matrix }
+    \hlstd{\}}\hlkwa{else}\hlstd{\{}
+      \hlcom{#Nearest Neighbors}
+      \hlstd{M} \hlkwb{<-} \hlstd{(}\hlnum{1}\hlopt{-}\hlstd{m)}\hlopt{*}\hlkwd{diag}\hlstd{(n)}
+      \hlstd{M[}\hlkwd{row}\hlstd{(M)}\hlopt{%%}\hlstd{n}\hlopt{==}\hlstd{(}\hlkwd{col}\hlstd{(M)}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{%%}\hlstd{n ]} \hlkwb{<-} \hlstd{m}\hlopt{/}\hlnum{2}
+      \hlstd{M[}\hlkwd{row}\hlstd{(M)}\hlopt{%%}\hlstd{n}\hlopt{==}\hlstd{(}\hlkwd{col}\hlstd{(M)}\hlopt{-}\hlnum{1}\hlstd{)}\hlopt{%%}\hlstd{n]} \hlkwb{<-} \hlstd{m}\hlopt{/}\hlnum{2}
+      \hlstd{betam} \hlkwb{<-} \hlstd{R_0}\hlopt{*}\hlstd{(gamma}\hlopt{+}\hlstd{mu)}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{alpha}\hlopt{*}\hlkwd{cos}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{pi}\hlopt{*}\hlstd{times[index]))}\hlopt{*}\hlstd{M}  \hlcom{##beta matrix }
+    \hlstd{\}}
+    \hlstd{rates[,}\hlnum{2}\hlstd{]} \hlkwb{<-} \hlstd{S[index,]}\hlopt{*}\hlkwd{colSums}\hlstd{(}\hlkwd{t}\hlstd{(betam[}\hlnum{1}\hlopt{:}\hlstd{n,])}\hlopt{*}\hlstd{I[index,])}\hlopt{/}\hlstd{(S[index,]}\hlopt{+}\hlstd{I[index,]}\hlopt{+}\hlstd{R[index,])}
+    \hlstd{totalrate} \hlkwb{<-} \hlkwd{sum}\hlstd{(rates)}
+
+    \hlcom{#Getting a timestep using R's exp distribution}
+    \hlstd{timestep} \hlkwb{<-} \hlkwd{rexp}\hlstd{(}\hlkwc{n}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{rate}\hlstd{= totalrate)}
+    \hlstd{times} \hlkwb{<-} \hlkwd{rbind}\hlstd{(times, times[index]}\hlopt{+}\hlstd{timestep)}
+
+    \hlcom{#Adding new row to S, I, R}
+    \hlstd{S} \hlkwb{<-} \hlkwd{rbind}\hlstd{(S, S[index,])}
+    \hlstd{I} \hlkwb{<-} \hlkwd{rbind}\hlstd{(I, I[index,])}
+    \hlstd{R} \hlkwb{<-} \hlkwd{rbind}\hlstd{(R, R[index,])}
+
+    \hlcom{#Getting which compartment transistion occurred}
+    \hlcom{#TO DO: Do a bisection search (or some other faster method) instead}
+    \hlcom{#Get a random number from a uniform distribution}
+    \hlstd{randomvar} \hlkwb{<-} \hlkwd{runif}\hlstd{(}\hlkwc{n}\hlstd{=}\hlnum{1}\hlstd{,}\hlkwc{min}\hlstd{=}\hlnum{0}\hlstd{,}\hlkwc{max}\hlstd{=totalrate)}
+    \hlstd{interval} \hlkwb{<-} \hlnum{1}
+    \hlcom{#Make the rates matrix into a vector for conveince}
+    \hlstd{rateslisted} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlkwd{as.vector}\hlstd{(}\hlkwd{t}\hlstd{(rates)))}
+    \hlcom{#Find which interval randomval is in from list: }
+    \hlcom{#[0,a_1), [a_1, a_1+a_2), etc}
+    \hlcom{#If in interval [a_1 + .. + a_(i-1), a_1 + ... + a_i), }
+    \hlcom{#transition given by rate a_i occurred}
+    \hlkwa{while}\hlstd{(interval} \hlopt{<} \hlstd{(}\hlnum{6}\hlopt{*}\hlstd{n))\{}
+      \hlkwa{if}\hlstd{(randomvar} \hlopt{>=} \hlkwd{sum}\hlstd{(rateslisted[}\hlnum{1}\hlopt{:}\hlstd{interval])} \hlopt{&}
+         \hlstd{randomvar} \hlopt{<} \hlkwd{sum}\hlstd{(rateslisted[}\hlnum{1}\hlopt{:}\hlstd{(interval}\hlopt{+}\hlnum{1}\hlstd{)]))\{}
+        \hlkwa{break}
+      \hlstd{\}}\hlkwa{else}\hlstd{\{}
+        \hlstd{interval}\hlkwb{<-} \hlstd{interval}\hlopt{+}\hlnum{1}
+      \hlstd{\}}
+    \hlstd{\}}
+    \hlcom{#Get row, col indices of a_i in rates matrix}
+    \hlcom{#row index says in which patch a transition occurred}
+    \hlcom{#col index says what type of transition occurred}
+    \hlstd{colInd} \hlkwb{<-} \hlstd{interval}\hlopt{%%}\hlnum{6}
+    \hlstd{rowInd} \hlkwb{<-} \hlkwd{ceiling}\hlstd{(interval}\hlopt{/}\hlnum{6}\hlstd{)}
+    \hlkwa{if}\hlstd{(colInd} \hlopt{==}\hlnum{1}\hlstd{)\{}  \hlcom{##A birth occurred}
+      \hlstd{S[index}\hlopt{+}\hlnum{1}\hlstd{,rowInd]} \hlkwb{<-} \hlstd{S[index,rowInd]}\hlopt{+}\hlnum{1}
+    \hlstd{\}}\hlkwa{else if}\hlstd{(colInd} \hlopt{==}\hlnum{2}\hlstd{)\{}  \hlcom{##An infection occurred}
+      \hlstd{S[index}\hlopt{+}\hlnum{1}\hlstd{,rowInd]} \hlkwb{<-} \hlstd{S[index,rowInd]}\hlopt{-}\hlnum{1}
+      \hlstd{I[index}\hlopt{+}\hlnum{1}\hlstd{,rowInd]} \hlkwb{<-} \hlstd{I[index,rowInd]}\hlopt{+}\hlnum{1}
+    \hlstd{\}}\hlkwa{else if}\hlstd{(colInd} \hlopt{==}\hlnum{3}\hlstd{)\{}  \hlcom{##A recovery occurred}
+      \hlstd{I[index}\hlopt{+}\hlnum{1}\hlstd{,rowInd]} \hlkwb{<-} \hlstd{I[index,rowInd]}\hlopt{-}\hlnum{1}
+      \hlstd{R[index}\hlopt{+}\hlnum{1}\hlstd{,rowInd]} \hlkwb{<-} \hlstd{R[index,rowInd]}\hlopt{+}\hlnum{1}
+    \hlstd{\}}\hlkwa{else if}\hlstd{(colInd} \hlopt{==}\hlnum{4}\hlstd{)\{}  \hlcom{##A death in S occurred}
+      \hlstd{S[index}\hlopt{+}\hlnum{1}\hlstd{,rowInd]} \hlkwb{<-} \hlstd{S[index,rowInd]}\hlopt{-}\hlnum{1}
+    \hlstd{\}}\hlkwa{else if}\hlstd{(colInd} \hlopt{==}\hlnum{5}\hlstd{)\{}  \hlcom{##A death in I occurred}
+      \hlstd{I[index}\hlopt{+}\hlnum{1}\hlstd{,rowInd]} \hlkwb{<-} \hlstd{I[index,rowInd]}\hlopt{-}\hlnum{1}
+    \hlstd{\}}\hlkwa{else if}\hlstd{(colInd} \hlopt{==}\hlnum{0}\hlstd{)\{}  \hlcom{##A death in R occurred}
+      \hlstd{R[index}\hlopt{+}\hlnum{1}\hlstd{,rowInd]} \hlkwb{<-}  \hlstd{R[index,rowInd]}\hlopt{-}\hlnum{1}
+    \hlstd{\}}
+
+    \hlstd{index} \hlkwb{<-} \hlstd{index}\hlopt{+}\hlnum{1}
+  \hlstd{\}}
+  \hlkwd{return}\hlstd{(}\hlkwd{cbind}\hlstd{(times, S, I, R))}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+The following code uses the \verb|SIRmeta.Gillespie| function to plot a stochastic simulation of the model.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{#For reprodubility set the seed}
+\hlkwd{set.seed}\hlstd{(}\hlnum{899}\hlstd{)}
+
+\hlstd{tmax} \hlkwb{<-} \hlnum{10}
+\hlstd{n} \hlkwb{<-} \hlnum{10}
+
+\hlcom{#Parameters}
+\hlstd{R_0} \hlkwb{<-} \hlnum{17}   \hlcom{##basic reproduction rate (if the system had no forcing)}
+\hlstd{gamma} \hlkwb{<-} \hlnum{365}\hlopt{/}\hlnum{13}  \hlcom{##inverse of mean infectious period}
+\hlstd{mu} \hlkwb{<-} \hlnum{1}\hlopt{/}\hlnum{50}  \hlcom{##death and birth rate}
+\hlstd{alpha} \hlkwb{<-} \hlnum{0.1}  \hlcom{##strength of seasonal forcing}
+\hlstd{n} \hlkwb{<-} \hlnum{10}  \hlcom{## Number of patches}
+\hlstd{m} \hlkwb{<-} \hlnum{0.5}  \hlcom{##Connectivity matrix parameter}
+\hlstd{EC} \hlkwb{<-} \hlnum{TRUE} \hlcom{##if true use equal coupling, if false use nearest neighbors}
+
+\hlcom{##Initial conditions}
+\hlcom{#Want ICs near EE for stability. Find EE values:}
+\hlstd{SEE} \hlkwb{<-}\hlnum{1}\hlopt{/}\hlstd{R_0}
+\hlstd{IEE} \hlkwb{<-}\hlstd{(}\hlnum{1} \hlopt{-} \hlnum{1}\hlopt{/}\hlstd{R_0)}\hlopt{*}\hlstd{mu}\hlopt{/}\hlstd{gamma}
+\hlstd{REE} \hlkwb{<-}\hlnum{1}\hlopt{-}\hlstd{SEE}\hlopt{-}\hlstd{IEE}
+\hlcom{#Sample from initials conditions within +/-10% of EE values}
+\hlcom{#convert from proportions to numbers and convert to integers}
+\hlstd{percent} \hlkwb{<-} \hlnum{0.1}
+\hlstd{population} \hlkwb{<-} \hlnum{3000}
+\hlstd{possibleS0} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent)),}
+                  \hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent)),}\hlnum{1}\hlstd{)}
+\hlstd{possibleI0} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent)),}
+                  \hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent)),}\hlnum{1}\hlstd{)}
+\hlstd{S0} \hlkwb{<-} \hlkwd{sample}\hlstd{(possibleS0, n,}\hlkwc{replace}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\hlstd{I0} \hlkwb{<-} \hlkwd{sample}\hlstd{(possibleI0, n,}\hlkwc{replace}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\hlstd{R0} \hlkwb{<-} \hlstd{population}\hlopt{-}\hlstd{S0}\hlopt{-}\hlstd{I0}
+
+ \hlcom{#Get simulation results}
+\hlstd{results} \hlkwb{<-} \hlkwd{SIRmeta.Gillespie}\hlstd{(tmax,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(S0,I0,R0),}
+                             \hlkwc{parms}\hlstd{=}\hlkwd{c}\hlstd{(R_0,gamma,mu,alpha,m,EC))}
+\hlstd{times}\hlkwb{<-}\hlstd{results[,}\hlnum{1}\hlstd{]}
+\hlstd{I} \hlkwb{<-} \hlstd{results[,(n}\hlopt{+}\hlnum{2}\hlstd{)}\hlopt{:}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{n}\hlopt{+}\hlnum{2}\hlstd{)]}
+
+\hlcom{#Save data for later use and plot to pdf and png}
+\hlkwd{write.table}\hlstd{(results,}\hlkwc{file}\hlstd{=}\hlstr{"GillECR017m0.2.pdf"}\hlstd{)}
+\hlkwd{pdf}\hlstd{(}\hlkwc{file}\hlstd{=}\hlstr{"images/GillECR017m0.2.pdf"}\hlstd{)}
+\hlstd{copy} \hlkwb{<-} \hlkwd{dev.cur}\hlstd{()}
+\hlkwd{png}\hlstd{(}\hlkwc{file}\hlstd{=}\hlstr{"images/GillECR017m0.2.png"}\hlstd{)}
+\hlkwd{dev.control}\hlstd{(}\hlstr{"enable"}\hlstd{)}
+
+\hlcom{## draw box for plot}
+  \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{,}\hlkwc{xlim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,tmax),}\hlkwc{ylim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,population}\hlopt{*}\hlstd{IEE}\hlopt{*}\hlnum{2}\hlstd{),}\hlkwc{xlab}\hlstd{=}\hlstr{"Time (years)"}\hlstd{,}
+       \hlkwc{ylab}\hlstd{=}\hlstr{"Prevalence (I)"}\hlstd{)}
+  \hlcom{#Plot all I_i using a differnt line colour and lty for each patch}
+\hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{n) \{}
+    \hlkwd{lines}\hlstd{(times, I[,i],}\hlkwc{col}\hlstd{=i,}\hlkwc{lwd}\hlstd{=}\hlnum{0.2}\hlstd{)}
+\hlstd{\}}
+  \hlcom{#Make legend }
+  \hlkwd{legend}\hlstd{(}\hlstr{"topright"}\hlstd{,}\hlkwc{legend}\hlstd{=}\hlnum{1}\hlopt{:}\hlstd{n,}\hlkwc{fill}\hlstd{=}\hlstr{"white"}\hlstd{,}\hlkwc{title}\hlstd{=}\hlstr{"Patch"}\hlstd{,}\hlkwc{col}\hlstd{=}\hlnum{1}\hlopt{:}\hlstd{n,}\hlkwc{lty}\hlstd{=}\hlnum{1}\hlstd{,}\hlkwc{cex}\hlstd{=}\hlnum{0.5}\hlstd{)}
+
+
+\hlkwd{dev.copy}\hlstd{(}\hlkwc{which}\hlstd{=copy)}
+\hlstd{dev.off}
+\hlstd{dev.off}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+This code runs very slowly for large populations. This is because the average waiting time between each transition is the inverse of the total rate - which is proportional to the population. Thus, the time steps become very small. For a 250,000 person per patch population it took 3 hours. This method for simulating the stochastic realization of the model is thus not practial.
+
+\subsection{Adaptive Tau-Leaping Algorthim} 
+To simulate a stochastic process efficiently, an approximate method can be used. In the adaptive tau-leaping algorithm instead of having a time step for every single transition, periods of time where transition rates are approximately constant are found by the algorithm and ``leaped" over. For such a time period, $\tau$, the number of transitions that occured is given by Possion distributions. The number of $i$ transitions is given by a Possion random variable with parameter $\tau a_i$. 
+\par
+The \verb|runadaptau| function contains a list of all possible transitions and \verb|rateFct|, a function that returns the values of all transition rates given the time and current state. \verb|runadaptau| passes these, along with the input initial conditions and parameters, to the \verb|ssa.adaptivetau| function. It returns a list of times (starting at zero and ending near input \verb|tmax| with non-uniform step size) and the values of the state at all these times. 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+  \hlstd{run.adaptau} \hlkwb{<-}\hlkwa{function}\hlstd{(}\hlkwc{tmax}\hlstd{,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(S0,I0,R0),}
+                              \hlkwc{params}\hlstd{=}\hlkwd{c}\hlstd{(R_0,gamma,mu,alpha,m,EC))\{}
+  \hlcom{#Get the # of patches from the ics  }
+  \hlstd{n} \hlkwb{<-} \hlkwd{length}\hlstd{(ic)}\hlopt{/}\hlnum{3}
+
+  \hlcom{#TO DO: This should be changed so that it works with different n values }
+  \hlcom{#and is less ugly}
+  \hlcom{#A list of all possible transitions}
+  \hlstd{transitions} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlkwd{c}\hlstd{(}\hlkwc{S1} \hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S1} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{I1}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{I1} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{R1}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S1} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                      \hlkwd{c}\hlstd{(}\hlkwc{I1} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{R1} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{S2} \hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S2} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{I2}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{I2} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{R2}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S2} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{I2} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{R2} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{S3} \hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S3} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{I3}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{I3} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{R3}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S3} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{I3} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{R3} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{S4} \hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S4} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{I4}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{I4} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{R4}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S4} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{I4} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{R4} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{S5} \hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S5} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{I5}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{I5} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{R5}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S5} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{I5} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{R5} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{S6} \hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S6} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{I6}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{I6} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{R6}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S6} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{I6} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{R6} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{S7} \hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S7} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{I7}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{I7} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{R7}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S7} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{I7} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{R7} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{S8} \hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S8} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{I8}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{I8} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{R8}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S8} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{I8} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{R8} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{S9} \hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S9} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{I9}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{I9} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{R9}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S9} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{I9} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{R9} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{S10} \hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S10} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{I10}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{I10} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{R10}\hlstd{=} \hlopt{+}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{S10} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),}
+                    \hlkwd{c}\hlstd{(}\hlkwc{I10} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlkwc{R10} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{))}
+
+  \hlcom{#A function that outputs the transition rates given parameters, S,I,R, and t}
+  \hlstd{rateFct} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{,}\hlkwc{params}\hlstd{,}\hlkwc{time}\hlstd{)\{}
+    \hlcom{#x should be of form: x=c(S,I,R)}
+    \hlcom{#parms should be of form: paarms=c(R_0,gamma,mu,alpha,m,EC)}
+
+    \hlkwd{with}\hlstd{(}
+       \hlkwd{as.list}\hlstd{(}\hlkwd{c}\hlstd{(params)),}
+       \hlstd{\{}
+    \hlstd{n} \hlkwb{<-} \hlkwd{length}\hlstd{(x)}\hlopt{/}\hlnum{3}
+    \hlstd{S} \hlkwb{<-} \hlkwd{as.vector}\hlstd{(x[}\hlnum{1}\hlopt{:}\hlstd{n])}
+    \hlstd{I} \hlkwb{<-} \hlkwd{as.vector}\hlstd{(x[(n}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{:}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{n)])}
+    \hlstd{R} \hlkwb{<-} \hlkwd{as.vector}\hlstd{(x[(}\hlnum{2}\hlopt{*}\hlstd{n}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{:}\hlstd{(}\hlnum{3}\hlopt{*}\hlstd{n)])}
+
+    \hlcom{#A matrix of all rates}
+    \hlstd{rates} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{0}\hlstd{,n,}\hlnum{6}\hlstd{)}
+    \hlcom{#the first column is all birth rates}
+    \hlstd{rates[,}\hlnum{1}\hlstd{]} \hlkwb{<-} \hlstd{mu}\hlopt{*}\hlstd{(S}\hlopt{+}\hlstd{I}\hlopt{+}\hlstd{R)}
+    \hlcom{#thrid column are recovery rates}
+    \hlstd{rates[,}\hlnum{3}\hlstd{]} \hlkwb{<-} \hlstd{gamma}\hlopt{*}\hlstd{I}
+    \hlcom{#last three columns are death rates from S and I}
+    \hlstd{rates[,}\hlnum{4}\hlstd{]} \hlkwb{<-} \hlstd{mu}\hlopt{*}\hlstd{S}
+    \hlstd{rates[,}\hlnum{5}\hlstd{]} \hlkwb{<-} \hlstd{mu}\hlopt{*}\hlstd{I}
+    \hlstd{rates[,}\hlnum{6}\hlstd{]} \hlkwb{<-} \hlstd{mu}\hlopt{*}\hlstd{R}
+    \hlcom{#Second column are transmission rates}
+    \hlcom{#Equal Coupling}
+    \hlkwa{if}\hlstd{(EC}\hlopt{==}\hlnum{TRUE}\hlstd{)\{}
+      \hlstd{M} \hlkwb{<-} \hlkwd{matrix}\hlstd{(m}\hlopt{/}\hlstd{(n}\hlopt{-}\hlnum{1}\hlstd{),n,n)}\hlopt{+}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{m}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlnum{1}\hlopt{/}\hlstd{(n}\hlopt{-}\hlnum{1}\hlstd{)))}\hlopt{*}\hlkwd{diag}\hlstd{(n)}  \hlcom{##connectivity matrix}
+      \hlstd{betam} \hlkwb{<-} \hlstd{R_0}\hlopt{*}\hlstd{(gamma}\hlopt{+}\hlstd{mu)}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{alpha}\hlopt{*}\hlkwd{cos}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{pi}\hlopt{*}\hlstd{time))}\hlopt{*}\hlstd{M}  \hlcom{##beta matrix }
+    \hlstd{\}}\hlkwa{else}\hlstd{\{}
+      \hlcom{#Nearest Neighbors}
+      \hlstd{M} \hlkwb{<-} \hlstd{(}\hlnum{1}\hlopt{-}\hlstd{m)}\hlopt{*}\hlkwd{diag}\hlstd{(n)}
+      \hlstd{M[}\hlkwd{row}\hlstd{(M)}\hlopt{%%}\hlstd{n}\hlopt{==}\hlstd{(}\hlkwd{col}\hlstd{(M)}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{%%}\hlstd{n ]} \hlkwb{<-} \hlstd{m}\hlopt{/}\hlnum{2}
+      \hlstd{M[}\hlkwd{row}\hlstd{(M)}\hlopt{%%}\hlstd{n}\hlopt{==}\hlstd{(}\hlkwd{col}\hlstd{(M)}\hlopt{-}\hlnum{1}\hlstd{)}\hlopt{%%}\hlstd{n]} \hlkwb{<-} \hlstd{m}\hlopt{/}\hlnum{2}
+      \hlstd{betam} \hlkwb{<-} \hlstd{R_0}\hlopt{*}\hlstd{(gamma}\hlopt{+}\hlstd{mu)}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{alpha}\hlopt{*}\hlkwd{cos}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{pi}\hlopt{*}\hlstd{time))}\hlopt{*}\hlstd{M}  \hlcom{##beta matrix }
+    \hlstd{\}}
+    \hlstd{rates[,}\hlnum{2}\hlstd{]} \hlkwb{<-} \hlstd{S}\hlopt{*}\hlkwd{colSums}\hlstd{(}\hlkwd{t}\hlstd{(betam[}\hlnum{1}\hlopt{:}\hlstd{n,])}\hlopt{*}\hlstd{I)}\hlopt{/}\hlstd{(S}\hlopt{+}\hlstd{I}\hlopt{+}\hlstd{R)}
+
+    \hlkwd{return}\hlstd{(}\hlkwd{as.vector}\hlstd{(}\hlkwd{t}\hlstd{(rates)))}
+       \hlstd{\}}
+    \hlstd{)}
+  \hlstd{\}}
+
+  \hlstd{init.values} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=S0,}\hlkwc{I}\hlstd{=I0,}\hlkwc{R}\hlstd{=R0)}
+  \hlcom{#Get approximate simulation}
+  \hlstd{simResults} \hlkwb{<-} \hlkwd{ssa.adaptivetau}\hlstd{(init.values,transitions, rateFct, params,} \hlkwc{tf}\hlstd{=tmax)}
+  \hlstd{I} \hlkwb{<-} \hlstd{simResults[,(}\hlnum{12}\hlopt{:}\hlnum{21}\hlstd{)]}
+
+    \hlcom{#Measure of coherence: the coefficient of variation/relative }
+  \hlcom{#standard deviation of all the patches at each time step}
+  \hlstd{coherence} \hlkwb{<-} \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,}\hlkwd{length}\hlstd{(simResults[,}\hlnum{1}\hlstd{]))}
+  \hlkwa{for}\hlstd{(tims} \hlkwa{in} \hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(simResults[,}\hlnum{1}\hlstd{]))\{}
+    \hlstd{coherence[tims]}\hlkwb{<-} \hlkwd{sd}\hlstd{(I[tims,])}\hlopt{/}\hlkwd{mean}\hlstd{(I[tims,])}
+    \hlcom{#In case the mean is zero (and thus the coefficient of variation becomes nan or inf)}
+    \hlkwa{if}\hlstd{(}\hlkwd{is.nan}\hlstd{(coherence[tims])} \hlopt{|} \hlkwd{is.infinite}\hlstd{(coherence[tims]))\{}
+      \hlstd{coherence[tims]}\hlkwb{<-} \hlnum{0}
+    \hlstd{\}}
+  \hlstd{\}}
+
+  \hlcom{#Is the disease extinct (I pop below 20% of IEE for awhile) in any of the patches? }
+  \hlcom{#Store 1s for yes, 0 for nos}
+  \hlstd{localextinction}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlnum{1}\hlopt{:}\hlstd{n)}
+  \hlkwa{for}\hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlkwd{ncol}\hlstd{(I))\{}
+    \hlkwa{if}\hlstd{(}\hlkwd{mean}\hlstd{(I[(}\hlkwd{nrow}\hlstd{(I)}\hlopt{-}\hlnum{50}\hlstd{)}\hlopt{:}\hlkwd{nrow}\hlstd{(I),i])}\hlopt{<=} \hlstd{IEE}\hlopt{*}\hlstd{population}\hlopt{*}\hlnum{0.2}\hlstd{)\{}
+      \hlstd{localextinction[i]}\hlkwb{<-}\hlnum{1}
+    \hlstd{\}}\hlkwa{else}\hlstd{\{}
+      \hlstd{localextinction[i]}\hlkwb{<-}\hlnum{0}
+    \hlstd{\}}
+  \hlstd{\}}
+  \hlstd{localext}\hlkwb{<-}\hlkwd{mean}\hlstd{(localextinction)}
+
+  \hlcom{#If the disease is extinct in all patches there is global extinction}
+  \hlkwa{if}\hlstd{(}\hlkwd{all}\hlstd{(localextinction}\hlopt{==}\hlnum{1}\hlstd{))\{}
+      \hlstd{globalextinction}\hlkwb{<-}\hlnum{1}
+    \hlstd{\}}\hlkwa{else}\hlstd{\{}
+      \hlstd{globalextinction}\hlkwb{<-}\hlnum{0}
+    \hlstd{\}}
+
+  \hlkwd{return}\hlstd{(}\hlkwd{list}\hlstd{(}\hlstr{"sim"} \hlstd{= simResults,} \hlstr{"coherence"}\hlstd{= coherence,}\hlstr{"localext"}\hlstd{=localext,}\hlstr{"globalext"}\hlstd{=globalextinction))}
+  \hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+The following function,\verb|plot.adaptau|, uses \verb|runadaptau| to approximately simulate the meta-patch SIR model and plot the results.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{plot.adaptau} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{tmax}\hlstd{,}\hlkwc{init.values}\hlstd{,}\hlkwc{params}\hlstd{,}\hlkwc{IEE}\hlstd{,}\hlkwc{population}\hlstd{)\{}
+  \hlkwd{with}\hlstd{(}\hlkwd{as.list}\hlstd{(}\hlkwd{c}\hlstd{(parms)), \{}
+  \hlstd{n}\hlkwb{<-}\hlnum{10}
+  \hlstd{run} \hlkwb{<-} \hlkwd{run.adaptau}\hlstd{(tmax,init.values,params)}
+
+  \hlstd{simResults} \hlkwb{<-} \hlstd{run}\hlopt{$}\hlstd{sim}
+  \hlstd{coherence} \hlkwb{<-} \hlstd{run}\hlopt{$}\hlstd{coherence}
+
+  \hlcom{##Saving the data and the print plot to pdf}
+  \hlstd{filename} \hlkwb{<-} \hlkwd{paste0}\hlstd{(}\hlstr{"adaptau"}\hlstd{,}\hlkwa{if}\hlstd{(EC}\hlopt{==}\hlnum{TRUE}\hlstd{)} \hlstr{"EC"} \hlkwa{else} \hlstr{"NN"}\hlstd{,} \hlstr{"R0"}\hlstd{, R_0,} \hlstr{"m"}\hlstd{, m)}
+  \hlkwa{if}\hlstd{(}\hlkwd{file.exists}\hlstd{(filename))\{} \hlcom{#If the filename is already used}
+    \hlstd{filename} \hlkwb{<-} \hlkwd{paste0}\hlstd{(}\hlstr{"adaptau"}\hlstd{,}\hlkwa{if}\hlstd{(EC}\hlopt{==}\hlnum{TRUE}\hlstd{)} \hlstr{"EC"} \hlkwa{else} \hlstr{"NN"}\hlstd{,} \hlstr{"R0"}\hlstd{, R_0,} \hlstr{"m"}\hlstd{, m,} \hlstr{"(1)"}\hlstd{)}
+  \hlstd{\}}
+  \hlkwa{if}\hlstd{(}\hlkwd{file.exists}\hlstd{(filename))\{} \hlcom{#If the filename(1) is already used}
+    \hlstd{filename} \hlkwb{<-} \hlkwd{paste0}\hlstd{(}\hlstr{"images/adaptau"}\hlstd{,}\hlkwa{if}\hlstd{(EC}\hlopt{==}\hlnum{TRUE}\hlstd{)} \hlstr{"EC"} \hlkwa{else} \hlstr{"NN"}\hlstd{,} \hlstr{"R0"}\hlstd{, R_0,} \hlstr{"m"}\hlstd{, m,} \hlstr{"(2)"}\hlstd{)}
+  \hlstd{\}}
+  \hlkwd{write.table}\hlstd{(run,}\hlkwc{file}\hlstd{=}\hlkwd{paste0}\hlstd{(filename,}\hlstr{".csv"}\hlstd{))}
+  \hlkwd{pdf}\hlstd{(}\hlkwc{file}\hlstd{=}\hlkwd{paste0}\hlstd{(}\hlstr{"images/"}\hlstd{,filename,}\hlstr{".pdf"}\hlstd{))}
+
+  \hlcom{## draw box for plot}
+  \hlcom{#leave room on right margin for Coherence label}
+  \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,}\hlnum{5}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{5}\hlstd{))}
+  \hlcom{#Solutions should ocsillate around IEE so ylim should go to around twice}
+  \hlcom{#that so solns are in the middle of plot}
+  \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{,}\hlkwc{xlim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,tmax),}\hlkwc{ylim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,population}\hlopt{*}\hlstd{IEE}\hlopt{*}\hlnum{4}\hlstd{),}\hlkwc{xlab}\hlstd{=}\hlstr{"Time (years)"}\hlstd{,}
+       \hlkwc{ylab}\hlstd{=}\hlstr{"Prevalence (I)"}\hlstd{)}
+
+  \hlcom{##plot I_i for each patch}
+  \hlstd{j}\hlkwb{<-}\hlnum{1}\hlopt{:}\hlstd{n}
+  \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{n) \{}
+   \hlkwa{if}\hlstd{(i}\hlopt{%%}\hlnum{8}\hlopt{==}\hlnum{1}\hlstd{) j[i]} \hlkwb{<-} \hlstd{i}\hlopt{+}\hlnum{3} \hlcom{#indices so that black and solid lines are }
+   \hlcom{#skipped; saved for legend}
+   \hlkwd{lines}\hlstd{(simResults[,}\hlnum{1}\hlstd{], simResults[,}\hlnum{11}\hlopt{+}\hlstd{i],}\hlkwc{col}\hlstd{=j[i],}\hlkwc{lty}\hlstd{=j[i],}\hlkwc{lwd}\hlstd{=}\hlnum{0.5}\hlstd{)}
+   \hlcom{# use a different line colour and line type for each patch}
+  \hlstd{\}}
+
+  \hlcom{#Currently unused code for plotting the det soln over this sim}
+   \hlcom{# draw.single.soln(n,ic=c(S=SEE,I=IEE,R=(1-SEE-IEE)),tmax=tmax,}
+   \hlcom{#          func=SIR.vector.field,}
+   \hlcom{#         parms=c(R_0,gamma,mu,alpha,population))}
+
+  \hlcom{#Plot coherence onto of pre-existing plot}
+  \hlkwd{par}\hlstd{(}\hlkwc{new} \hlstd{= T)}
+  \hlkwd{plot}\hlstd{(simResults[,}\hlnum{1}\hlstd{],coherence,}\hlkwc{type}\hlstd{=}\hlstr{'l'}\hlstd{,}\hlkwc{axes}\hlstd{=F,}\hlkwc{xlab}\hlstd{=}\hlnum{NA}\hlstd{,} \hlkwc{ylab}\hlstd{=}\hlnum{NA}\hlstd{,} \hlkwc{ylim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{1}\hlstd{))}
+  \hlcom{#y axis and coherence label on right axis}
+  \hlkwd{axis}\hlstd{(}\hlkwc{side}\hlstd{=}\hlnum{4}\hlstd{)}
+  \hlkwd{mtext}\hlstd{(}\hlkwc{side} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{3}\hlstd{,} \hlstr{'Coherence'}\hlstd{)}
+
+  \hlcom{#Make legends}
+  \hlkwd{legend}\hlstd{(}\hlstr{"topright"}\hlstd{,}\hlkwc{legend}\hlstd{=}\hlnum{1}\hlopt{:}\hlstd{n,}\hlkwc{title}\hlstd{=}\hlstr{"Patch"}\hlstd{,}\hlkwc{bg}\hlstd{=}\hlstr{'white'}\hlstd{,}\hlkwc{col}\hlstd{=j,}\hlkwc{lty}\hlstd{=j,}\hlkwc{lwd}\hlstd{=}\hlnum{0.5}\hlstd{,}\hlkwc{cex}\hlstd{=}\hlnum{0.8}\hlstd{)}
+  \hlkwd{legend}\hlstd{(}\hlstr{"bottomright"}\hlstd{,} \hlkwc{legend}\hlstd{=}\hlstr{"Relative Standard Deviation"}\hlstd{,}\hlkwc{bg}\hlstd{=}\hlstr{'white'}\hlstd{,}
+       \hlkwc{col}\hlstd{=}\hlnum{1}\hlstd{,}\hlkwc{lty}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{cex}\hlstd{=}\hlnum{0.8}\hlstd{)}
+
+  \hlkwd{dev.off}\hlstd{()}
+  \hlstd{\})}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Using \verb|plot.adaptau| to simulate the model with different parameter values:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{#Parameters}
+\hlstd{R_0} \hlkwb{<-} \hlnum{17}   \hlcom{##basic reproduction rate (if the system had no forcing)}
+\hlstd{gamma} \hlkwb{<-} \hlnum{365}\hlopt{/}\hlnum{13}  \hlcom{##inverse of mean infectious period}
+\hlstd{mu} \hlkwb{<-} \hlnum{1}\hlopt{/}\hlnum{50}  \hlcom{##death and birth rate}
+\hlstd{alpha} \hlkwb{<-} \hlnum{0.1}  \hlcom{##strength of seasonal forcing}
+\hlstd{n} \hlkwb{<-} \hlnum{10}  \hlcom{## Number of patches}
+\hlstd{m} \hlkwb{<-} \hlnum{0.2}  \hlcom{##Connectivity matrix parameter}
+\hlstd{EC} \hlkwb{<-} \hlnum{TRUE} \hlcom{##if true use equal coupling, if false use nearest neighbors}
+\hlstd{params}\hlkwb{<-}\hlkwd{c}\hlstd{(R_0,gamma,mu,alpha,m,EC)}
+
+\hlcom{##Initial conditions}
+\hlcom{#Want ICs near EE for stability. Find EE values:}
+ \hlstd{SEE} \hlkwb{<-}\hlnum{1}\hlopt{/}\hlstd{R_0}
+ \hlstd{IEE} \hlkwb{<-}\hlstd{(}\hlnum{1} \hlopt{-} \hlnum{1}\hlopt{/}\hlstd{R_0)}\hlopt{*}\hlstd{mu}\hlopt{/}\hlstd{gamma}
+ \hlstd{REE} \hlkwb{<-}\hlnum{1}\hlopt{-}\hlstd{SEE}\hlopt{-}\hlstd{IEE}
+ \hlcom{#Sample ics from points +/-10% from the EE values}
+ \hlstd{percent} \hlkwb{<-} \hlnum{0.1}
+ \hlstd{population} \hlkwb{<-} \hlnum{5000000}
+ \hlstd{possibleS0} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent)),}
+                   \hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent)),}\hlnum{1}\hlstd{)}
+\hlstd{possibleI0} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent)),}
+                  \hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent)),}\hlnum{1}\hlstd{)}
+ \hlstd{S0} \hlkwb{<-} \hlkwd{sample}\hlstd{(possibleS0, n,}\hlkwc{replace}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+ \hlstd{I0} \hlkwb{<-} \hlkwd{sample}\hlstd{(possibleI0, n,}\hlkwc{replace}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+ \hlstd{R0} \hlkwb{<-} \hlstd{population}\hlopt{-}\hlstd{S0}\hlopt{-}\hlstd{I0}
+\hlstd{init.values} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=S0,}\hlkwc{I}\hlstd{=I0,}\hlkwc{R}\hlstd{=R0)}
+
+\hlstd{tmax} \hlkwb{<-} \hlnum{15}
+
+\hlkwd{plot.adaptau}\hlstd{(tmax,init.values,params,IEE,population)}
+\hlstd{m}\hlkwb{<-}\hlnum{0.01}
+\hlkwd{plot.adaptau}\hlstd{(tmax,init.values,params,IEE,population)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+
+\section{Coherence Dependence on Parameters} 
+The dependence of a meta-patch solution becoming ``coherent" on the parameters used in the model was explored. A system is considered coherent when the mean value of $c_v(t)$ from $t=9$ years to $t=10$ years is below a threshold value. We will refer to this value as the coherence threshold.
+\par
+A list of $\R_0$ (the basic reproductive number) values from 1.1 to 30 was made, along with a list of $m$ (the mixing parameter) values. For each set of $\R_0$ and $m$ values, a solution or simulation of the model was run ten times each with different initial conditions (all within $10\%$ of the Endemic Equilibrium values). It was stored whether or not each solution or simulation became coherent; a one was saved if it did and a zero was saved otherwise. By taking the mean of these values for all runs, the probability of becoming coherent for a given $\R_0$ and $m$ value was found.
+\par
+If parameter DetOrAdap is {\color{magenta}\verb|TRUE|} this is done using deterministic solutions to the model, created by the \verb|run.soln| function. Otherwise, this is done using adaptive tau simulations in the \verb|runadaptau| function.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{coherenceGrid} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{params}\hlstd{=}\hlkwd{c}\hlstd{(gamma,mu,alpha,EC),}
+                            \hlkwc{R_0list}\hlstd{,}\hlkwc{mlist}\hlstd{,}\hlkwc{nsample}\hlstd{,}\hlkwc{DetOrAdap}\hlstd{,}\hlkwc{population}\hlstd{=}\hlnum{1}\hlstd{)\{}
+  \hlkwd{with}\hlstd{(}
+       \hlkwd{as.list}\hlstd{(}\hlkwd{c}\hlstd{(params)),}
+       \hlstd{\{}
+  \hlstd{n} \hlkwb{<-} \hlnum{10}  \hlcom{## Number of patches}
+  \hlcom{##Param for Initial conditions}
+   \hlstd{percent} \hlkwb{<-} \hlnum{0.1}
+  \hlstd{tmax} \hlkwb{<-} \hlnum{10}
+  \hlstd{gridsizem}\hlkwb{<-}\hlkwd{length}\hlstd{(mlist)}
+  \hlstd{gridsizeR_0} \hlkwb{<-} \hlkwd{length}\hlstd{(R_0list)}
+  \hlstd{avgCoherence}\hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{0}\hlstd{, gridsizem,gridsizeR_0)}
+  \hlstd{avgLE}\hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{0}\hlstd{, gridsizem,gridsizeR_0)}
+  \hlstd{avgGE}\hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlnum{0}\hlstd{, gridsizem,gridsizeR_0)}
+
+  \hlstd{index2} \hlkwb{<-} \hlnum{1}
+  \hlkwa{for} \hlstd{(R_0} \hlkwa{in} \hlstd{R_0list)\{}
+    \hlstd{index1} \hlkwb{<-} \hlnum{1}
+     \hlcom{#Want ICs near EE for stability. Find EE values:}
+     \hlcom{#Note: They depend on R_0}
+     \hlstd{SEE} \hlkwb{<-}\hlnum{1}\hlopt{/}\hlstd{R_0}
+     \hlstd{IEE} \hlkwb{<-}\hlstd{(}\hlnum{1} \hlopt{-} \hlnum{1}\hlopt{/}\hlstd{R_0)}\hlopt{*}\hlstd{mu}\hlopt{/}\hlstd{gamma}
+
+     \hlkwa{if}\hlstd{(}\hlopt{!}\hlstd{DetOrAdap)\{} \hlcom{#Only need these for adaptau sim}
+        \hlstd{possibleS0} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent)),}
+                          \hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent)),}\hlnum{1}\hlstd{)}
+        \hlstd{possibleI0} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent)),}
+                          \hlkwd{as.integer}\hlstd{(population}\hlopt{*}\hlstd{IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent)),}\hlnum{1}\hlstd{)}
+     \hlstd{\}}
+
+      \hlkwa{for} \hlstd{(m} \hlkwa{in} \hlstd{mlist)\{}
+        \hlstd{coherenceProb} \hlkwb{<-} \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{, nsample)}
+        \hlstd{coherenceProb} \hlkwb{<-} \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{, nsample)}
+        \hlstd{localextProb} \hlkwb{<-} \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{, nsample)}
+        \hlstd{globalextProb} \hlkwb{<-} \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{, nsample)}
+        \hlkwa{for} \hlstd{(sampler} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{nsample)\{}
+         \hlcom{#Get det soln nsample times with different ICs}
+         \hlcom{#Take mean of coherence near end of soln}
+         \hlcom{#(since coherence can be somewhat oscilatory)}
+
+          \hlkwa{if}\hlstd{(DetOrAdap)\{}
+             \hlstd{S0} \hlkwb{<-} \hlkwd{runif}\hlstd{(n,SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent),SEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent))}
+             \hlstd{I0} \hlkwb{<-} \hlkwd{runif}\hlstd{(n,IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{-}\hlstd{percent),IEE}\hlopt{*}\hlstd{(}\hlnum{1}\hlopt{+}\hlstd{percent))}
+             \hlstd{R0} \hlkwb{<-} \hlnum{1}\hlopt{-}\hlstd{S0}\hlopt{-}\hlstd{I0}
+             \hlstd{coherenceRun} \hlkwb{<-} \hlkwd{run.soln}\hlstd{(n,}\hlkwc{ic}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=S0,}\hlkwc{I}\hlstd{=I0,}\hlkwc{R}\hlstd{=R0),}\hlkwc{tmax}\hlstd{=tmax,}
+                             \hlkwc{func}\hlstd{=SIRmeta.vector.field,}
+                           \hlkwc{parms}\hlstd{=}\hlkwd{c}\hlstd{(R_0,gamma,mu,alpha,m,EC))}\hlopt{$}\hlstd{coherence}
+          \hlstd{\}}\hlkwa{else}\hlstd{\{}
+            \hlstd{S0} \hlkwb{<-} \hlkwd{sample}\hlstd{(possibleS0, n,}\hlkwc{replace}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+            \hlstd{I0} \hlkwb{<-} \hlkwd{sample}\hlstd{(possibleI0, n,}\hlkwc{replace}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+            \hlstd{R0} \hlkwb{<-} \hlstd{population}\hlopt{-}\hlstd{S0}\hlopt{-}\hlstd{I0}
+            \hlstd{run} \hlkwb{<-} \hlkwd{run.adaptau}\hlstd{(tmax,}\hlkwc{init.values}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{S}\hlstd{=S0,}\hlkwc{I}\hlstd{=I0,}\hlkwc{R}\hlstd{=R0),}
+                                      \hlkwc{params}\hlstd{=}\hlkwd{c}\hlstd{(R_0,gamma,mu,alpha,m,EC))}
+            \hlstd{coherenceRun}\hlkwb{<-}\hlstd{run}\hlopt{$}\hlstd{coherence}
+            \hlstd{localextProb[sampler]} \hlkwb{<-} \hlstd{run}\hlopt{$}\hlstd{localext}
+            \hlstd{globalextProb[sampler]} \hlkwb{<-} \hlstd{run}\hlopt{$}\hlstd{globalext}
+         \hlstd{\}}
+
+        \hlstd{mean} \hlkwb{<-} \hlkwd{mean}\hlstd{(coherenceRun[}\hlkwd{length}\hlstd{(coherenceRun)}\hlopt{-}\hlstd{(}\hlnum{100}\hlopt{:}\hlnum{0}\hlstd{)])}
+        \hlkwa{if}\hlstd{(mean}\hlopt{<}\hlstd{threshold)\{}
+            \hlstd{coherenceProb[sampler]} \hlkwb{<-} \hlnum{1}
+        \hlstd{\}}\hlkwa{else}\hlstd{\{}
+            \hlstd{coherenceProb[sampler]} \hlkwb{<-} \hlnum{0}
+         \hlstd{\}}
+       \hlstd{\}}
+     \hlcom{#Take mean of all coherence for all runs with these parameters}
+     \hlstd{avgCoherence[index1,index2]}\hlkwb{<-} \hlkwd{mean}\hlstd{(coherenceProb)}
+     \hlstd{avgLE[index1,index2]}\hlkwb{<-} \hlkwd{mean}\hlstd{(localextProb)}
+     \hlstd{avgGE[index1,index2]}\hlkwb{<-} \hlkwd{mean}\hlstd{(globalextProb)}
+
+     \hlstd{index1}\hlkwb{<-}\hlstd{index1}\hlopt{+}\hlnum{1}
+   \hlstd{\}}
+   \hlstd{index2}\hlkwb{<-}\hlstd{index2}\hlopt{+}\hlnum{1}
+  \hlstd{\}}
+  \hlcom{#Save data}
+  \hlstd{filename}\hlkwb{<-}\hlkwd{paste0}\hlstd{(}\hlstr{"grid"}\hlstd{,}\hlkwa{if}\hlstd{(DetOrAdap)} \hlstr{"det"} \hlkwa{else} \hlstr{"adap"}\hlstd{,}\hlkwa{if}\hlstd{(EC)} \hlstr{"EC"} \hlkwa{else} \hlstr{"NN"}\hlstd{,}\hlstr{".csv"}\hlstd{)}
+  \hlkwa{if}\hlstd{(}\hlkwd{file.exists}\hlstd{(filename))\{} \hlcom{#If the filename is already used}
+    \hlstd{filename} \hlkwb{<-}\hlkwd{paste0}\hlstd{(}\hlstr{"grid"}\hlstd{,}\hlkwa{if}\hlstd{(DetOrAdap)} \hlstr{"det"} \hlkwa{else} \hlstr{"adap"}\hlstd{,}\hlkwa{if}\hlstd{(EC)} \hlstr{"EC"} \hlkwa{else} \hlstr{"NN"}\hlstd{,}\hlstr{"(1).csv"}\hlstd{)}
+  \hlstd{\}}
+  \hlstd{cohdata} \hlkwb{<-} \hlkwd{cbind.data.frame}\hlstd{(avgCoherence,avgLE,avgGE)}
+  \hlkwd{write.table}\hlstd{(cohdata,}\hlkwc{file}\hlstd{=filename)}
+  \hlkwd{return}\hlstd{(}\hlkwd{list}\hlstd{(}\hlstr{"coherence"}\hlstd{=avgCoherence,} \hlstr{"LE"}\hlstd{=avgLE,}\hlstr{"GE"}\hlstd{=avgGE))}
+       \hlstd{\})}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\subsection{3D Plot with Deterministic Solution}
+A 3D plot showing the probability of coherence vs $\R_0$ and $m$ is created in the function \verb|coherence3DPlot|. 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{coherence3DPlot} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{avgCoherence}\hlstd{,}\hlkwc{params}\hlstd{=}\hlkwd{c}\hlstd{(gamma,mu,alpha,EC),}\hlkwc{R_0list}\hlstd{,}
+                            \hlkwc{mlist}\hlstd{,}\hlkwc{nsample}\hlstd{,}\hlkwc{DetOrAdap}\hlstd{,}\hlkwc{population}\hlstd{)\{}
+  \hlkwd{with}\hlstd{(}
+       \hlkwd{as.list}\hlstd{(}\hlkwd{c}\hlstd{(params)),}
+       \hlstd{\{}
+
+  \hlcom{#3D plot:}
+  \hlstd{filename}\hlkwb{<-}\hlkwd{paste0}\hlstd{(}\hlstr{"images/"}\hlstd{,}\hlkwa{if}\hlstd{(DetOrAdap)} \hlstr{"det"} \hlkwa{else} \hlstr{"adap"}\hlstd{,}\hlstr{"3D"}\hlstd{,}\hlkwa{if}\hlstd{(EC)} \hlstr{"EC"} \hlkwa{else} \hlstr{"NN"}\hlstd{,}\hlstr{".pdf"}\hlstd{)}
+   \hlkwd{pdf}\hlstd{(}\hlkwc{file}\hlstd{=filename)}
+  \hlcom{#Making a colour gradient for the plot}
+  \hlstd{nbcol} \hlkwb{<-} \hlnum{100}
+  \hlcom{#You can change start and end to get different parts of the rainbow}
+  \hlstd{color} \hlkwb{<-} \hlkwd{rev}\hlstd{(}\hlkwd{rainbow}\hlstd{(nbcol,} \hlkwc{start} \hlstd{=} \hlnum{3}\hlopt{/}\hlnum{6}\hlstd{,} \hlkwc{end} \hlstd{=} \hlnum{3.5}\hlopt{/}\hlnum{6}\hlstd{))}
+  \hlcom{#The colour gradient will correspond to the 'height' of the plot}
+  \hlstd{zcol}  \hlkwb{<-} \hlkwd{cut}\hlstd{(}\hlkwd{t}\hlstd{(avgCoherence), nbcol)}
+ \hlkwd{persp}\hlstd{( R_0list,mlist,} \hlkwd{t}\hlstd{(avgCoherence),} \hlkwc{theta} \hlstd{=} \hlnum{30}\hlstd{,} \hlkwc{phi} \hlstd{=} \hlnum{30}\hlstd{,} \hlkwc{expand} \hlstd{=} \hlnum{0.5}\hlstd{,}
+        \hlkwc{col} \hlstd{= color[zcol],}\hlkwc{ltheta} \hlstd{=} \hlnum{120}\hlstd{,} \hlkwc{shade} \hlstd{=} \hlnum{0.75}\hlstd{,} \hlkwc{ticktype} \hlstd{=} \hlstr{"detailed"}\hlstd{,}
+      \hlkwc{xlab} \hlstd{=} \hlstr{"Basic Reproduction Number"}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{"Mixing Parameter"}\hlstd{,}
+      \hlkwc{zlab} \hlstd{=} \hlstr{"Probability of Coherence"}\hlstd{)}
+  \hlkwd{dev.off}\hlstd{()}
+       \hlstd{\})}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+The following code calls \verb|coherence3DPlot| to make a plot.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{#Use the det soln if TRUE or adaptau sim if FALSE}
+\hlstd{DetOrAdap} \hlkwb{<-} \hlnum{TRUE}
+
+ \hlcom{#The value at which things are considered coherent}
+ \hlstd{threshold} \hlkwb{<-} \hlnum{0.05}
+ \hlcom{#threshold <- 0.15   #for adaptau higher tol needed}
+
+ \hlcom{#Parameter values for grid}
+ \hlstd{gridsizeR_0} \hlkwb{<-} \hlnum{100}
+ \hlstd{gridsizem} \hlkwb{<-} \hlnum{100}
+ \hlstd{nsample} \hlkwb{<-} \hlnum{10} \hlcom{#Number of runs per grid pt}
+ \hlstd{mlist} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlnum{0.0001}\hlstd{,} \hlnum{0.15}\hlstd{, (}\hlnum{0.15}\hlopt{-}\hlnum{0}\hlstd{)}\hlopt{/}\hlstd{(gridsizem}\hlopt{-}\hlnum{1}\hlstd{))}
+ \hlstd{R_0list} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlnum{1.1}\hlstd{,}\hlnum{30}\hlstd{,(}\hlnum{30}\hlopt{-}\hlnum{1.1}\hlstd{)}\hlopt{/}\hlstd{(gridsizeR_0}\hlopt{-}\hlnum{1}\hlstd{))}
+
+ \hlcom{#Parameters}
+\hlstd{gamma} \hlkwb{<-} \hlnum{365}\hlopt{/}\hlnum{13}  \hlcom{##inverse of mean infectious period}
+\hlstd{mu} \hlkwb{<-} \hlnum{1}\hlopt{/}\hlnum{50}  \hlcom{##death and birth rate}
+\hlstd{alpha} \hlkwb{<-} \hlnum{0.1}  \hlcom{##strength of seasonal forcing}
+\hlstd{EC} \hlkwb{<-} \hlnum{FALSE} \hlcom{##if true use equal coupling, if false use nearest neighbors}
+
+\hlcom{#Get data}
+\hlstd{data} \hlkwb{<-} \hlkwd{coherenceGrid}\hlstd{(}\hlkwc{params}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{EC}\hlstd{=EC),}
+                      \hlstd{R_0list,mlist,nsample,DetOrAdap,population)}
+\hlstd{avgCoherence} \hlkwb{<-} \hlstd{data}\hlopt{$}\hlstd{avgCoherence}
+\hlcom{#Plot}
+\hlkwd{coherence3DPlot}\hlstd{(avgCoherence,}\hlkwc{params}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{EC}\hlstd{=EC),}
+                \hlstd{R_0list,mlist,nsample,DetOrAdap,}\hlkwc{population}\hlstd{=}\hlnum{1}\hlstd{)}
+
+\hlstd{data} \hlkwb{<-} \hlkwd{coherenceGrid}\hlstd{(}\hlkwc{params}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{EC}\hlstd{=}\hlnum{TRUE}\hlstd{),}
+                      \hlstd{R_0list,mlist,nsample,DetOrAdap,population)}
+\hlstd{avgCoherence} \hlkwb{<-} \hlstd{data}\hlopt{$}\hlstd{avgCoherence}
+\hlkwd{coherence3DPlot}\hlstd{(avgCoherence,}\hlkwc{params}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{EC}\hlstd{=}\hlnum{TRUE}\hlstd{),}
+                \hlstd{R_0list,mlist,nsample,DetOrAdap,}\hlkwc{population}\hlstd{=}\hlnum{1}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\subsection{Four Panel Plot with Adaptive Tau}
+The function \verb|fourPanPlot| makes a four panel plot showing the probability of coherence, the probability of local and global extinction, overtop of the bifurcation diagram of the single patch forced SIR model. 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+ \hlstd{fourPanPlot} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{avgCoherence}\hlstd{,}\hlkwc{avgLE}\hlstd{,}\hlkwc{avgGE}\hlstd{,}
+                         \hlkwc{params}\hlstd{=}\hlkwd{c}\hlstd{(gamma,mu,alpha,EC),}\hlkwc{R_0list}\hlstd{,}\hlkwc{mlist}\hlstd{,}
+                         \hlkwc{nsample}\hlstd{,}\hlkwc{DetOrAdap}\hlstd{,}\hlkwc{population}\hlstd{)\{}
+   \hlkwd{with}\hlstd{(}
+       \hlkwd{as.list}\hlstd{(}\hlkwd{c}\hlstd{(params)),}
+       \hlstd{\{}
+   \hlkwa{if}\hlstd{(}\hlkwd{length}\hlstd{(mlist)}\hlopt{!=}\hlnum{4}\hlstd{)\{}
+     \hlkwd{print}\hlstd{(}\hlstr{"Warning: mlist should have length 4 for 4 panel plot \textbackslash{}\textbackslash{} The first 4 elements of mlist will be used"}\hlstd{)}
+   \hlstd{\}}
+
+\hlcom{#Save plot to pdf}
+\hlstd{filename}\hlkwb{<-}\hlkwd{paste0}\hlstd{(}\hlstr{"images/"}\hlstd{,}\hlkwa{if}\hlstd{(DetOrAdap)} \hlstr{"det"} \hlkwa{else} \hlstr{"adap"}\hlstd{,}\hlstr{"4pan"}\hlstd{,}
+                 \hlkwa{if}\hlstd{(EC)} \hlstr{"EC"} \hlkwa{else} \hlstr{"NN"}\hlstd{,}\hlstr{".pdf"}\hlstd{)}
+   \hlkwd{pdf}\hlstd{(}\hlkwc{file}\hlstd{=filename)}
+
+\hlcom{#Get bifur data for backgrounds}
+\hlstd{bfd} \hlkwb{<-} \hlkwd{read.table}\hlstd{(}\hlstr{"bifurcation.dat"}\hlstd{,}
+                  \hlkwc{col.names}\hlstd{=}\hlkwd{c}\hlstd{(}\hlstr{"time"}\hlstd{,}\hlstr{"S"}\hlstd{,}\hlstr{"I"}\hlstd{,}\hlstr{"R0"}\hlstd{,}\hlstr{"log10S"}\hlstd{,}\hlstr{"log10I"}\hlstd{))}
+
+\hlcom{#Get max probs for y lim}
+\hlstd{maxExt} \hlkwb{<-} \hlkwd{max}\hlstd{(avgLE,avgGE)}
+\hlstd{maxCoh} \hlkwb{<-} \hlkwd{max}\hlstd{(avgCoherence)}
+
+\hlcom{#To fit bifur data to probability plot}
+\hlstd{bfdI} \hlkwb{<-} \hlstd{maxExt}\hlopt{*}\hlstd{(}\hlnum{1.1}\hlopt{/}\hlkwd{max}\hlstd{(bfd}\hlopt{$}\hlstd{I))}\hlopt{*}\hlstd{bfd}\hlopt{$}\hlstd{I}
+
+\hlcom{#leave room on outside margins for labels on rigth, left and bottom}
+\hlcom{#par(mar = c(5,5,2,5))}
+\hlkwd{par}\hlstd{(}\hlkwc{oma}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{4}\hlstd{,}\hlnum{4}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{4}\hlstd{))}
+\hlcom{#A four panel plot}
+\hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{2}\hlstd{))}
+\hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{2}\hlstd{,} \hlnum{3}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{2}\hlstd{))}
+\hlkwd{par}\hlstd{(}\hlkwc{tcl} \hlstd{=} \hlopt{-}\hlnum{0.25}\hlstd{)}
+\hlkwa{for}\hlstd{(ind} \hlkwa{in} \hlnum{1}\hlopt{:}\hlnum{4}\hlstd{)\{}
+   \hlcom{#Make an empty plot}
+   \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{,}\hlkwc{xlim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{30}\hlstd{),}
+               \hlkwc{ylim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,maxExt}\hlopt{*}\hlnum{1.1}\hlstd{),}\hlkwc{xlab}\hlstd{=}\hlnum{NA}\hlstd{,} \hlkwc{ylab}\hlstd{=}\hlnum{NA}\hlstd{,}\hlkwc{type}\hlstd{=}\hlstr{'n'}\hlstd{)}
+
+   \hlcom{#Plot the bifur background }
+   \hlkwd{points}\hlstd{(bfd}\hlopt{$}\hlstd{R0,bfdI,} \hlkwc{pch}\hlstd{=}\hlnum{20}\hlstd{,} \hlkwc{col}\hlstd{=}\hlstr{"grey90"}\hlstd{,} \hlkwc{xpd}\hlstd{=}\hlnum{FALSE}\hlstd{)}
+   \hlcom{#Plot LE, GE probs}
+   \hlkwd{lines}\hlstd{(R_0list, avgLE[ind,],}\hlkwc{col}\hlstd{=}\hlnum{4}\hlstd{)}
+   \hlkwd{lines}\hlstd{(R_0list, avgGE[ind,],}\hlkwc{col}\hlstd{=}\hlnum{2}\hlstd{)}
+   \hlcom{#Plot coherence prob overtop of current panel}
+   \hlkwd{par}\hlstd{(}\hlkwc{mfg} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{ceiling}\hlstd{(ind}\hlopt{/}\hlnum{2}\hlstd{),(ind}\hlopt{-}\hlnum{1}\hlstd{)}\hlopt{%%}\hlnum{2} \hlopt{+}\hlnum{1}\hlstd{))}
+   \hlkwd{plot}\hlstd{(R_0list, avgCoherence[ind,],}\hlkwc{type}\hlstd{=}\hlstr{'l'}\hlstd{,}\hlkwc{col}\hlstd{=}\hlnum{3}\hlstd{,}\hlkwc{axes}\hlstd{=F,}\hlkwc{xlab}\hlstd{=}\hlnum{NA}\hlstd{,}
+        \hlkwc{ylab}\hlstd{=}\hlnum{NA}\hlstd{,}\hlkwc{ylim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,maxCoh}\hlopt{*}\hlnum{1.1}\hlstd{))}
+   \hlkwd{axis}\hlstd{(}\hlkwc{side}\hlstd{=}\hlnum{4}\hlstd{)}
+   \hlcom{#Label m values on each plot}
+   \hlkwd{mtext}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"m="}\hlstd{,mlist[ind]),} \hlkwc{side} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{line} \hlstd{=} \hlopt{-}\hlnum{2}\hlstd{,} \hlkwc{adj} \hlstd{=} \hlnum{0.1}\hlstd{,}
+         \hlkwc{cex} \hlstd{=} \hlnum{0.8}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{1}\hlstd{)}
+\hlstd{\}}
+
+\hlcom{#Axes labels:}
+\hlkwd{mtext}\hlstd{(}\hlstr{"Basic Reproduction Number"}\hlstd{,} \hlkwc{side} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{outer} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{)}
+
+\hlcom{#Left axis label has multiple colors}
+\hlkwd{mtext}\hlstd{(}\hlkwd{expression}\hlstd{(}\hlstr{"Probability of "}\hlopt{*}\hlkwd{phantom}\hlstd{(}\hlstr{"Local/ Global Extinction"}\hlstd{)),}
+      \hlkwc{side} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{outer} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{1}\hlstd{)}
+\hlkwd{mtext}\hlstd{(}\hlkwd{expression}\hlstd{(}\hlkwd{phantom}\hlstd{(}\hlstr{"Probability of "}\hlstd{)}\hlopt{*}\hlstr{"Local"}\hlopt{*}\hlkwd{phantom}\hlstd{(}\hlstr{"/ Global Extinction"}\hlstd{)),}
+      \hlkwc{side} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{outer} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{4}\hlstd{)}
+\hlkwd{mtext}\hlstd{(}\hlkwd{expression}\hlstd{(}\hlkwd{phantom}\hlstd{(}\hlstr{"Probability of Local"}\hlstd{)}\hlopt{*}\hlstr{"/"}\hlopt{*}\hlkwd{phantom}\hlstd{(}\hlstr{" Global Extinction"}\hlstd{)),}
+      \hlkwc{side} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{outer} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{1}\hlstd{)}
+\hlkwd{mtext}\hlstd{(}\hlkwd{expression}\hlstd{(}\hlkwd{phantom}\hlstd{(}\hlstr{"Probability of Local/"}\hlstd{)}\hlopt{*}\hlstr{" Global"}\hlopt{*}\hlkwd{phantom}\hlstd{(}\hlstr{" Extinction"}\hlstd{)),}
+      \hlkwc{side} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{outer} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{2}\hlstd{)}
+\hlkwd{mtext}\hlstd{(}\hlkwd{expression}\hlstd{(}\hlkwd{phantom}\hlstd{(}\hlstr{"Probability of Local/ Global"}\hlstd{)}\hlopt{*}\hlstr{" Extinction"}\hlstd{),}
+      \hlkwc{side} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{outer} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{1}\hlstd{)}
+
+\hlkwd{mtext}\hlstd{(}\hlstr{"Probability of Coherence"}\hlstd{,} \hlkwc{side} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{outer} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{3}\hlstd{)}
+
+ \hlkwd{dev.off}\hlstd{()}
+       \hlstd{\})}
+ \hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Using \verb|fourPanPlot|:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+ \hlcom{#The value at which things are considered coherent}
+ \hlstd{threshold} \hlkwb{<-} \hlnum{0.15}
+ \hlcom{#Parameter values for grid}
+ \hlstd{gridsizeR_0} \hlkwb{<-} \hlnum{200}
+ \hlstd{gridsizem} \hlkwb{<-} \hlnum{4}
+ \hlstd{nsample} \hlkwb{<-} \hlnum{20}
+ \hlstd{mlist} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{0.2}\hlstd{,}\hlnum{0.45}\hlstd{,}\hlnum{0.7}\hlstd{,}\hlnum{0.9}\hlstd{)}
+ \hlstd{R_0list} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlnum{1.1}\hlstd{,}\hlnum{30}\hlstd{,(}\hlnum{30}\hlopt{-}\hlnum{1.1}\hlstd{)}\hlopt{/}\hlstd{(gridsizeR_0}\hlopt{-}\hlnum{1}\hlstd{))}
+ \hlstd{DetOrAdap} \hlkwb{<-} \hlnum{FALSE}
+
+ \hlcom{#Parameters}
+\hlstd{gamma} \hlkwb{<-} \hlnum{365}\hlopt{/}\hlnum{13}  \hlcom{##inverse of mean infectious period}
+\hlstd{mu} \hlkwb{<-} \hlnum{1}\hlopt{/}\hlnum{50}  \hlcom{##death and birth rate}
+\hlstd{alpha} \hlkwb{<-} \hlnum{0.1}  \hlcom{##strength of seasonal forcing}
+\hlstd{n} \hlkwb{<-} \hlnum{10}  \hlcom{## Number of patches}
+\hlstd{EC} \hlkwb{<-} \hlnum{FALSE} \hlcom{##if true use equal coupling, if false use nearest neighbors}
+
+\hlstd{population} \hlkwb{<-} \hlnum{250000}
+
+ \hlcom{#Get data}
+\hlstd{data} \hlkwb{<-} \hlkwd{coherenceGrid}\hlstd{(}\hlkwc{params}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{EC}\hlstd{=EC),}
+                      \hlstd{R_0list,mlist,nsample,DetOrAdap,population)}
+\hlstd{avgCoherence} \hlkwb{<-} \hlstd{data}\hlopt{$}\hlstd{avgCoherence}
+\hlstd{avgLE} \hlkwb{<-} \hlstd{data}\hlopt{$}\hlstd{avgLE}
+\hlstd{avgGE} \hlkwb{<-} \hlstd{data}\hlopt{$}\hlstd{avgGE}
+
+   \hlcom{#Plot}
+\hlkwd{fourPanPlot}\hlstd{(avgCoherence,avgLE,avgGE,}
+            \hlkwc{params}\hlstd{=}\hlkwd{c}\hlstd{(}\hlkwc{gamma}\hlstd{=gamma,}\hlkwc{mu}\hlstd{=mu,}\hlkwc{alpha}\hlstd{=alpha,}\hlkwc{EC}\hlstd{=EC),}
+                        \hlstd{R_0list,mlist,nsample,DetOrAdap,population)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\addcontentsline{toc}{section}{\protect\numberline{}Bibilography}%
+\bibliographystyle{unsrt}
+\bibliography{SuppBib}
+\end{document}
