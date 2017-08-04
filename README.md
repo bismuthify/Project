@@ -13,7 +13,6 @@ Main Report: Contains a summary, background information, description of methods 
   * `4mbapreamble.tex`: A tex file written by Dr Earn for formtting of assignments and reports in the 4MB3 course.
   * `ModelStudents.bib`: The bibilography of the report.
   * `images`: A folder conatining images used in the report.
-  * `texcount.pl`: A Perl script used for generating the word count in the main report. From http://app.uio.no/ifi/texcount/
   
 Supplementary Material: The R code written for the project to produce plots and descriptions of the code. Results are reproducible. 
   * `ModelStudentsSupplementaryMaterial.pdf`: A pdf of the supplementary material.
